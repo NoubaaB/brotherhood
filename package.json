@@ -1,0 +1,22 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@mdi/font": "7.0.96",
+        "axios": "^1.7.2",
+        "laravel-vite-plugin": "^1.0",
+        "vite": "^5.0",
+        "vite-plugin-vuetify": "^2.0.3",
+        "vuetify": "^3.6.13"
+    },
+    "dependencies": {
+        "@vitejs/plugin-vue": "^5.0.5",
+        "pinia": "^2.1.7",
+        "vue": "^3.4.32",
+        "vue-router": "^4.4.0"
+    }
+}
