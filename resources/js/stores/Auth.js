@@ -5,7 +5,8 @@ export const useAuth = defineStore("Auth", {
         return {
             user: null,
             email:"",
-            password:"test",
+            password: "test",
+            drawer : null
         }
     },
     actions: {
