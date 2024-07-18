@@ -6,6 +6,8 @@ import "vuetify/styles";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
+import VueApexCharts from "vue3-apexcharts";
+import { SnackbarService, Vue3Snackbar } from "vue3-snackbar";
 
 import methods from "@/plugins/methods.js";
 import { useAuth } from '@/stores/Auth';
@@ -20,6 +22,9 @@ export async function registerPlugins(app) {
     app
         .use(pinia)
         .use(vuetify)
+        .use(VueApexCharts)
+        .use(SnackbarService)
+        .component("vue3-snackbar", Vue3Snackbar)
         .mixin(
             {
                 methods,
