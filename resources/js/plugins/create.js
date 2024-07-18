@@ -1,0 +1,35 @@
+import axios from 'axios';
+import router from "@/router";
+import "@mdi/font/css/materialdesignicons.css" // Ensure you are using css-loader
+
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+
+import methods from "@/plugins/methods.js";
+import { useAuth } from '@/stores/Auth';
+
+import pinia from "@/stores";
+const vuetify = createVuetify({
+    components,
+    directives,
+})
+
+export async function registerPlugins(app) {
+    app
+        .use(pinia)
+        .use(vuetify)
+        .mixin(
+            {
+                methods,
+            }
+        );
+    if (localStorage.getItem("token")) {
+        await useAuth().attemp().catch(err => {
+            return router.push({ name: "login" })
+        })
+    }
+    
+    app.use(router)
+}

@@ -1,13 +1,13 @@
 <template>
     <v-app-bar style="z-index:3" height="10vh" width="100vw" :elevation="1" flat density="compact">
         <template v-slot:prepend>
-            <v-app-bar-nav-icon @click="auth.drawer= !auth.drawer"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon v-if="auth.is_auth" @click="auth.drawer= !auth.drawer"></v-app-bar-nav-icon>
         </template>
 
         <v-app-bar-title>Application Bar</v-app-bar-title>
 
         <template v-slot:append>
-            <v-btn icon="mdi-heart"></v-btn>
+            <v-btn icon="mdi-pencil"></v-btn>
 
             <v-btn icon="mdi-magnify"></v-btn>
 

@@ -1,5 +1,7 @@
 <template>
-    <v-navigation-drawer temporary v-model="auth.drawer">
+    <v-navigation-drawer 
+    temporary 
+    v-model="auth.drawer">
       <v-sheet
         class="pa-4"
         color="grey-lighten-4"
@@ -15,14 +17,19 @@
 
       <v-divider></v-divider>
 
-      <v-list>
-        <v-list-item
-          v-for="[icon, text] in links"
-          :key="icon"
-          :prepend-icon="icon"
-          :title="text"
-          link
-        ></v-list-item>
+      <v-list v-model:opened="open">
+        <template v-for="([icon , text , url], i) in links" :key="i">
+            <v-list-item 
+                class="my-2"
+                :prepend-icon="icon" 
+                :title="text" 
+                :value="text" 
+                rounded="xl" 
+                color="blue-darken-1"
+                :exact="true"
+                :to="{'name':url}"
+            ></v-list-item>
+        </template>
       </v-list>
       <template v-slot:append>
         <v-divider></v-divider>
@@ -49,10 +56,9 @@
             icon="mdi-power"
             color="blue"
             size="large"
-            @click.prevent="logout()"
+            @click.prevent="logout"
             rounded="lg"
             class="ma-auto">
-              
             </v-btn>
           </div>
           </v-sheet>
@@ -63,20 +69,27 @@
 <script>
 import {useAuth} from "@/stores/Auth.js";
 export default {
-    data:function(){
-        return {
-            links: [
-                ['mdi-inbox-arrow-down', 'Inbox'],
-                ['mdi-send', 'Send'],
-                ['mdi-delete', 'Trash'],
-                ['mdi-alert-octagon', 'Spam'],
-            ]
-        }
-    },
-    computed:{
-        auth:function(){
-            return useAuth();
-        }
-    },
+  data:function(){
+      return {
+          open : null
+      }
+  },
+  computed:{
+      auth:function(){
+          return useAuth();
+      },
+      links:function(){
+          return [
+              ["mdi-human-male-board-poll", "main","index"],
+          ]
+      }
+  },
+  methods: {
+    logout: function () {
+      this.auth.logout().then(res => {
+        this.$router.push({ "name": "login" });
+      })
+    }
+  }
 }
 </script>

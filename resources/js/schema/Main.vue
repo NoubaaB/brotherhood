@@ -1,40 +1,10 @@
 <template>
-<v-main>
+<v-main class="pt-2">
     <v-container
-    class="py-8 px-6"
+    class="pt-13 px-2"
     fluid
     >
-    <v-row>
-        <v-col
-        v-for="card in cards"
-        :key="card"
-        cols="12"
-        >
-        <v-card>
-            <v-list lines="two">
-            <v-list-subheader :title="card"></v-list-subheader>
-
-            <template v-for="n in 6" :key="n">
-                <v-list-item>
-                <template v-slot:prepend>
-                    <v-avatar color="grey-darken-1"></v-avatar>
-                </template>
-
-                <v-list-item-title :title="`Message ${n}`"></v-list-item-title>
-
-                <v-list-item-subtitle title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil repellendus distinctio similique"></v-list-item-subtitle>
-                </v-list-item>
-
-                <v-divider
-                v-if="n !== 6"
-                :key="`divider-${n}`"
-                inset
-                ></v-divider>
-            </template>
-            </v-list>
-        </v-card>
-        </v-col>
-    </v-row>
+        <router-view/>
     </v-container>
 </v-main>
 </template>
@@ -42,7 +12,7 @@
 export default {
     data : function(){
         return {
-            cards: ['Today', 'Yesterday'],
+            
         }
     }
 }

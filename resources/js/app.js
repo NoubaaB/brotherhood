@@ -1,23 +1,15 @@
 import "./bootstrap";
-import router from "./router";
-import { createApp } from "vue";
-import "@mdi/font/css/materialdesignicons.css" // Ensure you are using css-loader
+// Plugins
+import { registerPlugins } from '@/plugins/create.js';
 
-import "vuetify/styles";
-import { createVuetify } from "vuetify";
-import * as components from "vuetify/components";
-import * as directives from "vuetify/directives";
+// Components
+import App from './App.vue';
 
-import pinia from "@/stores";
-const vuetify = createVuetify({
-    components,
-    directives,
-})
+// Composa bles  
+import { createApp } from 'vue';
 
-import App from "./App.vue";
+const app = createApp(App)
 
-createApp(App)
-    .use(pinia)
-    .use(router)
-    .use(vuetify)
-    .mount("#app");
+await registerPlugins(app)
+
+app.mount('#app')
