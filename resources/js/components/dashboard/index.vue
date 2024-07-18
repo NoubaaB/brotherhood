@@ -18,8 +18,8 @@ export default {
     },
     computed: {
         dashboard: function () {
-            return useDashboard();
-      }  
+                return useDashboard();
+        }  
     },
     activated: function () {
         this.dashboard.getData()

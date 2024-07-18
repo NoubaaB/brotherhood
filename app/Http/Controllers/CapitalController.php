@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Limit;
+use App\Models\Capital;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class LimitController extends Controller
+class CapitalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,7 @@ class LimitController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Limit $limit)
+    public function show(Capital $capital)
     {
         //
     }
@@ -43,7 +43,7 @@ class LimitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Limit $limit)
+    public function edit(Capital $capital)
     {
         //
     }
@@ -51,7 +51,7 @@ class LimitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Limit $limit)
+    public function update(Request $request, Capital $capital)
     {
         //
     }
@@ -59,7 +59,7 @@ class LimitController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Limit $limit)
+    public function destroy(Capital $capital)
     {
         //
     }
