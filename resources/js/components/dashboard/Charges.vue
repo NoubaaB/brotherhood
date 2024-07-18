@@ -77,14 +77,14 @@ export default {
                     categories: this.dashboard.houres,
                     labels: {
                         formatter: function (val) {
-                            return `${val.toFixed(0)}h`; // Custom formatter to convert labels to uppercase
+                            return `${val.toFixed(0)}D`; // Custom formatter to convert labels to uppercase
                         }
                     }
                 },
                 tooltip: {
                     x: {
                         formatter: (val) => {
-                            return `${val}h`;
+                            return `${val}D`;
                         }
                     },
                     y: {
