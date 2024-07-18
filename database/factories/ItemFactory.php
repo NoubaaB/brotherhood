@@ -18,6 +18,12 @@ class ItemFactory extends Factory
     {
         return [
             //
+            "date"=>fake()->date,
+            "description"=>fake()->text(300),
+            "price"=>fake()->randomNumber(),
+            "is_private"=>fake()->boolean(),
+            "user_id"=>fake()->numberBetween(1,3),
+            "product_id"=>fake()->numberBetween(1,33),
         ];
     }
 }

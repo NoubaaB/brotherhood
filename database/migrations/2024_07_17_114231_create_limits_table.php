@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date("date_start");
             $table->date("date_end")->nullable();
-            $table->date("amount");
+            $table->double("amount");
 
             $table->timestamps();
             $table->softDeletes();

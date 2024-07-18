@@ -1,12 +1,10 @@
 <template>
-<v-main class="pt-2">
     <v-container
-    class="pt-13 px-2"
+    class="mt-10 ma-auto" style="position: relative"
     fluid
     >
         <router-view/>
     </v-container>
-</v-main>
 </template>
 <script>
 export default {

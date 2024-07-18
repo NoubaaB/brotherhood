@@ -18,6 +18,9 @@ class LimitFactory extends Factory
     {
         return [
             //
+            "date_start"=>fake()->date(),
+            "date_end"=>fake()->date(),
+            "amount"=>fake()->numberBetween(1,80)
         ];
     }
 }
