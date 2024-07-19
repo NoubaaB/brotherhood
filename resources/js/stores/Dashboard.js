@@ -29,7 +29,11 @@ export const useDashboard = defineStore("Dashboard", {
         amounts_none_private: (state) => {
             let data = [];
             state.dates.forEach(date => {
-                let sum = _.sumBy(state.items.filter(item => (state.auth.getAuth.id == item.user_id && item.date == date && item.is_private == false)),"price");
+                let sum = _.sumBy(state.items.filter(item => (
+                    state.auth.getAuth.id == item.user_id
+                    && item.date == date
+                    && item.is_private == false)
+                ), "price");
                 data.push(sum)
             });
             return data;
@@ -37,7 +41,11 @@ export const useDashboard = defineStore("Dashboard", {
         amounts_private: (state) => {
             let data = [];
             state.dates.forEach(date => {
-                let sum = _.sumBy(state.items.filter(item => (state.auth.getAuth.id == item.user_id && item.date == date && item.is_private)),"price");
+                let sum = _.sumBy(state.items.filter(item => (
+                    state.auth.getAuth.id == item.user_id
+                    && item.date == date
+                    && item.is_private)
+                ), "price");
                 data.push(sum)
             });
             return data;
@@ -45,7 +53,11 @@ export const useDashboard = defineStore("Dashboard", {
         amounts_all: (state) => {
             let data = [];
             state.dates.forEach(date => {
-                let sum = _.sumBy(state.items.filter(item => (state.auth.getAuth.id == item.user_id && item.date == date)),"price");
+                let sum = _.sumBy(state.items.filter(item => (
+                    state.auth.getAuth.id == item.user_id
+                    && item.date == date
+                    && item.is_private == false)
+                ), "price");
                 data.push(sum)
             });
             return data;
@@ -53,7 +65,11 @@ export const useDashboard = defineStore("Dashboard", {
         amounts_brotherhood: (state) => {
             let data = [];
             state.dates.forEach(date => {
-                let sum = _.sumBy(state.items.filter(item => (state.auth.getAuth.id != item.user_id && item.date == date && item.is_private)),"price");
+                let sum = _.sumBy(state.items.filter(item => (
+                    state.auth.getAuth.id != item.user_id
+                    && item.date == date
+                    && item.is_private==false)
+                ), "price");
                 data.push(sum)
             });
             return data;

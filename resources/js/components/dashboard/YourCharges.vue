@@ -18,19 +18,19 @@
         <v-card-item class="px-5 text-center">
             <v-row>
                 <v-col>
-                    <v-chip color="green" variant="tonal">
+                    <v-chip color="blue" variant="tonal">
                         <v-icon class="mr-2">
                             mdi-cash-refund
                         </v-icon>
-                        {{ formatFloatNumber(dashboard.total_private) }} MAD
+                        {{ formatFloatNumber(dashboard.total_none_private) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>
-                    <v-chip color="blue" variant="tonal">
+                    <v-chip color="green" variant="tonal">
                         <v-icon class="mr-2">
                             mdi-cash-plus
                         </v-icon>
-                        {{ formatFloatNumber(dashboard.total_none_private) }} MAD
+                        {{ formatFloatNumber(dashboard.total_private) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>
