@@ -56,5 +56,8 @@ export const useAuth = defineStore("Auth", {
         is_auth: (state) => {
             return state.user != null;
         },
+        get_full_name: (state) => {
+            return state.user.name;
+        },
     }
 });

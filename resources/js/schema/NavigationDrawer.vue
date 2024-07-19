@@ -44,11 +44,8 @@
               size="40"
             ></v-avatar>
             <div class="ml-3 d-block">
-              <div class="font-weight-black">
-                FULL_NAME
-              </div>
               <div class="font-weight-light">
-                function
+                {{auth.get_full_name}}
               </div>
             </div>
             <v-btn

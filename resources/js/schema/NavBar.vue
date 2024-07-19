@@ -4,7 +4,7 @@
             <v-app-bar-nav-icon v-if="auth.is_auth" @click="auth.drawer= !auth.drawer"></v-app-bar-nav-icon>
         </template>
 
-        <v-app-bar-title>Application Bar</v-app-bar-title>
+        <v-app-bar-title class="text-center">Brotherhood App</v-app-bar-title>
 
         <template v-slot:append>
             <v-btn icon="mdi-account-edit"></v-btn>
