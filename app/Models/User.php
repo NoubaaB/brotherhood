@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Item;
+use App\Models\Capital;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,5 +52,9 @@ class User extends Authenticatable
 
     function items() : HasMany {
         return $this->hasMany(Item::class);
+    }
+
+    function Capitals() : HasMany {
+        return $this->hasMany(Capital::class);
     }
 }

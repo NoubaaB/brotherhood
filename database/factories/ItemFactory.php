@@ -18,9 +18,9 @@ class ItemFactory extends Factory
     {
         return [
             //
-            "date"=>fake()->date,
+            "date"=>fake()->dateTimeBetween("-7 days","now"),
             "description"=>fake()->text(300),
-            "price"=>fake()->randomNumber(),
+            "price"=>fake()->numberBetween(1,4),
             "is_private"=>fake()->boolean(),
             "user_id"=>fake()->numberBetween(1,3),
             "product_id"=>fake()->numberBetween(1,33),

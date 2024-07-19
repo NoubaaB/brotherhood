@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Http\Controllers\Controller;
+use App\Models\Capital;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -11,9 +13,17 @@ class ItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : JsonResponse
     {
         //
+        $date_start = request()->query("date_start");
+        $date_end = request()->query("date_end");
+        $items = Item::whereBetween("date", [$date_start, $date_end])->get();
+        $capital = Capital::where("date_end","<=", $date_end)->first();
+        return response()->json([
+            "items" => $items,
+            "capital" => $capital
+        ], 200);
     }
 
     /**

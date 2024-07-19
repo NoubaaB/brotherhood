@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CapitalController;
+use App\Http\Controllers\ProductController;
 
 #region non-authentication routes
 Route::controller(AuthController::class)->group(function () {
@@ -31,14 +34,11 @@ Route::middleware(["auth:sanctum"])->group(function () {
     #endregion
 
     #region main routes
-    // Route::apiResources([
-    //     "users" => UserController::class,
-    //     "roles" => RoleController::class,
-    //     "dailies" => DailyController::class,
-    //     "commands" => CommandController::class,
-    //     "clients" => ClientController::class,
-    //     "items" => ItemController::class,
-    // ]); 
+    Route::apiResources([
+        "items" => ItemController::class,
+        "products" => ProductController::class,
+        "capitals" => CapitalController::class,
+    ]); 
     //get auth user with
     #endregion
 });

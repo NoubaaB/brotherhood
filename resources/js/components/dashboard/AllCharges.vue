@@ -3,7 +3,7 @@
       <v-card
         class="mx-auto"
         subtitle="Charges"
-        title="Total Charges"
+        title="Total Charges You Spent"
       >
         <template v-slot:prepend>
           <v-avatar rounded="0">
@@ -22,7 +22,7 @@
                         <v-icon class="mr-2">
                             mdi-cash-refund
                         </v-icon>
-                        <!-- {{ formatFloatNumber(dashboard.total_command_paid) }} MAD -->
+                        {{ formatFloatNumber(dashboard.total_to_self) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>
@@ -30,7 +30,7 @@
                         <v-icon class="mr-2">
                             mdi-cash-plus
                         </v-icon>
-                        <!-- {{ formatFloatNumber(dashboard.total_command_non_paid) }} MAD -->
+                        {{ formatFloatNumber(dashboard.total_to_brothers) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>
@@ -38,7 +38,7 @@
                         <v-icon class="mr-2">
                             mdi-cash-plus
                         </v-icon>
-                        <!-- {{ formatFloatNumber(dashboard.total_command_total) }} MAD -->
+                        {{ formatFloatNumber(dashboard.total_to_all) }} MAD
                     </v-chip>
                 </v-col>
             </v-row>
@@ -59,41 +59,53 @@ export default {
         option: function () {
             return {
                 chart: {
-                    type: 'area',
-                    background: "transparent",
+                    type: 'bar',
+                    height: 350,
+                    toolbar: {
+                        show: true
+                    },
+                    zoom: {
+                        enabled: true
+                    }
                 },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'smooth'
-                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                        position: 'bottom',
+                        offsetX: -10,
+                        offsetY: 0
+                        }
+                    }
+                }],
                 // theme: {
                 //     mode: this.main.mode, // Set theme mode to 'dark'
                 // },
                 xaxis: {
                     show:true,
-                    type: 'numeric',
-                    categories: this.dashboard.houres,
-                    labels: {
-                        formatter: function (val) {
-                            return `${val.toFixed(0)}D`; // Custom formatter to convert labels to uppercase
-                        }
-                    }
+                    type: 'datetime',
+                    categories: this.dashboard.dates_format,
                 },
-                tooltip: {
-                    x: {
-                        formatter: (val) => {
-                            return `${val}D`;
-                        }
-                    },
-                    y: {
-                        title: {
-                            formatter: (val) => {
-                                return `${val} : MAD`;
-                            }
-                        }
+                legend: {
+                position: 'right',
+                    offsetY: 40
+                },
+                fill: {
+                    opacity: 1
+                },
+                annotations: {
+                    yaxis: [{
+                    y: this.dashboard.capital.amount, // Position of the horizontal line
+                    borderColor: '#ff4560',
+                    label: {
+                        borderColor: '#ff4560',
+                        style: {
+                        color: '#fff',
+                        background: '#ff4560'
+                        },
+                        text: 'Limit'
                     }
+                    }]
                 }
             }
         },
@@ -106,10 +118,6 @@ export default {
                 {
                     name: "Amount You Spent In Yourself",
                     data: this.dashboard.amounts_to_self
-                },
-                {
-                    name: "Amount All of You Spent",
-                    data: this.dashboard.amounts_to_all
                 }
             ]
         },

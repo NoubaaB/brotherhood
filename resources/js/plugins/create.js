@@ -1,4 +1,3 @@
-import axios from 'axios';
 import router from "@/router";
 import "@mdi/font/css/materialdesignicons.css" // Ensure you are using css-loader
 
@@ -35,6 +34,6 @@ export async function registerPlugins(app) {
             return router.push({ name: "login" })
         })
     }
-    
+
     app.use(router)
 }

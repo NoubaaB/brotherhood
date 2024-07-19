@@ -5,24 +5,33 @@
         </v-col>
     </v-row>
     <v-row>
-        <Charges/>
+        <YourCharges/>
     </v-row>
 </template>
 <script>
-import Charges from "./Charges.vue";
+import YourCharges from "./YourCharges.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 
 export default {
     components: {
-        Charges
+        YourCharges
     },
     computed: {
         dashboard: function () {
                 return useDashboard();
         }  
     },
-    activated: function () {
-        this.dashboard.getData()
+    mounted: function () {
+        console.log("test");
+        this.dashboard.getData();
+    },
+    watch: {
+        "dashbaord.date_start": function () {
+            this.dashboard.getData();
+        },
+        "dashbaord.date_end": function () {
+            this.dashboard.getData();
+        }
     }
 }
 </script>

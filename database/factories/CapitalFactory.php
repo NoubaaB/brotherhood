@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Capitalt>
  */
-class CapitaltFactory extends Factory
+class CapitalFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class CapitaltFactory extends Factory
             //
             "date_start"=>fake()->date(),
             "date_end"=>fake()->date(),
-            "amount"=>fake()->numberBetween(1,80)
+            "amount"=>fake()->numberBetween(14,16)
         ];
     }
 }

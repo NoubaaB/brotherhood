@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date("date_end")->nullable();
             $table->double("amount");
 
+            $table->foreignId('user_id')->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
         });
