@@ -7,6 +7,8 @@ import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 import VueApexCharts from "vue3-apexcharts";
 import { SnackbarService, Vue3Snackbar } from "vue3-snackbar";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 import methods from "@/plugins/methods.js";
 import { useAuth } from '@/stores/Auth';
@@ -24,6 +26,7 @@ export async function registerPlugins(app) {
         .use(VueApexCharts)
         .use(SnackbarService)
         .component("vue3-snackbar", Vue3Snackbar)
+        .component("VueDatePicker", VueDatePicker)
         .mixin(
             {
                 methods,

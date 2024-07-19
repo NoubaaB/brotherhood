@@ -5,7 +5,7 @@ import { useAuth } from "./Auth";
 export const useDashboard = defineStore("Dashboard", {
     state: () => {
         return {
-            date_start: moment().subtract(7, "days").format("YYYY-MM-DD"),
+            date_start: moment().subtract(6, "days").format("YYYY-MM-DD"),
             date_end: new Date().toISOString().substr(0, 10),
             items : [],
             capital: {},
@@ -62,7 +62,7 @@ export const useDashboard = defineStore("Dashboard", {
             return [...new Set(state.items.map(item => item.date))];
         },
         dates_format: (state) => {
-            return state.dates.map(e => moment(e).format("MM/DD/YYYY") + " GMT");
+            return state.dates.map(e => moment(e).format("MM/DD/YYYY"));
         },
         total_none_private: (state) => {
             return _.sum(state.amounts_none_private);

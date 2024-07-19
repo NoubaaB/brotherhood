@@ -9,8 +9,8 @@
     </v-row>
     <v-row>
         <v-col>
-        <!-- <DatePicker/> -->
-    </v-col>
+            <DatePicker/>
+        </v-col>
     </v-row>
     <v-row>
         <YourCharges/>
@@ -20,12 +20,14 @@
     </v-row>
 </template>
 <script>
+import DatePicker from "./DatePicker.vue";
 import YourCharges from "./YourCharges.vue";
 import AllCharges from "./AllCharges.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 
 export default {
     components: {
+        DatePicker,
         YourCharges,
         AllCharges
     },

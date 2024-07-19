@@ -95,7 +95,7 @@ export default {
                 },
                 annotations: {
                     yaxis: [{
-                        y: this.dashboard.capital.amount, // Position of the horizontal line
+                        y: this.dashboard?.capital?.amount, // Position of the horizontal line
                         borderColor: '#ff4560',
                         label: {
                             borderColor: '#ff4560',
@@ -103,7 +103,7 @@ export default {
                             color: '#fff',
                             background: '#ff4560'
                             },
-                            text: `Limit : ${this.dashboard.capital.amount} DH`
+                            text: `Limit : ${this.dashboard?.capital?.amount} DH`
                         }
                     }]
                 }
