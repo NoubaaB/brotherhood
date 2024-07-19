@@ -42,6 +42,22 @@ export const useDashboard = defineStore("Dashboard", {
             });
             return data;
         },
+        amounts_all: (state) => {
+            let data = [];
+            state.dates.forEach(date => {
+                let sum = _.sumBy(state.items.filter(item => (state.auth.getAuth.id == item.user_id && item.date == date && item.is_private)),"price");
+                data.push(sum)
+            });
+            return data;
+        },
+        amounts_brotherhood: (state) => {
+            let data = [];
+            state.dates.forEach(date => {
+                let sum = _.sumBy(state.items.filter(item => (state.auth.getAuth.id != item.user_id && item.date == date && item.is_private)),"price");
+                data.push(sum)
+            });
+            return data;
+        },
         dates: (state) => {
             return [...new Set(state.items.map(item => item.date))];
         },
@@ -55,7 +71,13 @@ export const useDashboard = defineStore("Dashboard", {
             return _.sum(state.amounts_private);
         },
         total_all: (state) => {
-            return _.sum([...state.amounts_none_private, ...state.amounts_private]);
+            return _.sum(state.amounts_all);
+        },
+        total_brotherhood: (state) => {
+            return _.sum(state.amounts_brotherhood);
+        },
+        total_global: (state) => {
+            return _.sum([state.total_brotherhood, state.total_all]);
         }
     }
 });

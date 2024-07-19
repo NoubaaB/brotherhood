@@ -1,20 +1,33 @@
 <template>
     <v-row>
+        <v-avatar size="150" class="mx-auto" rounded="0">
+        <v-img
+            alt="dashboard"
+            src="/storage/dashboard.gif"
+        ></v-img>
+        </v-avatar>
+    </v-row>
+    <v-row>
         <v-col>
         <!-- <DatePicker/> -->
-        </v-col>
+    </v-col>
     </v-row>
     <v-row>
         <YourCharges/>
     </v-row>
+    <v-row>
+        <AllCharges/>
+    </v-row>
 </template>
 <script>
 import YourCharges from "./YourCharges.vue";
+import AllCharges from "./AllCharges.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 
 export default {
     components: {
-        YourCharges
+        YourCharges,
+        AllCharges
     },
     computed: {
         dashboard: function () {
@@ -22,7 +35,6 @@ export default {
         }  
     },
     mounted: function () {
-        console.log("test");
         this.dashboard.getData();
     },
     watch: {

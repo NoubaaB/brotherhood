@@ -22,7 +22,7 @@ class ItemFactory extends Factory
             "description"=>fake()->text(300),
             "price"=>fake()->numberBetween(1,4),
             "is_private"=>fake()->boolean(),
-            "user_id"=>fake()->numberBetween(1,3),
+            "user_id"=>fake()->numberBetween(1,2),
             "product_id"=>fake()->numberBetween(1,33),
         ];
     }

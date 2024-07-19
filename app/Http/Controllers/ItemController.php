@@ -19,7 +19,7 @@ class ItemController extends Controller
         $date_start = request()->query("date_start");
         $date_end = request()->query("date_end");
         $items = Item::whereBetween("date", [$date_start, $date_end])->get();
-        $capital = Capital::where("date_end","<=", $date_end)->first();
+        $capital = Capital::where("date_end","<=", $date_end)->where("user_id", auth()->id())->first();
         return response()->json([
             "items" => $items,
             "capital" => $capital

@@ -2,14 +2,14 @@
     <v-col cols="12" sm="4">
       <v-card
         class="mx-auto"
-        subtitle="Charges"
-        title="Total Charges You Spent"
+        title="Total Charges Brotherhood"
+        subtitle="Section : Charge"
       >
         <template v-slot:prepend>
           <v-avatar rounded="0">
             <v-img
               alt="charges-timeline"
-              src="/storage/charge.png"
+              src="/storage/charge_brotherhood.gif"
             ></v-img>
           </v-avatar>
         </template>
@@ -22,15 +22,7 @@
                         <v-icon class="mr-2">
                             mdi-cash-refund
                         </v-icon>
-                        {{ formatFloatNumber(dashboard.total_to_self) }} MAD
-                    </v-chip>
-                </v-col>
-                <v-col>
-                    <v-chip color="blue" variant="tonal">
-                        <v-icon class="mr-2">
-                            mdi-cash-plus
-                        </v-icon>
-                        {{ formatFloatNumber(dashboard.total_to_brothers) }} MAD
+                        {{ formatFloatNumber(dashboard.total_brotherhood) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>
@@ -38,7 +30,7 @@
                         <v-icon class="mr-2">
                             mdi-cash-plus
                         </v-icon>
-                        {{ formatFloatNumber(dashboard.total_to_all) }} MAD
+                        {{ formatFloatNumber(dashboard.total_global) }} MAD
                     </v-chip>
                 </v-col>
             </v-row>
@@ -61,6 +53,7 @@ export default {
                 chart: {
                     type: 'bar',
                     height: 350,
+                    stacked: true,
                     toolbar: {
                         show: true
                     },
@@ -78,6 +71,22 @@ export default {
                         }
                     }
                 }],
+                plotOptions: {
+                bar: {
+                    horizontal: false,
+                    borderRadiusApplication: 'end', // 'around', 'end'
+                    borderRadiusWhenStacked: 'last', // 'all', 'last'
+                    dataLabels: {
+                    total: {
+                        enabled: true,
+                        style: {
+                        fontSize: '13px',
+                        fontWeight: 600
+                        }
+                    }
+                    }
+                },
+                },
                 // theme: {
                 //     mode: this.main.mode, // Set theme mode to 'dark'
                 // },
@@ -92,32 +101,18 @@ export default {
                 },
                 fill: {
                     opacity: 1
-                },
-                annotations: {
-                    yaxis: [{
-                    y: this.dashboard.capital.amount, // Position of the horizontal line
-                    borderColor: '#ff4560',
-                    label: {
-                        borderColor: '#ff4560',
-                        style: {
-                        color: '#fff',
-                        background: '#ff4560'
-                        },
-                        text: 'Limit'
-                    }
-                    }]
                 }
             }
         },
         series: function () {
             return [
                 {
-                    name: "Amount you spent",
-                    data: this.dashboard.amounts_to_brothers
+                    name: "Amount Brotherhood",
+                    data: this.dashboard.amounts_brotherhood
                 },
                 {
-                    name: "Amount You Spent In Yourself",
-                    data: this.dashboard.amounts_to_self
+                    name: "Amount You Spent",
+                    data: this.dashboard.amounts_all
                 }
             ]
         },

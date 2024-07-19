@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@test.com',
         ]);
 
-        User::factory(2)->create();
+        User::factory()->create();
         Product::factory(33)->create();
         Item::factory(150)->create();
-        Capital::factory(6)->create();
+        Capital::factory(14)->create();
 
     }
 }

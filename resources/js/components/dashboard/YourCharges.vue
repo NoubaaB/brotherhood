@@ -2,14 +2,14 @@
     <v-col cols="12" sm="4">
       <v-card
         class="mx-auto"
-        subtitle="Charges"
         title="Total Charges You Spent"
+        subtitle="Section : Charge"
       >
         <template v-slot:prepend>
           <v-avatar rounded="0">
             <v-img
               alt="charges-timeline"
-              src="/storage/charge.png"
+              src="/storage/charge_yourself.gif"
             ></v-img>
           </v-avatar>
         </template>
@@ -112,7 +112,7 @@ export default {
         series: function () {
             return [
                 {
-                    name: "Amount you spent",
+                    name: "Amount you spent To Brotherhood",
                     data: this.dashboard.amounts_none_private
                 },
                 {
