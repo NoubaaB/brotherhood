@@ -96,7 +96,7 @@ export default {
             
         },
         addItem: function () {
-           this.forms.push(...[this.item.model]) 
+           this.forms.push(JSON.parse(JSON.stringify(this.item.model))) 
         },
     }
 
