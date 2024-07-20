@@ -10,8 +10,8 @@
                 :label="`${free? 'Weekly' :'Free'}`"
         ></v-switch>
     </div>
-    <VueDatePicker v-model="date_picker" week-picker v-if="free" :max-date="maxDate"/>
-    <VueDatePicker v-model="date_picker" range v-else :max-date="maxDate"/>
+    <VueDatePicker v-model="date_picker" :enable-time-picker="false" :clearable="false" week-picker v-if="free" :max-date="maxDate"/>
+    <VueDatePicker v-model="date_picker" :enable-time-picker="false" :clearable="false" range v-else :max-date="maxDate"/>
 </template>
 <script>
 import {useDashboard} from "@/stores/Dashboard.js"

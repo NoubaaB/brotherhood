@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -183,6 +184,7 @@ class AuthController extends Controller implements HasMiddleware
     function getData(): array
     {
         return [
+            "products"=> Product::all()
         ];
     }
 }

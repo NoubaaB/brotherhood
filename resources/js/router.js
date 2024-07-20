@@ -3,6 +3,12 @@ import { useAuth } from "./stores/Auth";
 
 const routes = [
     {
+        path: "/error/404",
+        name: "error404",
+        component: () => import("@/components/error/404.vue"),
+    },
+    
+    {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         beforeEnter: function (to, from, next) {
@@ -25,6 +31,27 @@ const routes = [
                         path: "/",
                         name: "index",
                         component: () => import("@/components/dashboard/index.vue"),
+                    },
+                    {
+                        path: "items",
+                        redirect: { name: 'items.list' },
+                        children: [
+                            {
+                                path: "/",
+                                name: "items.list",
+                                component: () => import("@/components/Items/List.vue"),
+                            },
+                            {
+                                path: "create",
+                                name: "items.create",
+                                component: () => import("@/components/Items/Create.vue"),
+                            },
+                            {
+                                path: "update/:id",
+                                name: "items.update",
+                                component: () => import("@/components/Items/Update.vue"),
+                            },
+                        ],
                     },
                 ]
             },

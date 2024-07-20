@@ -17,10 +17,10 @@
 
       <v-divider></v-divider>
 
-      <v-list v-model:opened="open">
+      <v-list v-model:opened="open" >
         <template v-for="([icon , text , url], i) in links" :key="i">
             <v-list-item 
-                class="my-2"
+                class="my-2 mx-2"
                 :prepend-icon="icon" 
                 :title="text" 
                 :value="text" 
@@ -77,7 +77,9 @@ export default {
       },
       links:function(){
           return [
-              ["mdi-human-male-board-poll", "main","index"],
+              ["mdi-human-male-board-poll", "Dashboard","index"],
+              ["mdi-cart-plus", "Create Items","items.create"],
+              ["mdi-cart", "List Items","items.list"],
           ]
       }
   },

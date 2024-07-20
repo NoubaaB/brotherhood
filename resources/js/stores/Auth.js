@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-
+import { useProduct } from "@/stores/Product";
 export const useAuth = defineStore("Auth", {
     state: () => { 
         return {
@@ -14,7 +14,8 @@ export const useAuth = defineStore("Auth", {
             },
             drawer: null,
             user: null,
-            token: null
+            token: null,
+            product: useProduct()
         }
     },
     actions: {
@@ -22,6 +23,7 @@ export const useAuth = defineStore("Auth", {
             axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`;
             return await axios.get("/api/me").then(async response => {
                 this.user = response.data.user;
+                this.product.collect = response.data.products;
                 return this.user;
             })
         },
@@ -31,6 +33,7 @@ export const useAuth = defineStore("Auth", {
                 password: this.model.password,
             }).then(async response => {
                 this.user = response.data.user;
+                this.product.collect = response.data.products;
                 this.token = response.data.token;
                 localStorage.setItem('token', this.token);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
