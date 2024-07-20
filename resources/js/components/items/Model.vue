@@ -3,19 +3,26 @@
         <v-card-item>
             <v-row no-gutters>
                 <v-col cols="12" sm="6" class="mb-4">
-                    <VueDatePicker v-model="form.date" :enable-time-picker="false" :clearable="false" :rules="dateRules" vertical :calendar="calendarFn" :max-date="maxDate"/>
+                    <VueDatePicker v-model="model.date" :enable-time-picker="false" :clearable="false" :rules="dateRules" vertical :calendar="calendarFn" :max-date="maxDate"/>
                 </v-col>
                 <v-col cols="12" sm="6">
-                <v-text-field v-model="form.description" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description" :rules="descriptionRules"></v-text-field>
+                <v-text-field v-model="model.description" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description" :rules="descriptionRules"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                <v-autocomplete v-model="form.product_id" :items="product.collect" item-title="name" item-value="id" variant="solo-filled" prepend-inner-icon="mdi-cart-arrow-down" rounded flat label="Products List" :rules="productIdRules"></v-autocomplete>
+                <v-autocomplete v-model="model.product_id" :items="product.collect" item-title="name" item-value="id" variant="solo-filled" prepend-inner-icon="mdi-cart-arrow-down" rounded flat label="Products List" :rules="productIdRules"></v-autocomplete>
                 </v-col>
                 <v-col cols="12" sm="6">
-                <v-text-field v-model="form.price" variant="solo-filled" prepend-inner-icon="mdi-cash" rounded flat label="Price" :rules="priceRules" type="number"></v-text-field>
+                <v-text-field v-model="model.price" variant="solo-filled" prepend-inner-icon="mdi-cash" rounded flat label="Price" :rules="priceRules" type="number"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                <v-switch hide-details v-model="form.is_private" inset color="blue" variant="solo-filled" true-icon="mdi-eye-plus" rounded flat label="Private Purchase" ></v-switch>
+                    <v-row>
+                        <v-col cols="9">
+                            <v-switch hide-details v-model="model.is_private" inset color="blue" variant="solo-filled" true-icon="mdi-eye-plus" rounded flat label="Private Purchase" ></v-switch>
+                        </v-col>
+                        <v-col>
+                            <v-btn class="mt-2" size="small" color="red" variant="tonal" icon="mdi-close" @click="deleteModel(model.id)"></v-btn>
+                        </v-col>
+                    </v-row>
                 </v-col>
             </v-row>
         </v-card-item>
@@ -28,7 +35,7 @@ import { useItem } from '@/stores/Item';
 import { useProduct } from '@/stores/Product';
 export default {
     props: {
-        form:Object
+        model:Object
     },
     data() {
         return {
@@ -69,18 +76,21 @@ export default {
     methods: {
       calendarFn:function(weeks) {
         return weeks
-                .filter((week) => week.days.some((day) => day.text === 15))
-                .map((week) => ({
-                ...week,
-                days: week.days.map((day) => {
-                    day.classData['custom-class'] = true;
-                    return day;
-                }),
+                    .filter((week) => week.days.some((day) => day.text === 15))
+                    .map((week) => ({
+                    ...week,
+                    days: week.days.map((day) => {
+                        day.classData['custom-class'] = true;
+                        return day;
+                    }),
                 }));
-        }  
+        },
+        deleteModel: function (id) {
+            this.item.deleteModel(id)
+        }
     },
     validations: {
-        form :{
+        model :{
             date: { required },
             description: { required },
             product_id: { required },

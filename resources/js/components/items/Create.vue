@@ -11,7 +11,7 @@
     <v-card>
       <v-card-title>Create Item</v-card-title>
       <v-card-text>
-            <Model v-for="(form,index) in forms" :key="index" :form="form"/>
+            <Model v-for="(model,index) in item.models" :key="index" :model="model"/>
             <v-row>
                 <v-col cols="12" sm="6">
                     <v-divider></v-divider>
@@ -56,9 +56,11 @@
   </v-container>
 </template>
 <script>
+import { v4 as uuidv4 } from 'uuid';
 import { useItem } from '@/stores/Item';
 import { useProduct } from '@/stores/Product';
 import Model from '@/components/items/Model.vue';
+
 export default {
     components: {
         Model
@@ -66,9 +68,6 @@ export default {
     data() {
         return {
             loading: false,
-            forms: [
-                
-            ]
         }
     },
     mounted: function () {
@@ -83,8 +82,8 @@ export default {
         },
         valid: function () {
             let b = true;
-            this.forms.forEach(form => {
-                if (!!form.date || !!form.description || !!form.price || !!form.is_private || !!form.product_id) {
+            this.item.models.forEach(model => {
+                if (!!model.date || !!model.description || !!model.price || !!model.is_private || !!model.product_id) {
                     b = false
                 }
             })
@@ -92,11 +91,20 @@ export default {
         }
     },
     methods: {
-        submitForm: function () {
+        submitModel: function () {
             
         },
         addItem: function () {
-           this.forms.push(JSON.parse(JSON.stringify(this.item.model))) 
+            this.item.models.push(
+            {
+                id:uuidv4(),
+                date: new Date().toISOString().substr(0, 10),
+                description: "",
+                price: null,
+                is_private: false,
+                product_id: null,
+            }
+           ) 
         },
     }
 
