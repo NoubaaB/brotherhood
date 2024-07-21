@@ -16,6 +16,8 @@ class Item extends Model
 
     protected $guarded = [];
 
+    protected $with = ["product"];
+
     function product() : BelongsTo {
         return $this->belongsTo(Product::class);
     }

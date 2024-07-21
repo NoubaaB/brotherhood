@@ -23,7 +23,7 @@ export default {
         }
     },
     mounted: function () {
-        this.date_picker = [moment().startOf('week').add(1,"days").format("YYYY-MM-DD"),moment().format("YYYY-MM-DD")];
+        this.date_picker = [moment().subtract(1, "days").startOf('week').format("YYYY-MM-DD"),moment().format("YYYY-MM-DD")];
     },
     computed: {
         dashboard: function () {
@@ -41,7 +41,7 @@ export default {
         },
         free: function (val) {
             if (val) {
-                this.date_picker = [moment().startOf('week').add(1,"days").format("YYYY-MM-DD"),moment().format("YYYY-MM-DD")];
+                this.date_picker = [moment().subtract(1, "days").startOf('week').format("YYYY-MM-DD"),moment().format("YYYY-MM-DD")];
             } else {
                 this.date_picker = [
                     this.dashboard.date_start, this.dashboard.date_end

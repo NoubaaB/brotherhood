@@ -14,8 +14,6 @@
     </v-row>
     <v-row>
         <YourCharges/>
-    </v-row>
-    <v-row>
         <AllCharges/>
     </v-row>
 </template>
@@ -33,17 +31,17 @@ export default {
     },
     computed: {
         dashboard: function () {
-                return useDashboard();
-        }  
+            return useDashboard();
+        }
     },
     mounted: function () {
         this.dashboard.getData();
     },
     watch: {
-        "dashbaord.date_start": function () {
+        "dashboard.date_start": function () {
             this.dashboard.getData();
         },
-        "dashbaord.date_end": function () {
+        "dashboard.date_end": function () {
             this.dashboard.getData();
         }
     }

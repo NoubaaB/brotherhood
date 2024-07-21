@@ -40,6 +40,23 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         //
+        $r_items = $request->validate([
+            "items.*.date"=> "required|string",
+            "items.*.description"=> "required|string|max:400",
+            "items.*.price"=> "required|numeric",
+            "items.*.is_private"=> "required|boolean",
+            "items.*.product_id"=> "required|exists:products,id"
+        ]);
+        $items = [];
+        foreach ($r_items["items"] as $item) {
+            $item["user_id"] = auth()->id();
+            $item = Item::create($item);
+            $items[] = $item;
+        }
+
+        return response()->json(["items"=>$items],200);
+        
+
     }
 
     /**
@@ -72,5 +89,7 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         //
+        $status = $item->delete();
+        return response()->json(["status"=>$status],200);
     }
 }

@@ -29,10 +29,11 @@
     </v-card>
 </template>
 <script>
-import { required } from '@vuelidate/validators';
+import { required , numeric } from '@vuelidate/validators';
 import useValidate from "@vuelidate/core";
 import { useItem } from '@/stores/Item';
 import { useProduct } from '@/stores/Product';
+
 export default {
     props: {
         model:Object
@@ -69,21 +70,21 @@ export default {
         },  
         priceRules() {
             return [
-                v => !!v || "Price is Required",
+                v => (!!v || "Price is Required")&&(!isNaN(v)),
             ];
         },  
     },
     methods: {
       calendarFn:function(weeks) {
         return weeks
-                    .filter((week) => week.days.some((day) => day.text === 15))
-                    .map((week) => ({
-                    ...week,
-                    days: week.days.map((day) => {
-                        day.classData['custom-class'] = true;
-                        return day;
-                    }),
-                }));
+            .filter((week) => week.days.some((day) => day.text === 15))
+            .map((week) => ({
+                ...week,
+                days: week.days.map((day) => {
+                    day.classData['custom-class'] = true;
+                    return day;
+                }),
+            }));
         },
         deleteModel: function (id) {
             this.item.deleteModel(id)
@@ -94,7 +95,7 @@ export default {
             date: { required },
             description: { required },
             product_id: { required },
-            price: { required },
+            price: { required ,numeric },
         }
     },
 }

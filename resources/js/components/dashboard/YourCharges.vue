@@ -1,5 +1,5 @@
 <template>
-    <v-col cols="12" sm="4">
+    <v-col cols="12" sm="6">
       <v-card
         class="mx-auto"
         title="Total Charges You Spent"

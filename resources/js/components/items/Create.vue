@@ -7,7 +7,7 @@
       ></v-img>
     </v-avatar>
   </v-row>
-  <v-container>
+  <v-container class="px-1">
     <v-card>
       <v-card-title>Create Item</v-card-title>
       <v-card-text>
@@ -38,10 +38,10 @@
                     <v-btn 
                         rounded
                         color="blue"
-                        type="submit"
+                        @click="submit"
                         block
-                        :variant="valid ? 'tonal':'flat'"
-                        :disabled="valid"
+                        :variant="v$.$invalid ? 'tonal':'flat'"
+                        :disabled="v$.$invalid"
                         :loading="loading"
                     >
                         <v-icon class="mr-2">
@@ -60,6 +60,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useItem } from '@/stores/Item';
 import { useProduct } from '@/stores/Product';
 import Model from '@/components/items/Model.vue';
+import { required , numeric} from '@vuelidate/validators';
+import useValidate from "@vuelidate/core";
 
 export default {
     components: {
@@ -68,6 +70,8 @@ export default {
     data() {
         return {
             loading: false,
+            valid: false,
+            v$: useValidate(),
         }
     },
     mounted: function () {
@@ -79,20 +83,14 @@ export default {
         },
         product: function () {
             return useProduct();  
-        },
-        valid: function () {
-            let b = true;
-            this.item.models.forEach(model => {
-                if (!!model.date || !!model.description || !!model.price || !!model.is_private || !!model.product_id) {
-                    b = false
-                }
-            })
-            return b;
         }
     },
     methods: {
-        submitModel: function () {
-            
+        submit: async function () {
+            this.loading = true;
+            await this.item.postItems().then(res => {
+                this.loading = false;
+            })
         },
         addItem: function () {
             this.item.models.push(
@@ -104,8 +102,20 @@ export default {
                 is_private: false,
                 product_id: null,
             }
-           ) 
+           )
         },
+    },
+    validations: {
+        item: {
+            models: [
+                {
+                    date: { required },
+                    description: { required },
+                    product_id: { required },
+                    price: { required ,numeric },
+                }
+            ]
+         }
     }
 
 }
