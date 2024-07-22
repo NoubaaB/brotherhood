@@ -4,7 +4,10 @@
             <div class="swiper-slide">
                 <v-card class="mx-auto" :class="{ on_delete:on_delete}" :title="article.product.name">
                     <template v-slot:subtitle>
-                        {{ article.date}} | <strong>{{ article.user.name }}</strong>
+                        {{ article.date}} | 
+                        Created :
+                        <v-chip v-if="auth.getAuth.id == article.user_id" color="green">Me</v-chip>
+                        <v-chip v-else color="blue">{{ article.user.name }}</v-chip>
                     </template>
                 
                     <template v-slot:append>
