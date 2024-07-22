@@ -1,6 +1,7 @@
 <template>
-    <div class="d-block">
-        <v-switch
+    <v-row>
+        <v-col cols="5">
+            <v-switch
                 v-model="free"
                 true-icon="mdi-calendar-week"
                 false-icon="mdi-calendar-month"
@@ -8,14 +9,34 @@
                 base-color="blue"
                 inset
                 :label="`${free? 'Weekly' :'Free'}`"
-        ></v-switch>
-    </div>
-    <VueDatePicker v-model="date_picker" :enable-time-picker="false" :clearable="false" week-picker v-if="free" :max-date="maxDate"/>
-    <VueDatePicker v-model="date_picker" :enable-time-picker="false" :clearable="false" range v-else :max-date="maxDate"/>
+            ></v-switch>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col v-if="free">
+            <VueDatePicker v-model="date_picker" :enable-time-picker="false" :clearable="false" week-picker :max-date="maxDate"/>
+        </v-col>
+        <v-col v-else>
+            <VueDatePicker v-model="date_picker" :enable-time-picker="false" :clearable="false" range :max-date="maxDate"/>
+        </v-col>
+    </v-row>
+    <v-row v-if="allow_filter">
+        <v-col>
+            <v-chip-group center-active v-model="article.article_filter" filter>
+                <v-chip value="0" color="blue">All Articles</v-chip>
+                <v-chip value="1" color="red">My Article Only</v-chip>
+                <v-chip value="3" color="green">Other Articles</v-chip>
+            </v-chip-group>
+        </v-col>
+    </v-row>
 </template>
 <script>
-import {useDashboard} from "@/stores/Dashboard.js"
+import { useDashboard } from "@/stores/Dashboard.js"
+import { useArticle } from "@/stores/Article";
 export default {
+    props: {
+        allow_filter:Boolean
+    },
     data() {
         return {
             date_picker: new Date(),
@@ -29,6 +50,9 @@ export default {
         dashboard: function () {
             return useDashboard();
         },
+        article: function () {
+            return useArticle(); 
+        }, 
         maxDate: function () {
             return moment().format("YYYY-MM-DD")
         }

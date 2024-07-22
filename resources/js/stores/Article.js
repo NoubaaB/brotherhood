@@ -24,6 +24,7 @@ export const useArticle = defineStore("Article", {
                     product_id: null,
                 }
             ],
+            article_filter: 0,
             dashboard:useDashboard()
         }
     },
@@ -56,5 +57,16 @@ export const useArticle = defineStore("Article", {
         }
     },
     getters: {
+        articles: (state) => {
+            if (state.article_filter == 0) {
+                return state.dashboard.articles;
+            }
+            else if (state.article_filter == 1) {
+                return state.dashboard.articles.filter(article => article.is_private);
+            }
+            else {
+                return state.dashboard.articles.filter(article => !article.is_private);
+            }
+        }
     }
 });

@@ -3,7 +3,7 @@
     <v-card-text>
       <v-row align="center" justify="center" dense>
         <template v-if="!dashboard.is_fetch">
-          <v-col cols="12" md="6" v-for="article in dashboard.articles" :key="article.id">
+          <v-col cols="12" md="6" v-for="article in article.articles" :key="article.id">
               <Article :article="article"/>
           </v-col>
         </template>
@@ -29,6 +29,8 @@
 </template>
 <script>
 import { useDashboard } from '@/stores/Dashboard';
+import { useArticle } from '@/stores/Article';
+
 import Article from "@/components/articles/Article.vue"
 export default {
   components: {
@@ -37,6 +39,9 @@ export default {
   computed: {
     dashboard: function () {
       return useDashboard();
+    },
+    article: function () {
+      return useArticle();
     }
   }
 }

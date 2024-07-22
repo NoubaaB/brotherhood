@@ -39,6 +39,15 @@
                     <v-divider></v-divider>
                     <v-card-actions class="text-green bg-amber-lighten-5">
                         <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(article.price) }} MAD
+                        <v-spacer></v-spacer>
+                        <v-tooltip location="top" :text="article.is_private  ? 'Only Me' : 'To All Brotherhood'">
+                            <template v-slot:activator="{ props }">
+                                <v-chip v-bind="props" variant="tonal" :color="article.is_private  ? 'red' : 'green'">
+                                    <v-icon>{{ article.is_private  ? "mdi-eye-off" : "mdi-eye"}}</v-icon>
+                                </v-chip>
+                            </template>
+                        </v-tooltip>
+
                     </v-card-actions>
                 </v-card>
             </div>
