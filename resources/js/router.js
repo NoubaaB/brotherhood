@@ -17,7 +17,6 @@ const routes = [
     },
     {
         path: "/",
-        meta: { keeplive: true },
         children: [
             {
                 path: "/",

@@ -43,6 +43,11 @@ export const useArticle = defineStore("Article", {
                 return res;
             })
         },
+        getArticle: async function (id) {
+            return await axios.get(`/api/articles/${id}`).then(res => {
+                return res.data.article
+            })
+        },
         addArticle: function () {
             this.models.push(
                 {

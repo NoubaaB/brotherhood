@@ -36,10 +36,11 @@
                         </v-avatar>
                     </template>
                     <v-card-text>{{article.description}}</v-card-text>
-                    <v-divider></v-divider>
+                    <v-spacer></v-spacer>
                     <v-card-actions class="text-green bg-amber-lighten-5">
                         <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(article.price) }} MAD
                         <v-spacer></v-spacer>
+                        <v-btn class="mr-2" color="orange" size="x-small" variant="tonal" icon="mdi-pencil" @click="editComponent"></v-btn>
                         <v-tooltip location="top" :text="article.is_private  ? 'Only Me' : 'To All Brotherhood'">
                             <template v-slot:activator="{ props }">
                                 <v-chip v-bind="props" variant="tonal" :color="article.is_private  ? 'red' : 'green'">
@@ -47,7 +48,6 @@
                                 </v-chip>
                             </template>
                         </v-tooltip>
-
                     </v-card-actions>
                 </v-card>
             </div>
@@ -111,6 +111,12 @@ export default {
         deleteArticle: async function () {
             return await this._article.deleteArticle(this.article.id).then(res => {
                 return res;
+            })
+        },
+        editComponent: function () {
+            this.$router.push({
+                name: "articles.update",
+                params:{id:this.article.id}
             })
         },
         rollback: function () {

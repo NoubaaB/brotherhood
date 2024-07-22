@@ -37,7 +37,7 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : JsonResponse
     {
         //
         $r_articles = $request->validate([
@@ -62,9 +62,12 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Article $article)
+    public function show(Article $article) : JsonResponse
     {
         //
+        return response()->json([
+            "article"=>$article
+        ],200);
     }
 
     /**
@@ -86,7 +89,7 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy(Article $article) : JsonResponse
     {
         //
         $status = $article->delete();
