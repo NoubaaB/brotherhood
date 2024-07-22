@@ -3,7 +3,7 @@
         <v-avatar size="150" class="mx-auto" rounded="0">
         <v-img
             alt="dashboards"
-            src="/storage/dashboards_list.gif"
+            src="/storage/articles_list.gif"
         ></v-img>
         </v-avatar>
     </v-row>

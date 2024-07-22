@@ -8,6 +8,9 @@ import App from './App.vue';
 // Composa bles  
 import { createApp } from 'vue';
 
+import { Swiper } from 'swiper/dist/js/swiper.esm.js';
+window.Swiper = Swiper;
+
 const app = createApp(App)
 
 await registerPlugins(app)

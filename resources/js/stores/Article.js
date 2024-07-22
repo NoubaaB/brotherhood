@@ -14,23 +14,45 @@ export const useArticle = defineStore("Article", {
                 is_private: false,
                 product_id: null,
             },
+            models: [
+                {
+                    id: uuidv4(),
+                    date: new Date().toISOString().substr(0, 10),
+                    description: "",
+                    price: null,
+                    is_private: false,
+                    product_id: null,
+                }
+            ],
             dashboard:useDashboard()
         }
     },
     actions: {
         deleteArticle: async function (id) {
-            await axios.delete(`/api/article/${id}`).then(res => {
-                this.dashboard.article = this.dashboard.article.filter(e=>e.id != id)
+            await axios.delete(`/api/articles/${id}`).then(res => {
+                this.dashboard.articles = this.dashboard.articles.filter(e=>e.id != id)
                 return res
             })
         },
-        postaAticle: async function () {
-            return await axios.post("/api/article", {
+        postArticle: async function () {
+            return await axios.post("/api/articles", {
                 article: this.models
             }).then(res => {
                 this.models = [];
                 return res;
             })
+        },
+        addArticle: function () {
+            this.models.push(
+                {
+                    id: uuidv4(),
+                    date: new Date().toISOString().substr(0, 10),
+                    description: "",
+                    price: null,
+                    is_private: false,
+                    product_id: null,
+                }
+            )
         }
     },
     getters: {

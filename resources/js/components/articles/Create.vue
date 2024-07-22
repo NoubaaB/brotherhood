@@ -24,7 +24,7 @@
                         color="orange"
                         variant="outlined"
                         block
-                        @click="addArticle"
+                        @click="article.addArticle"
                         >
                         <v-icon>
                             mdi-plus
@@ -56,7 +56,6 @@
   </v-container>
 </template>
 <script>
-import { v4 as uuidv4 } from 'uuid';
 import { useArticle } from '@/stores/Article';
 import { useProduct } from '@/stores/Product';
 import Model from '@/components/articles/Model.vue';
@@ -74,9 +73,6 @@ export default {
             v$: useValidate(),
         }
     },
-    mounted: function () {
-        this.addArticle();
-    }, 
     computed: {
         article: function () {
             return useArticle();  
@@ -91,18 +87,6 @@ export default {
             await this.article.postArticles().then(res => {
                 this.loading = false;
             })
-        },
-        addArticle: function () {
-            this.article.models.push(
-            {
-                id:uuidv4(),
-                date: new Date().toISOString().substr(0, 10),
-                description: "",
-                price: null,
-                is_private: false,
-                product_id: null,
-            }
-           )
         },
     },
     validations: {
