@@ -9,20 +9,25 @@ export const useDashboard = defineStore("Dashboard", {
             date_end: new Date().toISOString().substr(0, 10),
             items : [],
             capital: {},
+            is_fetch:false,
             auth: useAuth(),
         }
     },
     actions: {
         getData: async function () {
-            await axios.get("/api/items", {
-                params: {
-                    date_start: this.date_start,
-                    date_end: this.date_end
-                }
-            }).then(response => {
-                this.items = _.sortBy(response.data.items, "date");
-                this.capital = response.data.capital;
-            });
+            if (this.is_fetch==false) {
+                this.is_fetch = true;
+                await axios.get("/api/items", {
+                    params: {
+                        date_start: this.date_start,
+                        date_end: this.date_end
+                    }
+                }).then(response => {
+                    this.items = _.sortBy(response.data.items, "date");
+                    this.capital = response.data.capital;
+                    this.is_fetch = false;
+                });
+            }
         }
     },
     getters: {
