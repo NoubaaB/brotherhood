@@ -51,14 +51,18 @@ export const useArticle = defineStore("Article", {
             })
         },
         updateArticle: async function (_article) {
-            await axios.post(`/api/articles/${_article.id}`).then(res => {
+            await axios.patch(`/api/articles/${_article.id}`, {
+                article:_article
+            }).then(res => {
                 let article = this.dashboard.articles.find(e => e.id == _article.id);
-                article.date = res.data.article.date;
-                article.name = res.data.article.name;
-                article.description = res.data.article.description;
-                article.price = res.data.article.price;
-                article.is_private = res.data.article.is_private;
-                article.product_id = res.data.article.product_id;
+                if (article) {
+                    article.date = res.data.article.date;
+                    article.name = res.data.article.name;
+                    article.description = res.data.article.description;
+                    article.price = res.data.article.price;
+                    article.is_private = res.data.article.is_private;
+                    article.product_id = res.data.article.product_id;
+                }
             })
         },
         addArticle: function () {

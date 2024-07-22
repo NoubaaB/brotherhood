@@ -81,9 +81,19 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, Article $article) : JsonResponse
     {
-        //
+        $data = $request->validate([
+            "article.date" => "required|string",
+            "article.description" => "required|string|max:400",
+            "article.price" => "required|numeric",
+            "article.is_private" => "required|boolean",
+            "article.product_id" => "required|exists:products,id"
+        ]);
+
+        $article->update($data["article"]);
+
+        return response()->json(["article" => $article], 200);
     }
 
     /**
