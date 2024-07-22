@@ -50,6 +50,11 @@ const routes = [
                                 name: "articles.update",
                                 component: () => import("@/components/articles/Update.vue"),
                             },
+                            {
+                                path: "view/:id",
+                                name: "articles.view",
+                                component: () => import("@/components/articles/View.vue"),
+                            },
                         ],
                     },
                 ]

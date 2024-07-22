@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { useDashboard } from "./Dashboard";
+import { useAuth } from "./Auth";
 
 export const useArticle = defineStore("Article", {
     state: () => {
@@ -25,7 +26,8 @@ export const useArticle = defineStore("Article", {
                 }
             ],
             article_filter: 0,
-            dashboard:useDashboard()
+            dashboard: useDashboard(),
+            auth : useAuth()
         }
     },
     actions: {
@@ -48,6 +50,17 @@ export const useArticle = defineStore("Article", {
                 return res.data.article
             })
         },
+        updateArticle: async function (_article) {
+            await axios.post(`/api/articles/${_article.id}`).then(res => {
+                let article = this.dashboard.articles.find(e => e.id == _article.id);
+                article.date = res.data.article.date;
+                article.name = res.data.article.name;
+                article.description = res.data.article.description;
+                article.price = res.data.article.price;
+                article.is_private = res.data.article.is_private;
+                article.product_id = res.data.article.product_id;
+            })
+        },
         addArticle: function () {
             this.models.push(
                 {
@@ -64,13 +77,21 @@ export const useArticle = defineStore("Article", {
     getters: {
         articles: (state) => {
             if (state.article_filter == 0) {
-                return state.dashboard.articles;
+                return state.dashboard.articles.filter(article => (!article.is_private &&
+                    state.auth.getAuth.id != article.user_id)
+                    || (article.user_id == state.auth.getAuth.id));
             }
             else if (state.article_filter == 1) {
-                return state.dashboard.articles.filter(article => article.is_private);
+                return state.dashboard.articles.filter(article => (!article.is_private &&
+                    state.auth.getAuth.id != article.user_id)
+                    || (article.user_id == state.auth.getAuth.id)
+                    && (article.is_private));
             }
             else {
-                return state.dashboard.articles.filter(article => !article.is_private);
+                return state.dashboard.articles.filter(article => (!article.is_private &&
+                    state.auth.getAuth.id != article.user_id)
+                    || (article.user_id == state.auth.getAuth.id)
+                    && (!article.is_private));
             }
         }
     }

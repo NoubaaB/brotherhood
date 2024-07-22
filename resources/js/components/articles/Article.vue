@@ -4,7 +4,7 @@
             <div class="swiper-slide">
                 <v-card class="mx-auto" :class="{ on_delete:on_delete}" :title="article.product.name">
                     <template v-slot:subtitle>
-                        {{ article.date}}
+                        {{ article.date}} | <strong>{{ article.user.name }}</strong>
                     </template>
                 
                     <template v-slot:append>
@@ -40,7 +40,7 @@
                     <v-card-actions class="text-green bg-amber-lighten-5">
                         <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(article.price) }} MAD
                         <v-spacer></v-spacer>
-                        <v-btn class="mr-2" color="orange" size="x-small" variant="tonal" icon="mdi-pencil" @click="editComponent"></v-btn>
+                        <v-btn class="mr-2" color="orange" size="x-small" variant="tonal" icon="mdi-pencil" @click="aditArticle" v-if="article.user_id == auth.getAuth.id"></v-btn>
                         <v-tooltip location="top" :text="article.is_private  ? 'Only Me' : 'To All Brotherhood'">
                             <template v-slot:activator="{ props }">
                                 <v-chip v-bind="props" variant="tonal" :color="article.is_private  ? 'red' : 'green'">
@@ -56,6 +56,7 @@
 </template>
 <script>
 import { useArticle } from '@/stores/Article';
+import { useAuth } from '@/stores/Auth';
 import { useDashboard } from '@/stores/Dashboard';
 export default {
     props: {
@@ -74,30 +75,32 @@ export default {
     },
     mounted: function () {
         // Initialize Swiper
-        this.$nextTick(() => {
-            const el = '#' + this.article.id;
-            const swiper = new Swiper(el, {
-                resistanceRatio: 0.85,
-                initialSlide: 0,
-                resistance: true,
-                allowSlideNext: false,
-                momentumBounce: true,
-                speed: 150,
-            });
-            swiper.on('transitionStart', () => {
-                this.on_delete = true;
-                this.loading = true;
-                this.setTimeout = setTimeout(() => {
-                    this.deleteArticle().then(res => {
-                        swiper.destroy();
-                    });
-                }, 3000);
-                this.setInterval = setInterval(() => {
-                    ++this.counter;
-                }, 1000);
-                // Destroy slider instance and detach all events listeners
-            })
-        });  
+        if (this.article.user_id == this.auth.getAuth.id) {
+            this.$nextTick(() => {
+                const el = '#' + this.article.id;
+                const swiper = new Swiper(el, {
+                    resistanceRatio: 0.85,
+                    initialSlide: 0,
+                    resistance: true,
+                    allowSlideNext: false,
+                    momentumBounce: true,
+                    speed: 150,
+                });
+                swiper.on('transitionStart', () => {
+                    this.on_delete = true;
+                    this.loading = true;
+                    this.setTimeout = setTimeout(() => {
+                        this.deleteArticle().then(res => {
+                            swiper.destroy();
+                        });
+                    }, 3000);
+                    this.setInterval = setInterval(() => {
+                        ++this.counter;
+                    }, 1000);
+                    // Destroy slider instance and detach all events listeners
+                })
+            });  
+        }
     },
     computed: {
         _article: function () {
@@ -105,6 +108,9 @@ export default {
         },
         dashboard: function () {
             return useDashboard();
+        },
+        auth: function () {
+            return useAuth();
         }
     },
     methods: {
@@ -113,7 +119,7 @@ export default {
                 return res;
             })
         },
-        editComponent: function () {
+        aditArticle: function () {
             this.$router.push({
                 name: "articles.update",
                 params:{id:this.article.id}

@@ -16,13 +16,13 @@ class Article extends Model
 
     protected $guarded = [];
 
-    protected $with = ["product"];
+    protected $with = ["product","user"];
 
     function product() : BelongsTo {
         return $this->belongsTo(Product::class);
     }
 
-    function user(): HasOne{
-        return $this->hasOne(User::class);
+    function user(): BelongsTo{
+        return $this->belongsTo(User::class);
     }
 }
