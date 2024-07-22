@@ -78,8 +78,8 @@ export default {
       links:function(){
           return [
               ["mdi-human-male-board-poll", "Dashboard","index"],
-              ["mdi-cart-plus", "Create Items","items.create"],
-              ["mdi-cart", "List Items","items.list"],
+              ["mdi-cart-plus", "Create Articles","articles.create"],
+              ["mdi-cart", "List Articles","articles.list"],
           ]
       }
   },

@@ -9,9 +9,9 @@
   </v-row>
   <v-container class="px-1">
     <v-card>
-      <v-card-title>Create Item</v-card-title>
+      <v-card-title>Create Article</v-card-title>
       <v-card-text>
-            <Model v-for="(model,index) in item.models" :key="index" :model="model"/>
+            <Model v-for="(model,index) in article.models" :key="index" :model="model"/>
             <v-row>
                 <v-col cols="12" sm="6">
                     <v-divider></v-divider>
@@ -24,12 +24,12 @@
                         color="orange"
                         variant="outlined"
                         block
-                        @click="addItem"
+                        @click="addArticle"
                         >
                         <v-icon>
                             mdi-plus
                         </v-icon>
-                        Add New Item
+                        Add New Article
                     </v-btn>
                 </v-col>
             </v-row>
@@ -57,9 +57,9 @@
 </template>
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { useItem } from '@/stores/Item';
+import { useArticle } from '@/stores/Article';
 import { useProduct } from '@/stores/Product';
-import Model from '@/components/items/Model.vue';
+import Model from '@/components/articles/Model.vue';
 import { required , numeric} from '@vuelidate/validators';
 import useValidate from "@vuelidate/core";
 
@@ -75,11 +75,11 @@ export default {
         }
     },
     mounted: function () {
-        this.addItem();
+        this.addArticle();
     }, 
     computed: {
-        item: function () {
-            return useItem();  
+        article: function () {
+            return useArticle();  
         },
         product: function () {
             return useProduct();  
@@ -88,12 +88,12 @@ export default {
     methods: {
         submit: async function () {
             this.loading = true;
-            await this.item.postItems().then(res => {
+            await this.article.postArticles().then(res => {
                 this.loading = false;
             })
         },
-        addItem: function () {
-            this.item.models.push(
+        addArticle: function () {
+            this.article.models.push(
             {
                 id:uuidv4(),
                 date: new Date().toISOString().substr(0, 10),
@@ -106,7 +106,7 @@ export default {
         },
     },
     validations: {
-        item: {
+        article: {
             models: [
                 {
                     date: { required },

@@ -7,7 +7,7 @@ export const useDashboard = defineStore("Dashboard", {
         return {
             date_start: moment().subtract(6, "days").format("YYYY-MM-DD"),
             date_end: new Date().toISOString().substr(0, 10),
-            items : [],
+            articles : [],
             capital: {},
             is_fetch:false,
             auth: useAuth(),
@@ -17,13 +17,13 @@ export const useDashboard = defineStore("Dashboard", {
         getData: async function () {
             if (this.is_fetch==false) {
                 this.is_fetch = true;
-                await axios.get("/api/items", {
+                await axios.get("/api/articles", {
                     params: {
                         date_start: this.date_start,
                         date_end: this.date_end
                     }
                 }).then(response => {
-                    this.items = _.sortBy(response.data.items, "date");
+                    this.articles = _.sortBy(response.data.articles, "date");
                     this.capital = response.data.capital;
                     this.is_fetch = false;
                 });
@@ -34,10 +34,10 @@ export const useDashboard = defineStore("Dashboard", {
         amounts_none_private: (state) => {
             let data = [];
             state.dates.forEach(date => {
-                let sum = _.sumBy(state.items.filter(item => (
-                    state.auth.getAuth.id == item.user_id
-                    && item.date == date
-                    && item.is_private == false)
+                let sum = _.sumBy(state.articles.filter(article => (
+                    state.auth.getAuth.id == article.user_id
+                    && article.date == date
+                    && article.is_private == false)
                 ), "price");
                 data.push(sum)
             });
@@ -46,10 +46,10 @@ export const useDashboard = defineStore("Dashboard", {
         amounts_private: (state) => {
             let data = [];
             state.dates.forEach(date => {
-                let sum = _.sumBy(state.items.filter(item => (
-                    state.auth.getAuth.id == item.user_id
-                    && item.date == date
-                    && item.is_private)
+                let sum = _.sumBy(state.articles.filter(article => (
+                    state.auth.getAuth.id == article.user_id
+                    && article.date == date
+                    && article.is_private)
                 ), "price");
                 data.push(sum)
             });
@@ -58,10 +58,10 @@ export const useDashboard = defineStore("Dashboard", {
         amounts_all: (state) => {
             let data = [];
             state.dates.forEach(date => {
-                let sum = _.sumBy(state.items.filter(item => (
-                    state.auth.getAuth.id == item.user_id
-                    && item.date == date
-                    && item.is_private == false)
+                let sum = _.sumBy(state.articles.filter(article => (
+                    state.auth.getAuth.id == article.user_id
+                    && article.date == date
+                    && article.is_private == false)
                 ), "price");
                 data.push(sum)
             });
@@ -70,17 +70,17 @@ export const useDashboard = defineStore("Dashboard", {
         amounts_brotherhood: (state) => {
             let data = [];
             state.dates.forEach(date => {
-                let sum = _.sumBy(state.items.filter(item => (
-                    state.auth.getAuth.id != item.user_id
-                    && item.date == date
-                    && item.is_private==false)
+                let sum = _.sumBy(state.articles.filter(article => (
+                    state.auth.getAuth.id != article.user_id
+                    && article.date == date
+                    && article.is_private==false)
                 ), "price");
                 data.push(sum)
             });
             return data;
         },
         dates: (state) => {
-            return [...new Set(state.items.map(item => item.date))];
+            return [...new Set(state.articles.map(article => article.date))];
         },
         dates_format: (state) => {
             return state.dates.map(e => moment(e).format("MM/DD/YYYY"));

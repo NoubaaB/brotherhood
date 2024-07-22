@@ -9,7 +9,7 @@
                 <v-text-field v-model="model.description" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description" :rules="descriptionRules"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                <v-autocomplete v-model="model.product_id" :items="product.collect" item-title="name" item-value="id" variant="solo-filled" prepend-inner-icon="mdi-cart-arrow-down" rounded flat label="Products List" :rules="productIdRules"></v-autocomplete>
+                <v-autocomplete v-model="model.product_id" :articles="product.collect" item-title="name" item-value="id" variant="solo-filled" prepend-inner-icon="mdi-cart-arrow-down" rounded flat label="Products List" :rules="productIdRules"></v-autocomplete>
                 </v-col>
                 <v-col cols="12" sm="6">
                 <v-text-field v-model="model.price" variant="solo-filled" prepend-inner-icon="mdi-cash" rounded flat label="Price" :rules="priceRules" type="number"></v-text-field>
@@ -31,7 +31,7 @@
 <script>
 import { required , numeric } from '@vuelidate/validators';
 import useValidate from "@vuelidate/core";
-import { useItem } from '@/stores/Item';
+import { useArticle } from '@/stores/Article';
 import { useProduct } from '@/stores/Product';
 
 export default {
@@ -47,8 +47,8 @@ export default {
         maxDate: function () {
             return moment().format("YYYY-MM-DD")
         },
-        item: function () {
-            return useItem();  
+        article: function () {
+            return useArticle();  
         },
         product: function () {
             return useProduct();  
@@ -87,7 +87,7 @@ export default {
             }));
         },
         deleteModel: function (id) {
-            this.item.deleteModel(id)
+            this.article.deleteModel(id)
         }
     },
     validations: {

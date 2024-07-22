@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CapitalController;
 use App\Http\Controllers\ProductController;
 
@@ -35,7 +35,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
 
     #region main routes
     Route::apiResources([
-        "items" => ItemController::class,
+        "articles" => ArticleController::class,
         "products" => ProductController::class,
         "capitals" => CapitalController::class,
     ]); 

@@ -1,45 +1,45 @@
 <template>
-<v-card class="mx-auto" :title="item.product.name">
+<v-card class="mx-auto" :title="article.product.name">
     <template v-slot:subtitle>
-        {{ item.date}}
+        {{ article.date}}
     </template>
 
     <template v-slot:append>
-        <v-btn color="red" size="x-small" icon="mdi-close" variant="tonal" @click="deleteItem(item.id)"></v-btn>
+        <v-btn color="red" size="x-small" icon="mdi-close" variant="tonal" @click="deleteArticle(article.id)"></v-btn>
     </template>
     <template v-slot:prepend>
         <v-avatar rounded="0">
         <v-img
             alt="charges-timeline"
-            src="/storage/item.gif"
+            src="/storage/article.gif"
         ></v-img>
         </v-avatar>
     </template>
-    <v-card-text>{{item.description}}</v-card-text>
+    <v-card-text>{{article.description}}</v-card-text>
     <v-divider></v-divider>
     <v-card-actions class="text-green bg-amber-lighten-5">
-        <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(item.price) }} MAD
+        <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(article.price) }} MAD
     </v-card-actions>
 </v-card>
 </template>
 <script>
-import { useItem } from '@/stores/Item';
+import { useArticle } from '@/stores/Article';
 import { useDashboard } from '@/stores/Dashboard';
 export default {
     props: {
-        item : Object
+        article : Object
     },
     computed: {
-        _item: function () {
-            return useItem();
+        _article: function () {
+            return useArticle();
         },
         dashboard: function () {
             return useDashboard();
         }
     },
     methods: {
-        deleteItem: async function (id) {
-        await this._item.deleteItem(id).then(res => {
+        deleteArticle: async function (id) {
+        await this._article.deleteArticle(id).then(res => {
             console.log("res",res)
         })
         }   

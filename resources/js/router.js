@@ -33,23 +33,23 @@ const routes = [
                         component: () => import("@/components/dashboard/index.vue"),
                     },
                     {
-                        path: "/items",
-                        redirect: { name: 'items.list' },
+                        path: "/articles",
+                        redirect: { name: 'articles.list' },
                         children: [
                             {
                                 path: "list",
-                                name: "items.list",
-                                component: () => import("@/components/items/List.vue"),
+                                name: "articles.list",
+                                component: () => import("@/components/articles/List.vue"),
                             },
                             {
                                 path: "create",
-                                name: "items.create",
-                                component: () => import("@/components/items/Create.vue"),
+                                name: "articles.create",
+                                component: () => import("@/components/articles/Create.vue"),
                             },
                             {
                                 path: "update/:id",
-                                name: "items.update",
-                                component: () => import("@/components/items/Update.vue"),
+                                name: "articles.update",
+                                component: () => import("@/components/articles/Update.vue"),
                             },
                         ],
                     },

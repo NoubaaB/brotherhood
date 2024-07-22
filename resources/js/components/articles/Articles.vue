@@ -2,8 +2,8 @@
   <v-card>
     <v-card-text>
       <v-row align="center" justify="center" dense>
-        <v-col cols="12" md="6" v-for="item in dashboard.items" :key="item.id">
-          <Item :item="item" />
+        <v-col cols="12" md="6" v-for="article in dashboard.articles" :key="article.id">
+          <Article :artilce="artilce" />
         </v-col>
     </v-row>
     </v-card-text>
@@ -11,10 +11,10 @@
 </template>
 <script>
 import { useDashboard } from '@/stores/Dashboard';
-import Item from "@/components/items/Item.vue"
+import Article from "@/components/articles/Article.vue"
 export default {
   components: {
-    Item
+    Article
   },
   computed: {
     dashboard: function () {

@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Item>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
  */
-class ItemFactory extends Factory
+class ArticleFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class ItemFactory extends Factory
     {
         return [
             //
-            "date"=>fake()->dateTimeBetween("-7 days","now"),
+            "date"=>fake()->dateTimeBetween("-30 days","now"),
             "description"=>fake()->text(300),
             "price"=>fake()->numberBetween(1,4),
             "is_private"=>fake()->boolean(),

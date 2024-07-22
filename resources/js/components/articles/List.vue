@@ -13,18 +13,18 @@
         </v-col>
     </v-row>
     <v-row>
-        <Items/>
+        <Articles/>
     </v-row>
 </template>
 <script>
 import DatePicker from "@/components/dashboard/DatePicker.vue";
-import Items from "@/components/items/Items.vue";
+import Articles from "@/components/articles/Articles.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 
 export default {
     components: {
         DatePicker,
-        Items,
+        Articles,
     },
     computed: {
         dashboard: function () {

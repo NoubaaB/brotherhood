@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Item;
+use App\Models\Article;
 use App\Models\Capital;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::factory(33)->create();
-        Item::factory(150)->create();
+        Article::factory(300)->create();
         Capital::factory(14)->create();
 
     }

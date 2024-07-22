@@ -3,7 +3,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { useDashboard } from "./Dashboard";
 
-export const useItem = defineStore("Item", {
+export const useArticle = defineStore("Article", {
     state: () => {
         return {
             model: {
@@ -18,15 +18,15 @@ export const useItem = defineStore("Item", {
         }
     },
     actions: {
-        deleteItem: async function (id) {
-            await axios.delete(`/api/items/${id}`).then(res => {
-                this.dashboard.items = this.dashboard.items.filter(e=>e.id != id)
+        deleteArticle: async function (id) {
+            await axios.delete(`/api/article/${id}`).then(res => {
+                this.dashboard.article = this.dashboard.article.filter(e=>e.id != id)
                 return res
             })
         },
-        postItems: async function () {
-            return await axios.post("/api/items", {
-                items: this.models
+        postaAticle: async function () {
+            return await axios.post("/api/article", {
+                article: this.models
             }).then(res => {
                 this.models = [];
                 return res;
