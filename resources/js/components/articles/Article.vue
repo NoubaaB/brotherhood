@@ -3,6 +3,14 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <v-card hover class="mx-auto" :color="article.total_id? 'blue-grey-lighten-5':'white'" :class="{ on_delete:on_delete}" :title="article.product.name">
+                    <template v-slot:loader>
+                        <v-progress-linear
+                            :active="loading_bill"
+                            indeterminate
+                            height="3"
+                            color="blue"
+                        ></v-progress-linear>
+                    </template>
                     <template v-slot:subtitle>
                         {{ article.date}} | 
                         Created :
@@ -77,6 +85,7 @@ export default {
     data: function () {
         return {
             loading:false,
+            loading_bill:false,
             on_delete:false,
             pause:false,
             setTimeout:null,
@@ -138,7 +147,9 @@ export default {
             })
         },
         cancelBill: async function () {
+            this.loading_bill = true;
             return await this._article.cancelBill(this.article).then(res => {
+                this.loading_bill = false;
                 return res;
             })
         },

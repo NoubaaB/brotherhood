@@ -30,17 +30,24 @@
     </v-row>
     <v-snackbar
       v-model="snackbar_bill"
+      color="white"
     >
-        {{ `Bill Matricule : ${total.id} Has Been Created` }}
-
+        Bill
+        <strong class="text-blue">
+            {{total.id}}
+        </strong>
+        Has Been Created
         <template v-slot:actions>
             <v-btn
-            color="pink"
+            rounded
+            color="blue"
             variant="tonal"
+            class="mr-2"
             @click="viewBill"
             >
             View
             </v-btn>
+            <v-divider vertical></v-divider>
             <v-btn
             color="pink"
             variant="text"
@@ -81,7 +88,6 @@ export default {
         makeBill: async function () {
             this.loading = true;
             await this.article.makeBill().then(res => {
-                console.log("res",res)
                 this.total =  res
                 this.loading = false;
                 this.snackbar_bill = true;
