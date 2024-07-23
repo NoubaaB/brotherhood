@@ -2,7 +2,7 @@
     <div :id="article.id" class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <v-card class="mx-auto" :class="{ on_delete:on_delete}" :title="article.product.name">
+                <v-card hover class="mx-auto" :class="{ on_delete:on_delete}" :title="article.product.name">
                     <template v-slot:subtitle>
                         {{ article.date}} | 
                         Created :
