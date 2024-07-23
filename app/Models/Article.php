@@ -30,7 +30,7 @@ class Article extends Model
         parent::boot();
 
         //manage resources
-        static::saving(fn ($model) => $model->total->calc());
+        static::saving(fn ($model) => $model?->total?->calc());
     }
 
 

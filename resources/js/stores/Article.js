@@ -25,7 +25,7 @@ export const useArticle = defineStore("Article", {
                     product_id: null,
                 }
             ],
-            article_filter: [0,1],
+            article_filter: ["0","1"],
             dashboard: useDashboard(),
             auth : useAuth()
         }
@@ -37,9 +37,9 @@ export const useArticle = defineStore("Article", {
                 return res
             })
         },
-        postArticle: async function () {
+        postArticles: async function () {
             return await axios.post("/api/articles", {
-                article: this.models
+                articles: this.models
             }).then(res => {
                 this.models = [];
                 return res;
@@ -112,15 +112,15 @@ export const useArticle = defineStore("Article", {
     getters: {
         articles: (state) => {
             let data = [];
-            if (state.article_filter.find(e => e == 0)) {
+            if (state.article_filter.find(e => e == "0")) {
                 data.push(...state.dashboard.articles.filter(article => (
                     state.auth.getAuth.id == article.user_id)));
             }
-            if (state.article_filter.find(e => e == 1)) {
+            if (state.article_filter.find(e => e == "1")) {
                 data.push(...state.dashboard.articles.filter(article => (!article.is_private &&
                     (article.user_id != state.auth.getAuth.id))));
             }
-            if (state.article_filter.find(e => e == 2)) {
+            if (state.article_filter.find(e => e == "2")) {
                 data = data.filter(article => article.total_id);
             }
             return data;

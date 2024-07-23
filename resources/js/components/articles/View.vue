@@ -17,9 +17,11 @@
                         color="blue"
                         variant="outlined"
                         rounded="xl"
-                        text="Back Previous"
-                        @click="$router.back()"
-                    ></v-btn>
+                        @click="goToCreateArticles"
+                    >
+                        <v-icon>mdi-plus</v-icon>
+                        Create New Article
+                    </v-btn>
                 </v-col>
             </v-row>
         </v-col>
@@ -55,6 +57,11 @@ export default {
             });
         } else {
             this.article = article;
+        }
+    },
+    methods: {
+        goToCreateArticles: function () {
+            this.$router.push({name:"articles.create"})
         }
     }
 }
