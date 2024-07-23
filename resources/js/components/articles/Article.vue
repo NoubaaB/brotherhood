@@ -20,25 +20,26 @@
                 
                     <template v-slot:append>
                         <div v-if="loading" class="cursor-pointer" @click="rollback">
-                                <v-progress-circular
-                                :size="30"
-                                :width="1"
-                                color="primary"
-                                indeterminate
-                                >
-                                    <template v-slot:default> 
-                                        <v-icon v-if="pause">
-                                            mdi-pause
-                                        </v-icon>
-                                        <span v-else>
-                                            {{counter}} 
-                                        </span>
-                                    </template>
-                                </v-progress-circular>
+                            <v-progress-circular
+                            :size="30"
+                            :width="1"
+                            color="primary"
+                            indeterminate
+                            >
+                                <template v-slot:default> 
+                                    <v-icon v-if="pause">
+                                        mdi-pause
+                                    </v-icon>
+                                    <span v-else>
+                                        {{counter}} 
+                                    </span>
+                                </template>
+                            </v-progress-circular>
                         </div>
                         <div>
                             <v-checkbox
                             :model-value="!!article.total_id"
+                            hide-details
                             @click="toggleBill"
                             color="primary"
                             v-if="article.total_id === null || article.total_id === true || article.total_id === false"
