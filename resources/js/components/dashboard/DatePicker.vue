@@ -22,10 +22,10 @@
     </v-row>
     <v-row v-if="allow_filter">
         <v-col>
-            <v-chip-group center-active v-model="article.article_filter" filter>
-                <v-chip value="0" color="blue">All Articles</v-chip>
-                <v-chip value="1" color="red">My Article Only</v-chip>
-                <v-chip value="3" color="green">Other Articles</v-chip>
+            <v-chip-group center-active v-model="article.article_filter" filter multiple @update:modelValue="article.resetBillPlanning">
+                <v-chip value="0" color="red">My Article</v-chip>
+                <v-chip value="1" color="green">Other Articles</v-chip>
+                <v-chip value="2" color="blue">Bills</v-chip>
             </v-chip-group>
         </v-col>
     </v-row>
@@ -75,3 +75,8 @@ export default {
     }
 }
 </script>
+<style>
+.v-slide-group__content{
+    justify-content: center !important;
+}
+</style>

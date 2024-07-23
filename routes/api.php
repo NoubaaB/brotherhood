@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TotalController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CapitalController;
 use App\Http\Controllers\ProductController;
@@ -38,6 +39,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
         "articles" => ArticleController::class,
         "products" => ProductController::class,
         "capitals" => CapitalController::class,
+        "totals" => TotalController::class,
     ]); 
     //get auth user with
     #endregion

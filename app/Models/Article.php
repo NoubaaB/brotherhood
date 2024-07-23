@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Total;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,5 +25,9 @@ class Article extends Model
 
     function user(): BelongsTo{
         return $this->belongsTo(User::class);
+    }
+
+    function total(): BelongsTo{
+        return $this->belongsTo(Total::class);
     }
 }

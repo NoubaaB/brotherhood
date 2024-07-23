@@ -25,7 +25,7 @@ export const useArticle = defineStore("Article", {
                     product_id: null,
                 }
             ],
-            article_filter: 0,
+            article_filter: [0,1],
             dashboard: useDashboard(),
             auth : useAuth()
         }
@@ -65,6 +65,37 @@ export const useArticle = defineStore("Article", {
                 }
             })
         },
+        cancelBill: async function (_article) {
+            await axios.patch(`/api/articles/${_article.id}`, {
+                article: {
+                    total_id:null
+                }
+            }).then(res => {
+                let article = this.dashboard.articles.find(e => e.id == _article.id);
+                if (article) {
+                    article.total_id = res.data.article.total_id;
+
+                }
+            })
+        },
+        makeBill: async function () {
+            return await axios.post(`/api/totals`, {
+                articles: this.getBillQueue.map(e=>e.id)
+            }).then(res => {
+                this.getBillQueue.forEach(_bill_article => {
+                    let article = this.dashboard.articles.find(e => e.id == _bill_article.id);
+                    article.total_id = res.data.total.id;
+                })
+                return res.data.total
+            })
+        },
+        toggleBill: function (article_id) {
+            let article = this.dashboard.articles.find(_article => _article.id == article_id);
+            article.total_id = !article.total_id
+        },
+        resetBillPlanning: function () {
+            this.getBillQueue.map(article => article.total_id = false)  
+        },
         addArticle: function () {
             this.models.push(
                 {
@@ -80,23 +111,25 @@ export const useArticle = defineStore("Article", {
     },
     getters: {
         articles: (state) => {
-            if (state.article_filter == 0) {
-                return state.dashboard.articles.filter(article => (!article.is_private &&
-                    state.auth.getAuth.id != article.user_id)
-                    || (article.user_id == state.auth.getAuth.id));
+            let data = [];
+            if (state.article_filter.find(e => e == 0)) {
+                data.push(...state.dashboard.articles.filter(article => (
+                    state.auth.getAuth.id == article.user_id)));
             }
-            else if (state.article_filter == 1) {
-                return state.dashboard.articles.filter(article => (!article.is_private &&
-                    state.auth.getAuth.id != article.user_id)
-                    || (article.user_id == state.auth.getAuth.id)
-                    && (article.is_private));
+            if (state.article_filter.find(e => e == 1)) {
+                data.push(...state.dashboard.articles.filter(article => (!article.is_private &&
+                    (article.user_id != state.auth.getAuth.id))));
             }
-            else {
-                return state.dashboard.articles.filter(article => (!article.is_private &&
-                    state.auth.getAuth.id != article.user_id)
-                    || (article.user_id == state.auth.getAuth.id)
-                    && (!article.is_private));
+            if (state.article_filter.find(e => e == 2)) {
+                data = data.filter(article => article.total_id);
             }
+            return data;
+        },
+        total_articles: (state) => {
+            return _.sumBy(state.articles, "price");
+        },
+        getBillQueue: (state) => {
+            return state.dashboard.articles.filter(article=>article.total_id === true)
         }
     }
 });

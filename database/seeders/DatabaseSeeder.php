@@ -7,6 +7,7 @@ use App\Models\Capital;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Product;
+use App\Models\Total;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,9 +28,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'test2@test2.com',
         ]);
 
+        $totals = Total::factory(3)->create();
         Product::factory(33)->create();
         Article::factory(300)->create();
         Capital::factory(14)->create();
-
+        foreach ($totals as $total) {
+            $total->update(["amount"=>$total->articles()->sum("price")]);
+        }
     }
 }

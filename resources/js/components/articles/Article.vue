@@ -2,12 +2,12 @@
     <div :id="article.id" class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <v-card hover class="mx-auto" :class="{ on_delete:on_delete}" :title="article.product.name">
+                <v-card hover class="mx-auto" :color="article.total_id? 'blue-grey-lighten-5':'white'" :class="{ on_delete:on_delete}" :title="article.product.name">
                     <template v-slot:subtitle>
                         {{ article.date}} | 
                         Created :
-                        <v-chip v-if="auth.getAuth.id == article.user_id" color="green">Me</v-chip>
-                        <v-chip v-else color="blue">{{ article.user.name }}</v-chip>
+                        <v-chip size="x-small" v-if="auth.getAuth.id == article.user_id" color="green">Me</v-chip>
+                        <v-chip size="x-small" v-else color="blue">{{ article.user.name }}</v-chip>
                     </template>
                 
                     <template v-slot:append>
@@ -28,6 +28,14 @@
                                     </template>
                                 </v-progress-circular>
                         </div>
+                        <div>
+                            <v-checkbox
+                            :model-value="!!article.total_id"
+                            @click="toggleBill"
+                            color="primary"
+                            v-if="article.total_id === null || article.total_id === true || article.total_id === false"
+                            ></v-checkbox>
+                        </div>
                     </template>
                     <template v-slot:prepend>
                         <v-avatar rounded="0">
@@ -43,6 +51,7 @@
                     <v-card-actions class="text-green bg-amber-lighten-5">
                         <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(article.price) }} MAD
                         <v-spacer></v-spacer>
+                        <v-btn class="mr-2" color="deep-purple-darken-1" size="x-small" variant="tonal" icon="mdi-text-box-remove" @click="cancelBill" v-if="article.total_id >> 0 && article.total_id !== true"></v-btn>
                         <v-btn class="mr-2" color="orange" size="x-small" variant="tonal" icon="mdi-pencil" @click="aditArticle" v-if="article.user_id == auth.getAuth.id"></v-btn>
                         <v-tooltip location="top" :text="article.is_private  ? 'Only Me' : 'To All Brotherhood'">
                             <template v-slot:activator="{ props }">
@@ -127,6 +136,14 @@ export default {
                 name: "articles.update",
                 params:{id:this.article.id}
             })
+        },
+        cancelBill: async function () {
+            return await this._article.cancelBill(this.article).then(res => {
+                return res;
+            })
+        },
+        toggleBill: function () {
+          this._article.toggleBill(this.article.id)  
         },
         rollback: function () {
             this.pause = true;

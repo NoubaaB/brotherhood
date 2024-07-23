@@ -13,23 +13,86 @@
         </v-col>
     </v-row>
     <v-row>
+        <v-col class="text-center">
+        <v-btn :loading="loading" :disabled="article.getBillQueue.length == 0" rounded @click="makeBill" color="blue"><v-icon>mdi-text-box-plus</v-icon> {{article.getBillQueue.length}} Make Bill </v-btn>            
+        </v-col>
+        <v-col class="text-center">
+            <v-chip color="blue" variant="tonal">
+                <v-icon class="mr-2">
+                    mdi-cash-refund
+                </v-icon>
+                {{ formatFloatNumber(article.total_articles) }} MAD
+            </v-chip>
+        </v-col>
+    </v-row>
+    <v-row class="center_empty">
         <Articles/>
     </v-row>
+    <v-snackbar
+      v-model="snackbar_bill"
+    >
+        {{ `Bill Matricule : ${total.id} Has Been Created` }}
+
+        <template v-slot:actions>
+            <v-btn
+            color="pink"
+            variant="tonal"
+            @click="viewBill"
+            >
+            View
+            </v-btn>
+            <v-btn
+            color="pink"
+            variant="text"
+            @click="snackbar_bill = false"
+            >
+            Close
+            </v-btn>
+        </template>
+    </v-snackbar>
 </template>
 <script>
 import DatePicker from "@/components/dashboard/DatePicker.vue";
 import Articles from "@/components/articles/Articles.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
+import { useArticle } from "@/stores/Article";
 
 export default {
     components: {
         DatePicker,
         Articles,
     },
+    data: function () {
+        return {
+            loading:false,
+            snackbar_bill:false,
+            total:null,
+        }  
+    },
     computed: {
         dashboard: function () {
                 return useDashboard();
-        }  
+        },
+        article: function () {
+                return useArticle();
+        }
+    },
+    methods: {
+        makeBill: async function () {
+            this.loading = true;
+            await this.article.makeBill().then(res => {
+                console.log("res",res)
+                this.total =  res
+                this.loading = false;
+                this.snackbar_bill = true;
+            })
+        },
+        viewBill: function () {
+            this.$router.push({
+                name: "bills.view",
+                params:{id:this.total.id}
+            })
+        }
     },
     mounted: function () {
         this.dashboard.getData();
@@ -44,3 +107,8 @@ export default {
     }
 }
 </script>
+<style>
+.center_empty{
+  justify-content: center !important;
+}
+</style>

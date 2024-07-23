@@ -84,13 +84,13 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article) : JsonResponse
     {
         $data = $request->validate([
-            "article.date" => "required|string",
-            "article.description" => "required|string|max:400",
-            "article.price" => "required|numeric",
-            "article.is_private" => "required|boolean",
-            "article.product_id" => "required|exists:products,id"
+            "article.date" => "sometimes|string",
+            "article.description" => "sometimes|string|max:400",
+            "article.price" => "sometimes|numeric",
+            "article.is_private" => "sometimes|boolean",
+            "article.product_id" => "sometimes|exists:products,id",
+            "article.total_id" => "sometimes|nullable|numeric"
         ]);
-
         $article->update($data["article"]);
 
         return response()->json(["article" => $article], 200);

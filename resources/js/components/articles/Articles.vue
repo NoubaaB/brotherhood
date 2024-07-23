@@ -3,8 +3,20 @@
     <v-card-text>
       <v-row align="center" justify="center" dense>
         <template v-if="!dashboard.is_fetch">
-          <v-col cols="12" md="6" v-for="article in article.articles" :key="article.id">
-              <Article :article="article"/>
+          <template v-if="article.articles.length>0">
+            <v-col cols="12" md="6" v-for="article in article.articles" :key="article.id">
+                <Article :article="article" />
+            </v-col>
+          </template>
+          <v-col v-else cols="12" md="6" class="text-center">
+              <span class="d-block">
+                No Articles Available to Show 
+              </span>
+              <v-img
+                  alt="empty"
+                  width="30"
+                  src="/storage/24-hours.gif"
+              ></v-img>
           </v-col>
         </template>
         <div v-else>
@@ -46,3 +58,8 @@ export default {
   }
 }
 </script>
+<style>
+.img_border_radius{
+    border-radius: 50%;
+}
+</style>
