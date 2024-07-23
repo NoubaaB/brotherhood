@@ -17,4 +17,9 @@ class Total extends Model
     function articles() : HasMany {
         return $this->hasMany(Article::class);
     }
+
+
+    public function calc() {
+        $this->update(["amount"=> $this->articles->sum("price")]);
+    }
 }

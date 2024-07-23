@@ -19,6 +19,21 @@ class Article extends Model
 
     protected $with = ["product","user"];
 
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+
+        parent::boot();
+
+        //manage resources
+        static::saving(fn ($model) => $model->total->calc());
+    }
+
+
     function product() : BelongsTo {
         return $this->belongsTo(Product::class);
     }

@@ -75,8 +75,11 @@ class TotalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Total $total)
+    public function destroy(Total $total) : JsonResponse
     {
         //
+        $total->articles()->each(fn ($article) => $article->update(["total_id"=>null]));
+        $status =  $total->delete();
+        return response()->json(["status"=>$status],200);
     }
 }
