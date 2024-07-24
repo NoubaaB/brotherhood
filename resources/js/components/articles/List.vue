@@ -9,7 +9,17 @@
     </v-row>
     <v-row>
         <v-col>
-            <DatePicker :allow_filter="true"/>
+            <DatePicker>
+                <template v-slot:add>
+                    <v-col>
+                        <v-chip-group center-active v-model="article.article_filter" filter multiple @update:modelValue="article.resetBillPlanning">
+                            <v-chip value="0" color="red">My Article</v-chip>
+                            <v-chip value="1" color="green">Other Articles</v-chip>
+                            <v-chip value="2" color="blue">Bills</v-chip>
+                        </v-chip-group>
+                    </v-col>
+                </template>
+            </DatePicker>
         </v-col>
     </v-row>
     <v-row>

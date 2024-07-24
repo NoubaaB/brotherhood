@@ -2,8 +2,8 @@
     <v-col cols="12" sm="6">
       <v-card
         class="mx-auto"
-        title="Total Charges Brotherhood"
-        subtitle="Section : Charge"
+        title="Community Charges"
+        subtitle="Total Charge That Community Spent Daily"
       >
         <template v-slot:prepend>
           <v-avatar rounded="0">
@@ -21,6 +21,14 @@
                     <v-chip color="green" variant="tonal">
                         <v-icon class="mr-2">
                             mdi-cash-refund
+                        </v-icon>
+                        {{ formatFloatNumber(dashboard.total_all) }} MAD
+                    </v-chip>
+                </v-col>
+                <v-col>
+                    <v-chip color="blue" variant="tonal">
+                        <v-icon class="mr-2">
+                            mdi-cash-fast
                         </v-icon>
                         {{ formatFloatNumber(dashboard.total_brotherhood) }} MAD
                     </v-chip>
@@ -107,11 +115,11 @@ export default {
         series: function () {
             return [
                 {
-                    name: "Amount Brotherhood",
+                    name: "Other Share",
                     data: this.dashboard.amounts_brotherhood
                 },
                 {
-                    name: "Amount You Spent",
+                    name: "Your Share",
                     data: this.dashboard.amounts_all
                 }
             ]

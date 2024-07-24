@@ -20,23 +20,14 @@
             <VueDatePicker v-model="date_picker" :enable-time-picker="false" :clearable="false" range :max-date="maxDate"/>
         </v-col>
     </v-row>
-    <v-row v-if="allow_filter">
-        <v-col>
-            <v-chip-group center-active v-model="article.article_filter" filter multiple @update:modelValue="article.resetBillPlanning">
-                <v-chip value="0" color="red">My Article</v-chip>
-                <v-chip value="1" color="green">Other Articles</v-chip>
-                <v-chip value="2" color="blue">Bills</v-chip>
-            </v-chip-group>
-        </v-col>
+    <v-row>
+        <slot name="add"/>
     </v-row>
 </template>
 <script>
 import { useDashboard } from "@/stores/Dashboard.js"
 import { useArticle } from "@/stores/Article";
 export default {
-    props: {
-        allow_filter:Boolean
-    },
     data() {
         return {
             date_picker: new Date(),

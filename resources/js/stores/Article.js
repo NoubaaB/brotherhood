@@ -20,7 +20,7 @@ export const useArticle = defineStore("Article", {
                 {
                     id: uuidv4(),
                     date: new Date().toISOString().substr(0, 10),
-                    description: "",
+                    description: "",    
                     price: null,
                     is_private: false,
                     star: false,

@@ -29,7 +29,7 @@
               <v-card-text>
                 <v-skeleton-loader
                   min-width="344"
-                  type="list-item-avatar-two-line	, chip"
+                  type="list-item-avatar-two-line , list-item-two-line ,table-tfoot"
                 ></v-skeleton-loader>
               </v-card-text>
             </v-card>

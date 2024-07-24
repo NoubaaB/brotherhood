@@ -2,8 +2,8 @@
     <v-col cols="12" sm="6">
       <v-card
         class="mx-auto"
-        title="Total Charges You Spent"
-        subtitle="Section : Charge"
+        title="Your Daily Charges"
+        subtitle="Your privates and Publics Daily Charge"
       >
         <template v-slot:prepend>
           <v-avatar rounded="0">
@@ -20,7 +20,7 @@
                 <v-col>
                     <v-chip color="blue" variant="tonal">
                         <v-icon class="mr-2">
-                            mdi-cash-refund
+                            mdi-cash-fast
                         </v-icon>
                         {{ formatFloatNumber(dashboard.total_none_private) }} MAD
                     </v-chip>
@@ -28,7 +28,7 @@
                 <v-col>
                     <v-chip color="green" variant="tonal">
                         <v-icon class="mr-2">
-                            mdi-cash-plus
+                            mdi-cash-refund
                         </v-icon>
                         {{ formatFloatNumber(dashboard.total_private) }} MAD
                     </v-chip>
@@ -112,11 +112,11 @@ export default {
         series: function () {
             return [
                 {
-                    name: "Amount you spent To Brotherhood",
+                    name: "Amount you spent To Public",
                     data: this.dashboard.amounts_none_private
                 },
                 {
-                    name: "Amount You Spent In Yourself",
+                    name: "Amount You Spent In Private",
                     data: this.dashboard.amounts_private
                 }
             ]
