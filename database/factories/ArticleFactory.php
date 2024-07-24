@@ -22,6 +22,7 @@ class ArticleFactory extends Factory
             "description"=>fake()->text(300),
             "price"=>fake()->numberBetween(1,4),
             "is_private"=>fake()->boolean(),
+            "star"=>fake()->boolean(),
             "user_id"=>fake()->numberBetween(1,2),
             "product_id"=>fake()->numberBetween(1,33),
             "total_id"=>fake()->randomElement([1,2,3,null, null, null, null, null, null]),

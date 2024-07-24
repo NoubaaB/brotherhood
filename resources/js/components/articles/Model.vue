@@ -16,11 +16,14 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                     <v-row>
-                        <v-col cols="9">
-                            <v-switch hide-details v-model="model.is_private" inset color="blue" variant="solo-filled" true-icon="mdi-eye-plus" rounded flat label="Private Purchase" ></v-switch>
+                        <v-col cols="8">
+                            <v-switch hide-details v-model="model.is_private" inset color="blue" variant="solo-filled" true-icon="mdi-eye-plus" rounded flat label="Private" ></v-switch>
                         </v-col>
                         <v-col>
-                            <v-btn class="mt-2" size="small" color="red" variant="tonal" icon="mdi-close" @click="deleteModel(model.id)"></v-btn>
+                            <v-checkbox hide-details v-model="model.star" inset color="yellow" variant="solo-filled" true-icon="mdi-star" flat ></v-checkbox>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-btn class="mt-3" size="x-small" color="red" variant="tonal" icon="mdi-close" @click="deleteModel(model.id)"></v-btn>
                         </v-col>
                     </v-row>
                 </v-col>

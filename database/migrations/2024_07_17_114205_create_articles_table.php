@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("description",400)->nullable();
             $table->double("price");
             $table->boolean("is_private")->default(false);
+            $table->boolean("star")->default(false);
 
             $table->foreignId('user_id')->nullable()->index();
             $table->foreignId('product_id')->nullable()->index();

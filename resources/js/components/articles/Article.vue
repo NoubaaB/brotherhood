@@ -2,7 +2,7 @@
     <div :id="article.id" class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <v-card hover class="mx-auto" :class="{ on_delete:on_delete ,'bg-blue-grey-lighten-5': (article.total_id >> 0 && article.total_id !== true  && !on_delete)}" :title="article.product.name">
+                <v-card hover class="mx-auto" :class="{ on_delete:on_delete ,'bg-blue-grey-lighten-5': (article.total_id >> 0 && article.total_id !== true  && !on_delete)}">
                     <template v-slot:loader>
                         <v-progress-linear
                             :active="loading_bill"
@@ -16,6 +16,9 @@
                         Created :
                         <v-chip size="x-small" v-if="auth.getAuth.id == article.user_id" color="green">Me</v-chip>
                         <v-chip size="x-small" v-else color="blue">{{ article.user.name }}</v-chip>
+                    </template>
+                    <template v-slot:title>
+                        <v-icon size="small" class="mt-0 mb-1" v-if="article.star" color="yellow">mdi-star</v-icon> {{ article.product.name }}
                     </template>
                 
                     <template v-slot:append>

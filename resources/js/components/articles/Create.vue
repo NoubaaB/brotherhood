@@ -51,6 +51,22 @@
                     </v-btn>
                 </v-col>
             </v-row>
+            <v-row>
+                <v-col>
+                    <v-btn 
+                        rounded
+                        color="amber"
+                        @click="backToListArticle"
+                        block
+                        variant="tonal"
+                    >
+                        <v-icon class="mr-2">
+                            mdi-arrow-u-left-bottom-bold
+                        </v-icon>
+                        Back To List Articles
+                    </v-btn>
+                </v-col>
+            </v-row>
       </v-card-text>
     </v-card>
   </v-container>
@@ -90,6 +106,9 @@ export default {
                     name: "articles.list"})
             })
         },
+        backToListArticle: function () {
+            this.$router.push({name:"articles.list"})
+        }
     },
     validations: {
         article: {

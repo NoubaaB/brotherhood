@@ -80,6 +80,7 @@ export default {
               ["mdi-human-male-board-poll", "Dashboard","index"],
               ["mdi-cart-plus", "Create Articles","articles.create"],
               ["mdi-cart", "List Articles","articles.list"],
+              ["mdi-text-box-multiple", "List Bills","bills.list"],
           ]
       }
   },

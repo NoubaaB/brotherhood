@@ -57,6 +57,22 @@ const routes = [
                             },
                         ],
                     },
+                    {
+                        path: "/bills",
+                        redirect: { name: 'bills.list' },
+                        children: [
+                            {
+                                path: "view/:id",
+                                name: "bills.view",
+                                component: () => import("@/components/bills/View.vue"),
+                            },
+                            {
+                                path: "list",
+                                name: "bills.list",
+                                component: () => import("@/components/bills/List.vue"),
+                            },
+                        ]
+                    }
                 ]
             },
             {

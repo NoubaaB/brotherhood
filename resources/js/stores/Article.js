@@ -13,6 +13,7 @@ export const useArticle = defineStore("Article", {
                 description: "",
                 price: null,
                 is_private: false,
+                star: false,
                 product_id: null,
             },
             models: [
@@ -22,6 +23,7 @@ export const useArticle = defineStore("Article", {
                     description: "",
                     price: null,
                     is_private: false,
+                    star: false,
                     product_id: null,
                 }
             ],
@@ -61,6 +63,7 @@ export const useArticle = defineStore("Article", {
                     article.description = res.data.article.description;
                     article.price = res.data.article.price;
                     article.is_private = res.data.article.is_private;
+                    article.star = res.data.article.star;
                     article.product_id = res.data.article.product_id;
                 }
             })
@@ -104,6 +107,7 @@ export const useArticle = defineStore("Article", {
                     description: "",
                     price: null,
                     is_private: false,
+                    star: false,
                     product_id: null,
                 }
             )
@@ -123,7 +127,7 @@ export const useArticle = defineStore("Article", {
             if (state.article_filter.find(e => e == "2")) {
                 data = data.filter(article => article.total_id);
             }
-            return data;
+            return _.orderBy(data, ["star", "date"], ["desc","desc"]);
         },
         total_articles: (state) => {
             return _.sumBy(state.articles, "price");
