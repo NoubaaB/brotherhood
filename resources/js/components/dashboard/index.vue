@@ -9,7 +9,7 @@
     </v-row>
     <v-row>
         <v-col>
-            <DatePicker :allow_filter="false"/>
+            <DatePicker/>
         </v-col>
     </v-row>
     <v-row>

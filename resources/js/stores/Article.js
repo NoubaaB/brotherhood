@@ -94,7 +94,9 @@ export const useArticle = defineStore("Article", {
         },
         toggleBill: function (article_id) {
             let article = this.dashboard.articles.find(_article => _article.id == article_id);
-            article.total_id = !article.total_id
+            if (article) {
+                article.total_id = !article.total_id
+            }
         },
         resetBillPlanning: function () {
             this.getBillQueue.map(article => article.total_id = false)  

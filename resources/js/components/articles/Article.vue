@@ -2,7 +2,7 @@
     <div :id="article.id" class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <v-card hover class="mx-auto" :class="{ on_delete:on_delete ,'bg-blue-grey-lighten-5': (article.total_id >> 0 && article.total_id !== true  && !on_delete)}">
+                <v-card hover @dblclick="viewArticle" class="mx-auto" :class="{ on_delete:on_delete ,'bg-blue-grey-lighten-5': (article.total_id >> 0 && article.total_id !== true  && !on_delete)}">
                     <template v-slot:loader>
                         <v-progress-linear
                             :active="loading_bill"
@@ -45,7 +45,7 @@
                             hide-details
                             @click="toggleBill"
                             color="primary"
-                            v-if="article.total_id === null || article.total_id === true || article.total_id === false"
+                            v-if="!$route.params.id&&(article.total_id === null || article.total_id === true || article.total_id === false)"
                             ></v-checkbox>
                         </div>
                     </template>
@@ -58,7 +58,7 @@
                         ></v-img>
                         </v-avatar>
                     </template>
-                    <v-card-text>{{article.description}}</v-card-text>
+                    <v-card-text >{{article.description}}</v-card-text>
                     <v-spacer></v-spacer>
                     <v-card-actions class="text-green bg-amber-lighten-5">
                         <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(article.price) }} MAD
@@ -141,12 +141,22 @@ export default {
     methods: {
         deleteArticle: async function () {
             return await this._article.deleteArticle(this.article.id).then(res => {
-                return res;
+                if (this.$route.params.id) {
+                    this.$router.push({
+                        name: "articles.list",
+                    })
+                }
             })
         },
         aditArticle: function () {
             this.$router.push({
                 name: "articles.update",
+                params:{id:this.article.id}
+            })
+        },
+        viewArticle: function () {
+            this.$router.push({
+                name: "articles.view",
                 params:{id:this.article.id}
             })
         },
