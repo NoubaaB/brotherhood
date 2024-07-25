@@ -14,7 +14,7 @@
         </template>
         <div v-else>
           <v-col cols="12" md="6">
-            <Skeleton :n="3" :type="'avatar, text , table-tfoot'"/>
+            <Skeleton :n="3" :type="'list-item-avatar-two-line , table-tfoot'"/>
           </v-col>
         </div>
     </v-row>

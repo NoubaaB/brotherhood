@@ -42,7 +42,10 @@ class TotalController extends Controller
         ]);
 
         $articles = Article::find($articles["articles"]);
-        $total = Total::create(["user_id"=>auth()->id]);
+        $total = Total::create([
+            "date"=>now(),
+            "user_id" => auth()->id()
+        ]);
         $sum = 0.00;
         foreach ($articles as $article) {
             $article->update(["total_id"=>$total->id]);

@@ -18,8 +18,14 @@
                         <v-chip size="x-small" v-else color="blue">{{ bill.user.name }}</v-chip>
                     </template>
                     <template v-slot:title>
-                        {{ bill.amount }} MAD
+                        Bill N° : {{ bill.id }}
                     </template>
+
+                    <v-card-text>
+                        <v-icon color="green" class="mx-3 pb-2">mdi-cash-multiple</v-icon> 
+                        <strong>{{bill.amount }}</strong>
+                        MAD
+                    </v-card-text>
                 
                     <template v-slot:append>
                         <div v-if="loading" class="cursor-pointer" @click="rollback">
