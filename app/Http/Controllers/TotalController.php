@@ -49,7 +49,7 @@ class TotalController extends Controller
         $sum = 0.00;
         foreach ($articles as $article) {
             $article->update(["total_id"=>$total->id]);
-            $sum += $article->amount;
+            $sum += $article->price;
         }
         $total->update(["amount"=>$sum]);
 
