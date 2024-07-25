@@ -13,9 +13,15 @@ class TotalController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : JsonResponse
     {
         //
+        $date_start = request()->query("date_start");
+        $date_end = request()->query("date_end");
+        $totals = Total::whereBetween("date", [$date_start, $date_end])->get();
+        return response()->json([
+            "totals" => $totals,
+        ], 200);
     }
 
     /**
@@ -36,7 +42,7 @@ class TotalController extends Controller
         ]);
 
         $articles = Article::find($articles["articles"]);
-        $total = Total::create();
+        $total = Total::create(["user_id"=>auth()->id]);
         $sum = 0.00;
         foreach ($articles as $article) {
             $article->update(["total_id"=>$total->id]);
@@ -54,6 +60,7 @@ class TotalController extends Controller
     public function show(Total $total)
     {
         //
+        return response()->json(["total"=>$total],200);
     }
 
     /**
@@ -80,6 +87,24 @@ class TotalController extends Controller
         //
         $total->articles()->each(fn ($article) => $article->update(["total_id"=>null]));
         $status =  $total->delete();
+        return response()->json(["status"=>$status],200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function delete_collect() : JsonResponse
+    {
+        //
+        $data = request()->validate([
+            "totals.*" => "sometimes|exists:totals,id"
+        ]);
+        $totals = Total::find($data["totals"]);
+        $status = false ;
+        foreach ($totals as $total) {
+            $total->articles()->each(fn ($article) => $article->update(["total_id"=>null]));
+            $status = $total->delete();
+        }
         return response()->json(["status"=>$status],200);
     }
 }

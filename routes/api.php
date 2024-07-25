@@ -40,7 +40,8 @@ Route::middleware(["auth:sanctum"])->group(function () {
         "products" => ProductController::class,
         "capitals" => CapitalController::class,
         "totals" => TotalController::class,
-    ]); 
-    //get auth user with
+    ]);
+    Route::post("totals_collect", [TotalController::class, "delete_collect"]);
+    
     #endregion
 });

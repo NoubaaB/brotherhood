@@ -9,14 +9,7 @@
             </v-col>
           </template>
           <v-col v-else cols="12" md="6" class="text-center">
-              <span class="d-block">
-                No Articles Available to Show 
-              </span>
-              <v-img
-                  alt="empty"
-                  width="30"
-                  src="/storage/24-hours.gif"
-              ></v-img>
+              <NoItemInList/>
           </v-col>
         </template>
         <div v-else>
@@ -41,12 +34,14 @@
 </template>
 <script>
 import { useDashboard } from '@/stores/Dashboard';
+import NoItemInList from "@/components/global/NoItemInList.vue";
 import { useArticle } from '@/stores/Article';
 
 import Article from "@/components/articles/Article.vue"
 export default {
   components: {
-    Article
+    Article,
+    NoItemInList
   },
   computed: {
     dashboard: function () {

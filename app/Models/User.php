@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Total;
 use App\Models\Article;
 use App\Models\Capital;
 use Laravel\Sanctum\HasApiTokens;
@@ -56,5 +57,9 @@ class User extends Authenticatable
 
     function Capitals() : HasMany {
         return $this->hasMany(Capital::class);
+    }
+
+    function totals() : HasMany {
+        return $this->hasMany(Total::class);
     }
 }

@@ -25,9 +25,10 @@
     </v-row>
 </template>
 <script>
-import { useDashboard } from "@/stores/Dashboard.js"
-import { useArticle } from "@/stores/Article";
 export default {
+    props: {
+        StateModel:Object
+    },
     data() {
         return {
             date_picker: new Date(),
@@ -38,28 +39,22 @@ export default {
         this.date_picker = [moment().subtract(6, "days").format("YYYY-MM-DD"),moment().format("YYYY-MM-DD")];
     },
     computed: {
-        dashboard: function () {
-            return useDashboard();
-        },
-        article: function () {
-            return useArticle(); 
-        }, 
         maxDate: function () {
             return moment().format("YYYY-MM-DD")
         }
     },
     watch: {
         date_picker: function (val) {
-            this.dashboard.date_start = moment(val[0]).format("YYYY-MM-DD");
-            this.dashboard.date_end = moment(val[1]).format("YYYY-MM-DD");
-            this.dashboard.getData();
+            this.StateModel.date_start = moment(val[0]).format("YYYY-MM-DD");
+            this.StateModel.date_end = moment(val[1]).format("YYYY-MM-DD");
+            this.StateModel.getData();
         },
         free: function (val) {
             if (val) {
                 this.date_picker = [moment().subtract(6, "days").format("YYYY-MM-DD"),moment().format("YYYY-MM-DD")];
             } else {
                 this.date_picker = [
-                    this.dashboard.date_start, this.dashboard.date_end
+                    this.StateModel.date_start, this.StateModel.date_end
                 ]
             }
         }

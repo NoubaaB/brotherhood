@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('totals', function (Blueprint $table) {
             $table->id();
+            $table->date("date");
             $table->double("amount")->default(0.00);
 
+            $table->foreignId('user_id')->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
         });

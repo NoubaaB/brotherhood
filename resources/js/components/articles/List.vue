@@ -9,7 +9,7 @@
     </v-row>
     <v-row>
         <v-col>
-            <DatePicker>
+            <DatePicker :StateModel="dashboard">
                 <template v-slot:add>
                     <v-col>
                         <v-chip-group center-active v-model="article.article_filter" filter multiple @update:modelValue="article.resetBillPlanning">
@@ -69,7 +69,7 @@
     </v-snackbar>
 </template>
 <script>
-import DatePicker from "@/components/dashboard/DatePicker.vue";
+import DatePicker from "@/components/global/DatePicker.vue";
 import Articles from "@/components/articles/Articles.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 import { useArticle } from "@/stores/Article";

@@ -55,8 +55,6 @@ class ArticleController extends Controller
         }
 
         return response()->json(["articles"=>$articles],200);
-        
-
     }
 
     /**

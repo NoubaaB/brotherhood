@@ -18,6 +18,8 @@ class TotalFactory extends Factory
     {
         return [
             //
+            "date" => fake()->dateTimeBetween("-1 days", "now"),
+            "user_id"=>fake()->numberBetween(1,2)
         ];
     }
 }
