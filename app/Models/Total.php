@@ -18,6 +18,23 @@ class Total extends Model
 
     protected $with = ["articles","user"];
 
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+
+        parent::boot();
+
+        //manage resources
+        static::saving(fn ($model) => $model->amount = $model->articles()->sum("price"));
+        
+        static::deleting(fn ($model) => $model->articles()->each(fn($article)=>$article->update(["total_id"=>null])));
+    }
+
+
     function articles() : HasMany {
         return $this->hasMany(Article::class);
     }
