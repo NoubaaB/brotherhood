@@ -9,7 +9,7 @@
     </v-row>
     <div class="center_div">
         <v-row align="center" justify="center" class="mt-auto">
-            <v-col class="text-center">
+            <v-col>
                 <Article v-if="article" :article="article"/>
                 <v-skeleton-loader
                 v-else

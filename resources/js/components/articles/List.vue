@@ -42,7 +42,7 @@
       v-model="snackbar_bill"
       color="white"
     >
-        Bill
+        Bill N° :
         <strong class="text-blue">
             {{total.id}}
         </strong>
