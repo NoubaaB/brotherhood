@@ -25,6 +25,11 @@ export const useBill = defineStore("Bill", {
                 });
             }
         },
+        getBill: async function (id) {
+            return await axios.get(`/api/totals/${id}`).then(res => {
+                return res.data.total
+            })
+        },
         deleteBill: async function (bill_id) {
             return axios.delete(`/api/totals/${bill_id}`).then(res => {
                 this.bills = this.bills.filter(e=>e.id != bill_id)
@@ -58,8 +63,10 @@ export const useBill = defineStore("Bill", {
                 let bill = this.bills.find(bill => bill.id == bill_id)
                 if (bill) {
                     bill.articles = bill.articles.filter(article => article.id != article_id)
+                    return false
+                } else {
+                    return true
                 }
-                return res
             });
         }
     },

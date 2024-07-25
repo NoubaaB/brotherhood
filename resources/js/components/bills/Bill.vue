@@ -2,7 +2,7 @@
     <div :id="bill.id" class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <v-card hover @dblclick="viewBill" class="mx-auto" :class="{ on_delete:on_delete }">
+                <v-card hover class="mx-auto" :class="{ on_delete:on_delete }">
                     <template v-slot:loader>
                         <v-progress-linear
                             :active="loading_bill"
@@ -70,6 +70,7 @@
                             {{ expand ? "Hide":"Show" }} Bill's Articles >  
                         </p>
                         <v-spacer></v-spacer>
+                        <v-btn class="mr-2" color="green-darken-1" size="x-small" variant="tonal" icon="mdi-text-box" @click="viewBill" v-if="!$route.params.id" ></v-btn>
                         <v-btn class="mr-2" color="deep-purple-darken-1" size="x-small" variant="tonal" :icon="expand ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="expand = !expand"></v-btn>
                     </v-card-actions>
                     <v-expand-transition>
@@ -215,7 +216,11 @@ export default {
             this._bill.toggleBill(this.bill.id)
         },
         unBillArticle: async function (article_id , bill_id) {
-            await this._bill.unBillArticle(article_id , bill_id)
+            await this._bill.unBillArticle(article_id, bill_id).then(res => {
+                if (res) {
+                    this.bill.articles = this.bill.articles.filter(article => article.id != article_id)
+                }
+            })
         },
         rollback: function () {
             this.pause = true;

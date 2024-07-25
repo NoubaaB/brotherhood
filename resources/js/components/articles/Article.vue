@@ -2,7 +2,7 @@
     <div :id="article.id" class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <v-card hover @click="viewArticle" class="mx-auto" :class="{ on_delete:on_delete ,'bg-blue-grey-lighten-5': (article.total_id >> 0 && article.total_id !== true  && !on_delete)}">
+                <v-card hover class="mx-auto" :class="{ on_delete:on_delete ,'bg-blue-grey-lighten-5': (article.total_id >> 0 && article.total_id !== true  && !on_delete)}">
                     <template v-slot:loader>
                         <v-progress-linear
                             :active="loading_bill"
@@ -68,7 +68,7 @@
                         <v-tooltip location="top" :text="article.is_private  ? 'Only Me' : 'To All Brotherhood'">
                             <template v-slot:activator="{ props }">
                                 <v-chip v-bind="props" variant="tonal" :color="article.is_private  ? 'red' : 'green'">
-                                    <v-icon>{{ article.is_private  ? "mdi-eye-off" : "mdi-eye"}}</v-icon>
+                                    <v-icon @click="viewArticle">{{ article.is_private  ? "mdi-eye-off" : "mdi-eye"}}</v-icon>
                                 </v-chip>
                             </template>
                         </v-tooltip>
