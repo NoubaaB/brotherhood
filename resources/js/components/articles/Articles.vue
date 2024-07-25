@@ -13,19 +13,8 @@
           </v-col>
         </template>
         <div v-else>
-          <v-col cols="12" md="6">
-            <v-card
-              v-for="(index) in 3"
-              class="mb-3"
-              :key="index"
-            >
-              <v-card-text>
-                <v-skeleton-loader
-                  min-width="344"
-                  type="list-item-avatar-two-line , list-item-two-line ,table-tfoot"
-                ></v-skeleton-loader>
-              </v-card-text>
-            </v-card>
+          <v-col>
+            <Skeleton :n="3" :type="'list-item-avatar-two-line , list-item-two-line ,table-tfoot'"/>
           </v-col>
         </div>
     </v-row>
@@ -35,12 +24,14 @@
 <script>
 import { useDashboard } from '@/stores/Dashboard';
 import NoItemInList from "@/components/global/NoItemInList.vue";
+import Skeleton from "@/components/global/Skeleton.vue";
 import { useArticle } from '@/stores/Article';
 
 import Article from "@/components/articles/Article.vue"
 export default {
   components: {
     Article,
+    Skeleton,
     NoItemInList
   },
   computed: {
