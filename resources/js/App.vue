@@ -1,13 +1,22 @@
 <template>
-  <v-app>
+    <v-app>
 
-    <NavBar :drawer="drawer"/>
+      <NavBar :drawer="drawer"/>
 
-    <NavigationDrawer v-if="auth.is_auth" :drawer="drawer"/>
+      <NavigationDrawer v-if="auth.is_auth" :drawer="drawer"/>
 
-    <Main/>
-  
-  </v-app>
+      <Main class="mb-12" />
+    
+    </v-app>
+    <v-btn
+      v-show="showButton"
+      color="blue-darken-1"
+      class="floating-btn"
+      @click="scrollToTop"
+      icon="mdi-chevron-up"
+    >
+    </v-btn>
+
 </template>
 
 <script>
@@ -19,7 +28,8 @@
   export default {
     data() {
       return {
-        drawer: null
+        drawer: null,
+        showButton:false
       }
     },
     components:{
@@ -27,10 +37,34 @@
         NavigationDrawer,
         Main
     },
+    methods: {
+      scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+      handleScroll() {
+        this.showButton = window.scrollY > 200;
+      }
+    },
     computed: {
       auth: function () {
         return useAuth();
       }      
+    },
+    mounted : function() {
+      window.addEventListener('scroll', this.handleScroll);
+    },
+    beforeDestroy : function() {
+      window.removeEventListener('scroll', this.handleScroll);
     }
+
   }
 </script>
+<style>
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+</style>

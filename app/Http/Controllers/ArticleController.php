@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CreateArticleEvent;
 use App\Models\Article;
 use App\Http\Controllers\Controller;
 use App\Models\Capital;
@@ -53,6 +54,8 @@ class ArticleController extends Controller
             $article = Article::create($article);
             $articles[] = $article;
         }
+
+        broadcast(new CreateArticleEvent($article));
 
         return response()->json(["articles"=>$articles],200);
     }

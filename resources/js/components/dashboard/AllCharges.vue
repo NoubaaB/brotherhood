@@ -18,7 +18,7 @@
         <v-card-item class="px-5 text-center">
             <v-row>
                 <v-col>
-                    <v-chip color="green" variant="tonal">
+                    <v-chip color="blue" variant="tonal">
                         <v-icon class="mr-2">
                             mdi-cash-refund
                         </v-icon>
@@ -26,7 +26,7 @@
                     </v-chip>
                 </v-col>
                 <v-col>
-                    <v-chip color="blue" variant="tonal">
+                    <v-chip color="green" variant="tonal">
                         <v-icon class="mr-2">
                             mdi-cash-fast
                         </v-icon>
@@ -115,12 +115,12 @@ export default {
         series: function () {
             return [
                 {
-                    name: "Other Share",
-                    data: this.dashboard.amounts_brotherhood
-                },
-                {
                     name: "Your Share",
                     data: this.dashboard.amounts_all
+                },
+                {
+                    name: "Other Share",
+                    data: this.dashboard.amounts_brotherhood
                 }
             ]
         },

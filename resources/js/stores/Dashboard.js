@@ -60,6 +60,7 @@ export const useDashboard = defineStore("Dashboard", {
             state.dates.forEach(date => {
                 let sum = _.sumBy(state.articles.filter(article => (
                     state.auth.getAuth.id == article.user_id
+                    && !article.is_private
                     && article.date == date)
                 ), "price");
                 data.push(sum)

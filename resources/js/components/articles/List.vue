@@ -73,6 +73,7 @@ import DatePicker from "@/components/global/DatePicker.vue";
 import Articles from "@/components/articles/Articles.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 import { useArticle } from "@/stores/Article";
+import { useAuth } from "@/stores/Auth";
 
 export default {
     components: {
@@ -92,6 +93,9 @@ export default {
         },
         article: function () {
                 return useArticle();
+        },
+        auth: function () {
+            return useAuth()
         }
     },
     methods: {
@@ -112,6 +116,10 @@ export default {
     },
     mounted: function () {
         this.dashboard.getData();
+        console.log("sdsdsd")
+        Echo.private(`articles`).listen("CreateArticleEvent", (event => {
+            console.log("event",event)
+        })); 
     },
     watch: {
         "dashboard.date_start": function () {
