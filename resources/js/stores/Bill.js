@@ -66,6 +66,9 @@ export const useBill = defineStore("Bill", {
     getters: {
         getBillQueue: state => {
             return state.bills.filter(bill => bill.selected === true);
-        }
+        },
+        total_bills: (state) => {
+            return _.sumBy(state.bills, "amount");
+        },
     }
 });

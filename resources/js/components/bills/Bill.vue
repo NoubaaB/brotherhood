@@ -75,8 +75,6 @@
                     <v-expand-transition>
                         <div v-if="expand" class="bg-blue-lighten-5">
                             <v-list lines="two" class="bg-blue-lighten-5">
-                                <v-list-subheader inset>List Articles</v-list-subheader>
-
                                 <v-list-item
                                     v-for="article in bill.articles"
                                     :key="article.id"

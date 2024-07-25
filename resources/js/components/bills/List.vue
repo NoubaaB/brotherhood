@@ -66,7 +66,7 @@ export default {
     },
     computed: {
         bill: function () {
-                return useBill();
+            return useBill();
         }
     },
     methods: {
