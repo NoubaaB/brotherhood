@@ -45,7 +45,7 @@
                             hide-details
                             @click="toggleBill"
                             color="primary"
-                            v-if="!$route.params.id&&(article.total_id === null || article.total_id === true || article.total_id === false)"
+                            v-if="!$route.params.id&&(article.total_id === null || article.total_id === true || article.total_id === false)&&(!article.is_private)"
                             ></v-checkbox>
                         </div>
                     </template>

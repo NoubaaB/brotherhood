@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Total;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Events\CreateBillEvent;
+use App\Events\DeleteBillEvent;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
@@ -47,11 +49,16 @@ class TotalController extends Controller
             "user_id" => auth()->id()
         ]);
         $sum = 0.00;
+        $articles_id = [];
         foreach ($articles as $article) {
             $article->update(["total_id"=>$total->id]);
             $sum += $article->price;
+            $articles_id [] = $article->id;
         }
         $total->update(["amount"=>$sum]);
+        $total->load("user");
+        $total->load("articles");
+        broadcast(new CreateBillEvent($total, $articles_id))->toOthers();
 
         return response()->json(["total" => $total], 200);
 
@@ -89,6 +96,7 @@ class TotalController extends Controller
     {
         //
         $total->articles()->each(fn ($article) => $article->update(["total_id"=>null]));
+        broadcast(new DeleteBillEvent($total, $total->articles->map(fn($item)=>$item->id)))->toOthers();
         $status =  $total->delete();
         return response()->json(["status"=>$status],200);
     }

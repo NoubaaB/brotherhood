@@ -119,23 +119,30 @@ export const useArticle = defineStore("Article", {
         articles: (state) => {
             let data = [];
             if (state.article_filter.find(e => e == "0")) {
-                data.push(...state.dashboard.articles.filter(article => (
+                data.push(...state.regular_articles.filter(article => (
                     state.auth.getAuth.id == article.user_id)));
             }
             if (state.article_filter.find(e => e == "1")) {
-                data.push(...state.dashboard.articles.filter(article => (!article.is_private &&
+                data.push(...state.regular_articles.filter(article => (!article.is_private &&
                     (article.user_id != state.auth.getAuth.id))));
             }
             if (state.article_filter.find(e => e == "2")) {
                 data = data.filter(article => article.total_id);
             }
+            if (state.article_filter.find(e => e == "3")) {
+                data = data.filter(article => !article.is_private);
+            }
             return _.orderBy(data, ["star", "date"], ["desc","desc"]);
         },
         total_articles: (state) => {
-            return _.sumBy(state.articles, "price");
+            return _.sumBy(state.regular_articles, "price");
         },
         getBillQueue: (state) => {
-            return state.dashboard.articles.filter(article=>article.total_id === true)
+            return state.regular_articles.filter(article=>article.total_id === true)
+        },
+        regular_articles: (state) => {
+            return state.dashboard.articles.filter(article => (article.user_id == state.auth.getAuth.id)
+                || (article.user_id != state.auth.getAuth.id && !article.is_private))
         }
     }
 });

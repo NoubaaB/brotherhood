@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\CreateArticleEvent;
+use App\Models\Total;
 use App\Models\Article;
-use App\Http\Controllers\Controller;
 use App\Models\Capital;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Events\DeleteBillEvent;
+use App\Events\UpdateBillEvent;
+use Illuminate\Http\JsonResponse;
+use App\Events\CreateArticleEvent;
+use App\Events\DeleteArticleEvent;
+use App\Events\UpdateArticleEvent;
+use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
@@ -55,7 +60,7 @@ class ArticleController extends Controller
             $articles[] = $article;
         }
 
-        broadcast(new CreateArticleEvent($article));
+        broadcast(new CreateArticleEvent($article))->toOthers();
 
         return response()->json(["articles"=>$articles],200);
     }
@@ -92,7 +97,20 @@ class ArticleController extends Controller
             "article.product_id" => "sometimes|exists:products,id",
             "article.total_id" => "sometimes|nullable|numeric"
         ]);
+        $total_id = $article->total_id;
         $article->update($data["article"]);
+        
+        if(($total_id != null)){
+            $total = Total::find($total_id);
+            $total->calc();
+            broadcast(new UpdateBillEvent($total))->toOthers();
+            if(count($total->articles)==0){
+                broadcast(new DeleteBillEvent($total,[$article->id]))->toOthers();
+                $total->delete();
+            }
+        }
+
+        broadcast(new UpdateArticleEvent($article))->toOthers();
 
         return response()->json(["article" => $article], 200);
     }
@@ -103,6 +121,7 @@ class ArticleController extends Controller
     public function destroy(Article $article) : JsonResponse
     {
         //
+        broadcast(new DeleteArticleEvent($article))->toOthers();
         $status = $article->delete();
         return response()->json(["status"=>$status],200);
     }

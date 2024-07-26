@@ -1,6 +1,7 @@
 import "./bootstrap";
 // Plugins
 import { registerPlugins } from '@/plugins/create.js';
+import { establish } from "@/plugins/handleSocket";
 
 // Components
 import App from './App.vue';
@@ -15,4 +16,6 @@ const app = createApp(App)
 
 await registerPlugins(app)
 
-app.mount('#app')
+app.mount('#app').$nextTick(() => {
+    establish();
+})

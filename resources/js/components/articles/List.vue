@@ -16,6 +16,7 @@
                             <v-chip value="0" color="red">My Article</v-chip>
                             <v-chip value="1" color="green">Other Articles</v-chip>
                             <v-chip value="2" color="blue">Bills</v-chip>
+                            <v-chip value="3" color="purple-lighten-2"><v-icon>mdi-eye</v-icon></v-chip>
                         </v-chip-group>
                     </v-col>
                 </template>
@@ -115,11 +116,7 @@ export default {
         }
     },
     mounted: function () {
-        this.dashboard.getData();
-        console.log("sdsdsd")
-        Echo.private(`articles`).listen("CreateArticleEvent", (event => {
-            console.log("event",event)
-        })); 
+        this.dashboard.getData(); 
     },
     watch: {
         "dashboard.date_start": function () {

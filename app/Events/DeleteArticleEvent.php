@@ -11,14 +11,14 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CreateArticleEvent implements ShouldBroadcast
+class DeleteArticleEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public Article $article)
+    public function __construct(public Article $article )
     {
         //
     }
@@ -31,7 +31,7 @@ class CreateArticleEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel("articles"),
+            new PrivateChannel('articles'),
         ];
     }
 }
