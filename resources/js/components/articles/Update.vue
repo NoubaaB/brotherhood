@@ -88,6 +88,9 @@ export default {
         } else {
             this.article = article;
         }
+        if (!this.dashboard.articles.find(__article => __article.id == this.$route.params.id)) {
+            this.dashboard.articles.push(this.article);
+        };
     },
     computed: {
         _article: function () {

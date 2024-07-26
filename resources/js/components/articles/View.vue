@@ -48,6 +48,7 @@
 <script>
 import Article from "@/components/articles/Article.vue"
 import { useArticle } from '@/stores/Article';
+import { useDashboard } from '@/stores/Dashboard';
 
 export default {
     components: {
@@ -61,6 +62,9 @@ export default {
     computed: {
         _article: function () {
             return useArticle();
+        },
+        dashboard: function(){
+            return useDashboard();
         }
     },
     mounted: async function () {
@@ -72,6 +76,9 @@ export default {
         } else {
             this.article = article;
         }
+        if (!this.dashboard.articles.find(__article => __article.id == this.$route.params.id)) {
+            this.dashboard.articles.push(this.article);
+        };
     },
     methods: {
         goToCreateArticles: function () {

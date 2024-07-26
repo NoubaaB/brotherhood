@@ -60,6 +60,19 @@ export default {
         } else {
             this.bill = bill;
         }
+        if (!this._bill.bills.find(__bill => __bill.id == this.$route.params.id)) {
+            this._bill.bills.push(this.bill);
+        };
+    },
+    watch: {
+        bill: {
+            deep: true,
+            handler: function () {
+                if (this.bill.articles.length == 0) {
+                    this.$router.push({name:'bills.list'})
+                }
+            }
+        }
     }
 }
 </script>
