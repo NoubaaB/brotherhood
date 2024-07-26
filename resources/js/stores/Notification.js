@@ -4,8 +4,9 @@ import { defineStore } from "pinia";
 export const useNotification = defineStore("Notification", {
     state: () => {
         return {
-            notifiactions: [],
+            notifications: [],
             page: 1,
+            unread: 1,
             domain:"127.0.0.1:8000"
         }
     },
@@ -17,15 +18,17 @@ export const useNotification = defineStore("Notification", {
                     domain : this.domain
                 }
             }).then(res => {
-                this.notifiactions = res.data.notifiactions;
-                return this.notifiactions.length;
+                console.log("res.data.notifications.data", res.data.notifications.data)
+                this.notifications = res.data.notifications.data;
+                this.unread = res.data.count;
+                return this.notifications.length;
             })
         }
 
     },
     getters: {
         length: state => {
-            return state.notifiactions.length;
+            return state.notifications.length;
         }
     }
 });

@@ -282,7 +282,4 @@ export default {
 .on_delete{
     animation: danger_morph 1s infinite;
 }
-.img_border_radius{
-    border-radius: 50%;
-}
 </style>
