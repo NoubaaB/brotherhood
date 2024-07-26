@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Article;
 use App\Models\Capital;
+use App\Models\Notification;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Product;
@@ -35,5 +36,6 @@ class DatabaseSeeder extends Seeder
         foreach ($totals as $total) {
             $total->update(["amount"=>$total->articles()->sum("price")]);
         }
+        Notification::factory(30)->create();
     }
 }

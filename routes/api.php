@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TotalController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CapitalController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProductController;
 
 #region non-authentication routes
@@ -40,6 +41,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
         "products" => ProductController::class,
         "capitals" => CapitalController::class,
         "totals" => TotalController::class,
+        "notifications" => NotificationController::class,
     ]);
     Route::post("totals_collect", [TotalController::class, "delete_collect"]);
     

@@ -5,19 +5,23 @@
         </template>
 
         <v-app-bar-title class="text-center">Brotherhood App</v-app-bar-title>
-
         <template v-slot:append>
+            <Notification/>
             <v-btn icon="mdi-account-edit"></v-btn>
         </template>
     </v-app-bar>
 </template>
 <script>
-import {useAuth} from "@/stores/Auth.js";
+import { useAuth } from "@/stores/Auth.js";
+import Notification from "./Notification.vue"
 export default {
     data:function(){
         return {
 
         }
+    },
+    components: {
+        Notification
     },
     computed:{
         auth:function(){

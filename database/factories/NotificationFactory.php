@@ -18,6 +18,13 @@ class NotificationFactory extends Factory
     {
         return [
             //
+            "opertaion"=>fake()->randomElement(["Update", "Delete", "Create"]),
+            "url"=>fake()->url(),
+            "text"=>fake()->text(150),
+            "model"=>fake()->randomElement(["bill", "article", "capital"]),
+            "read"=>fake()->boolean(),
+            "notify_user_id"=>fake()->randomElement([1,2]),
+            "trigger_user_id"=>fake()->randomElement([1,2]),
         ];
     }
 }
