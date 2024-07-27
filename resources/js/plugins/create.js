@@ -11,7 +11,6 @@ import '@vuepic/vue-datepicker/dist/main.css'
 
 import methods from "@/plugins/methods.js";
 import { useAuth } from '@/stores/Auth';
-import { useNotification } from "@/stores/Notification";
 
 import pinia from "@/stores";
 const vuetify = createVuetify({
@@ -35,9 +34,7 @@ export async function registerPlugins(app) {
     if (localStorage.getItem("token")) {
         await useAuth().attemp().catch(err => {
             router.push({ name: "login" })
-        }).then(res => {
-            useNotification().init();
-        })
+        });
     }
 
     app.use(router)

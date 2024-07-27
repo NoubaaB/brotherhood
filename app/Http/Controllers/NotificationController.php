@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use App\Http\Controllers\Controller;
+use App\Jobs\ReadNotificationJob;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -14,17 +15,11 @@ class NotificationController extends Controller
     public function index()
     {
         //
-        $page_number = request()->query("page");
-        $domain = request()->query("domain");
         $user_id = auth()->id();
         $notifications = Notification::where("notify_user_id", $user_id)
         ->latest()->with("notify_user")
-        ->paginate(10)->setPath("$domain/api/dashboard/notifications");
-        if ($page_number >= 2) {
-            foreach ($notifications->getCollection() as $notification) {
-                $notification->update(["read" => true]);
-            }
-        }
+        ->paginate(10);
+
         $count = Notification::where("notify_user_id", $user_id)->where("read", false)->count();
         return response()->json(['notifications' => $notifications, 'count' => $count], 200);
 
@@ -44,6 +39,12 @@ class NotificationController extends Controller
     public function store(Request $request)
     {
         //
+        $url = $request->get("url");
+        $user_id = auth()->id();
+        $notifications = Notification::where("notify_user_id", $user_id)
+        ->latest()->with("notify_user")
+        ->paginate(10)->setPath("http://$domain/api/dashboard/notifications");
+        ReadNotificationJob::dispatch($notifications);
     }
 
     /**

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->enum("opertaion",["Update","Delete","Create"]);
+            $table->enum("operation",["Edit","Delete","Create"]);
             $table->string("url",200);
             $table->string("text",200);
             $table->string("model",15);

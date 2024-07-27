@@ -1,18 +1,19 @@
 
 import { useDashboard } from "@/stores/Dashboard.js";
 import { useBill } from "@/stores/Bill.js";
+import { initSocket } from "@/echo";
 
 export function establish() {
     let dashbaord = useDashboard();
     let bill = useBill();
-    
+    initSocket();
     //start articles websockets
     Echo.private(`articles`)
         .listen("CreateArticleEvent", (event => {
-        console.log("CreateArticleEvent", event)
-        if (dashbaord.articles.find(article => article.id != event.article.id )) {
-            dashbaord.articles.push(event.article);
-        }
+            console.log("CreateArticleEvent", event)
+            if (dashbaord.articles.find(article => article.id != event.article.id)) {
+                dashbaord.articles.push(event.article);
+            }
         })).listen("UpdateArticleEvent", (event => {
             console.log("UpdateArticleEvent", event)
             let article = dashbaord.articles.find(article => article.id == event.article.id);
@@ -35,16 +36,16 @@ export function establish() {
     //start bills websockets
     Echo.private(`bills`)
         .listen("CreateBillEvent", (event => {
-        if (bill.bills.find(bill => bill.id != event.total.id)) {
-            console.log("enter sandman")
-            bill.bills.push(event.total);
-        }
-        event.articles.forEach(article_id => {
-            let article = dashbaord.articles.find(__article => __article.id == article_id);
-            if (article) {
-                article.total_id = event.total.id
+            if (bill.bills.find(bill => bill.id != event.total.id)) {
+                console.log("enter sandman")
+                bill.bills.push(event.total);
             }
-        })
+            event.articles.forEach(article_id => {
+                let article = dashbaord.articles.find(__article => __article.id == article_id);
+                if (article) {
+                    article.total_id = event.total.id
+                }
+            })
         })).listen("UpdateBillEvent", (event => {
             let _bill = bill.bills.find(bill => bill.id == event.total.id);
             if (_bill) {

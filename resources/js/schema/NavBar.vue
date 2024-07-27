@@ -6,14 +6,14 @@
 
         <v-app-bar-title class="text-center">Brotherhood App</v-app-bar-title>
         <template v-slot:append>
-            <Notification/>
+            <Notifications v-if="auth.is_auth"/>
             <v-btn icon="mdi-account-edit"></v-btn>
         </template>
     </v-app-bar>
 </template>
 <script>
 import { useAuth } from "@/stores/Auth.js";
-import Notification from "./Notification.vue"
+import Notifications from "@/schema/Notifications.vue"
 export default {
     data:function(){
         return {
@@ -21,7 +21,7 @@ export default {
         }
     },
     components: {
-        Notification
+        Notifications
     },
     computed:{
         auth:function(){
