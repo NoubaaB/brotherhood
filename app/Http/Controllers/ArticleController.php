@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Total;
+use App\Models\Bill;
 use App\Models\Article;
 use App\Models\Capital;
 use Illuminate\Http\Request;
@@ -99,18 +99,18 @@ class ArticleController extends Controller
             "article.price" => "sometimes|numeric",
             "article.is_private" => "sometimes|boolean",
             "article.product_id" => "sometimes|exists:products,id",
-            "article.total_id" => "sometimes|nullable|numeric"
+            "article.bill_id" => "sometimes|nullable|numeric"
         ]);
-        $total_id = $article->total_id;
+        $bill_id = $article->bill_id;
         $article->update($data["article"]);
         
-        if(($total_id != null)){
-            $total = Total::find($total_id);
-            $total->calc();
-            broadcast(new UpdateBillEvent($total))->toOthers();
-            if(count($total->articles)==0){
-                broadcast(new DeleteBillEvent($total,[$article->id]))->toOthers();
-                $total->delete();
+        if(($bill_id != null)){
+            $bill = Bill::find($bill_id);
+            $bill->calc();
+            broadcast(new UpdateBillEvent($bill))->toOthers();
+            if(count($bill->articles)==0){
+                broadcast(new DeleteBillEvent($bill,[$article->id]))->toOthers();
+                $bill->delete();
             }
         }
         if(!$article->is_private){

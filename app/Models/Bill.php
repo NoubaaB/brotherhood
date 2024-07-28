@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Total extends Model
+class Bill extends Model
 {
     use HasFactory , SoftDeletes;
 
@@ -28,7 +28,7 @@ class Total extends Model
         parent::boot();
 
         //manage resources
-        static::deleting(fn ($model) => $model->articles()->each(fn($article)=>$article->update(["total_id"=>null])));
+        static::deleting(fn ($model) => $model->articles()->each(fn($article)=>$article->update(["bill_id"=>null])));
     }
 
     function articles() : HasMany {

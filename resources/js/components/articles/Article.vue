@@ -2,7 +2,7 @@
     <div :id="article.id" class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <v-card hover class="mx-auto" :class="{ on_delete:on_delete ,'bg-blue-grey-lighten-5': (article.total_id >> 0 && article.total_id !== true  && !on_delete)}">
+                <v-card hover class="mx-auto" :class="{ on_delete:on_delete ,'bg-blue-grey-lighten-5': (article.bill_id >> 0 && article.bill_id !== true  && !on_delete)}">
                     <template v-slot:loader>
                         <v-progress-linear
                             :active="loading_bill"
@@ -41,11 +41,11 @@
                         </div>
                         <div>
                             <v-checkbox
-                            :model-value="!!article.total_id"
+                            :model-value="!!article.bill_id"
                             hide-details
                             @click="toggleBill"
                             color="primary"
-                            v-if="!$route.params.id&&(article.total_id === null || article.total_id === true || article.total_id === false)&&(!article.is_private)"
+                            v-if="!$route.params.id&&(article.bill_id === null || article.bill_id === true || article.bill_id === false)&&(!article.is_private)"
                             ></v-checkbox>
                         </div>
                     </template>
@@ -63,7 +63,7 @@
                     <v-card-actions class="text-green bg-amber-lighten-5">
                         <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(article.price) }} MAD
                         <v-spacer></v-spacer>
-                        <v-btn class="mr-2" color="deep-purple-darken-1" size="x-small" variant="tonal" icon="mdi-text-box-remove" @click="cancelBill" v-if="article.total_id >> 0 && article.total_id !== true"></v-btn>
+                        <v-btn class="mr-2" color="deep-purple-darken-1" size="x-small" variant="tonal" icon="mdi-text-box-remove" @click="cancelBill" v-if="article.bill_id >> 0 && article.bill_id !== true"></v-btn>
                         <v-btn class="mr-2" color="orange" size="x-small" variant="tonal" icon="mdi-pencil" @click="aditArticle" v-if="article.user_id == auth.getAuth.id"></v-btn>
                         <v-tooltip location="top" :text="article.is_private  ? 'Only Me' : 'To All Brotherhood'">
                             <template v-slot:activator="{ props }">

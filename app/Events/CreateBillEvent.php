@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Total;
+use App\Models\Bill;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -19,7 +19,7 @@ class CreateBillEvent implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(public Total $total , public $articles)
+    public function __construct(public Bill $bill , public $articles)
     {
         //
     }

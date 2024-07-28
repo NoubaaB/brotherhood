@@ -29,7 +29,7 @@ export function establish() {
                 article.star = event.article.star;
                 article.user_id = event.article.user_id;
                 article.product_id = event.article.product_id;
-                article.total_id = event.article.total_id;
+                article.bill_id = event.article.bill_id;
             }
         })).listen("DeleteArticleEvent", (event => {
             console.log("DeleteArticleEvent", event)
@@ -40,32 +40,32 @@ export function establish() {
     //start bills websockets
     Echo.private(`bills`)
         .listen("CreateBillEvent", (event => {
-            if (bill.bills.find(bill => bill.id != event.total.id)) {
+            if (bill.bills.find(bill => bill.id != event.bill.id)) {
                 console.log("enter sandman")
-                bill.bills.push(event.total);
+                bill.bills.push(event.bill);
             }
             event.articles.forEach(article_id => {
                 let article = dashbaord.articles.find(__article => __article.id == article_id);
                 if (article) {
-                    article.total_id = event.total.id
+                    article.bill_id = event.bill.id
                 }
             })
         })).listen("UpdateBillEvent", (event => {
-            let _bill = bill.bills.find(bill => bill.id == event.total.id);
+            let _bill = bill.bills.find(bill => bill.id == event.bill.id);
             if (_bill) {
-                _bill.date = event.total.date;
-                _bill.amount = event.total.amount;
-                _bill.articles = event.total.articles;
-                _bill.user_id = event.total.user_id;
+                _bill.date = event.bill.date;
+                _bill.amount = event.bill.amount;
+                _bill.articles = event.bill.articles;
+                _bill.user_id = event.bill.user_id;
             }
         })).listen("DeleteBillEvent", (event => {
             console.log("DeleteBillEvent", event);
-            bill.bills = bill.bills.filter(bill => bill.id != event.total.id);
+            bill.bills = bill.bills.filter(bill => bill.id != event.bill.id);
             if (event.articles) {
                 event.articles.forEach(article_id => {
                     let article = dashbaord.articles.find(__article => __article.id == article_id);
                     if (article) {
-                        article.total_id = event.total.id
+                        article.bill_id = event.bill.id
                     }
                 })
             }

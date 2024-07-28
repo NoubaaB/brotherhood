@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Total;
+use App\Models\Bill;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Jobs\NotificationJob;
 use App\Events\CreateBillEvent;
 use App\Events\DeleteBillEvent;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
-class TotalController extends Controller
+class BillController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +21,9 @@ class TotalController extends Controller
         //
         $date_start = request()->query("date_start");
         $date_end = request()->query("date_end");
-        $totals = Total::whereBetween("date", [$date_start, $date_end])->get();
+        $bills = Bill::whereBetween("date", [$date_start, $date_end])->get();
         return response()->json([
-            "totals" => $totals,
+            "bills" => $bills,
         ], 200);
     }
 
@@ -44,39 +45,40 @@ class TotalController extends Controller
         ]);
 
         $articles = Article::find($articles["articles"]);
-        $total = Total::create([
+        $bill = Bill::create([
             "date"=>now(),
             "user_id" => auth()->id()
         ]);
         $sum = 0.00;
         $articles_id = [];
         foreach ($articles as $article) {
-            $article->update(["total_id"=>$total->id]);
+            $article->update(["bill_id"=>$bill->id]);
             $sum += $article->price;
             $articles_id [] = $article->id;
         }
-        $total->update(["amount"=>$sum]);
-        $total->load("user");
-        $total->load("articles");
-        broadcast(new CreateBillEvent($total, $articles_id))->toOthers();
+        $bill->update(["amount"=>$sum]);
+        $bill->load("user");
+        $bill->load("articles");
+        NotificationJob::dispatch("Create", "Bill", $bill->id);
+        broadcast(new CreateBillEvent($bill, $articles_id))->toOthers();
 
-        return response()->json(["total" => $total], 200);
+        return response()->json(["bill" => $bill], 200);
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Total $total)
+    public function show(Bill $bill)
     {
         //
-        return response()->json(["total"=>$total],200);
+        return response()->json(["bill"=>$bill],200);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Total $total)
+    public function edit(Bill $bill)
     {
         //
     }
@@ -84,7 +86,7 @@ class TotalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Total $total)
+    public function update(Request $request, Bill $bill)
     {
         //
     }
@@ -92,12 +94,13 @@ class TotalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Total $total) : JsonResponse
+    public function destroy(Bill $bill) : JsonResponse
     {
         //
-        $total->articles()->each(fn ($article) => $article->update(["total_id"=>null]));
-        broadcast(new DeleteBillEvent($total, $total->articles->map(fn($item)=>$item->id)))->toOthers();
-        $status =  $total->delete();
+        $bill->articles()->each(fn ($article) => $article->update(["bill_id"=>null]));
+        NotificationJob::dispatch("Delete", "Bill", "$bill->date , $bill->amount");
+        broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn($item)=>$item->id)))->toOthers();
+        $status =  $bill->delete();
         return response()->json(["status"=>$status],200);
     }
 
@@ -108,13 +111,15 @@ class TotalController extends Controller
     {
         //
         $data = request()->validate([
-            "totals.*" => "sometimes|exists:totals,id"
+            "bills.*" => "sometimes|exists:bills,id"
         ]);
-        $totals = Total::find($data["totals"]);
+        $bills = Bill::find($data["bills"]);
         $status = false ;
-        foreach ($totals as $total) {
-            $total->articles()->each(fn ($article) => $article->update(["total_id"=>null]));
-            $status = $total->delete();
+        foreach ($bills as $bill) {
+            $bill->articles()->each(fn ($article) => $article->update(["bill_id"=>null]));
+            NotificationJob::dispatch("Delete", "Bill", "$bill->date , $bill->amount");
+            broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn ($item) => $item->id)))->toOthers();
+            $status = $bill->delete();
         }
         return response()->json(["status"=>$status],200);
     }

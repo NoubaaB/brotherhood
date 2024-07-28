@@ -3,7 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Total;
+use App\Models\Bill;
 use App\Models\Article;
 use App\Models\Capital;
 use Laravel\Sanctum\HasApiTokens;
@@ -59,7 +59,7 @@ class User extends Authenticatable
         return $this->hasMany(Capital::class);
     }
 
-    function totals() : HasMany {
-        return $this->hasMany(Total::class);
+    function bills() : HasMany {
+        return $this->hasMany(Bill::class);
     }
 }

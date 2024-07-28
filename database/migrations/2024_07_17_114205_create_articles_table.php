@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->nullable()->index();
             $table->foreignId('product_id')->nullable()->index();
-            $table->foreignId('total_id')->nullable()->index();
+            $table->foreignId('bill_id')->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
         });

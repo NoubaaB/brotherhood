@@ -25,7 +25,7 @@ class ArticleFactory extends Factory
             "star"=>fake()->boolean(),
             "user_id"=>fake()->numberBetween(1,2),
             "product_id"=>fake()->numberBetween(1,33),
-            "total_id"=>fake()->randomElement([1,2,3,null, null, null, null, null, null]),
+            "bill_id"=>fake()->randomElement([1,2,3,null, null, null, null, null, null]),
         ];
     }
 }

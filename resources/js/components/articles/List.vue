@@ -45,7 +45,7 @@
     >
         Bill N° :
         <strong class="text-blue">
-            {{total.id}}
+            {{bill.id}}
         </strong>
         Has Been Created
         <template v-slot:actions>
@@ -85,7 +85,7 @@ export default {
         return {
             loading:false,
             snackbar_bill:false,
-            total:null,
+            bill:null,
         }  
     },
     computed: {
@@ -103,7 +103,7 @@ export default {
         makeBill: async function () {
             this.loading = true;
             await this.article.makeBill().then(res => {
-                this.total =  res
+                this.bill =  res
                 this.loading = false;
                 this.snackbar_bill = true;
             })
@@ -111,7 +111,7 @@ export default {
         viewBill: function () {
             this.$router.push({
                 name: "bills.view",
-                params:{id:this.total.id}
+                params:{id:this.bill.id}
             })
         }
     },

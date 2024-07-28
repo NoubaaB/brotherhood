@@ -79,35 +79,35 @@ export const useArticle = defineStore("Article", {
         cancelBill: async function (_article) {
             await axios.patch(`/api/articles/${_article.id}`, {
                 article: {
-                    total_id:null
+                    bill_id:null
                 }
             }).then(res => {
                 let article = this.dashboard.articles.find(e => e.id == _article.id);
                 if (article) {
-                    article.total_id = res.data.article.total_id;
+                    article.bill_id = res.data.article.bill_id;
 
                 }
             })
         },
         makeBill: async function () {
-            return await axios.post(`/api/totals`, {
+            return await axios.post(`/api/bills`, {
                 articles: this.getBillQueue.map(e=>e.id)
             }).then(res => {
                 this.getBillQueue.forEach(_bill_article => {
                     let article = this.dashboard.articles.find(e => e.id == _bill_article.id);
-                    article.total_id = res.data.total.id;
+                    article.bill_id = res.data.bill.id;
                 })
-                return res.data.total
+                return res.data.bill
             })
         },
         toggleBill: function (article_id) {
             let article = this.dashboard.articles.find(_article => _article.id == article_id);
             if (article) {
-                article.total_id = !article.total_id
+                article.bill_id = !article.bill_id
             }
         },
         resetBillPlanning: function () {
-            this.getBillQueue.map(article => article.total_id = false)  
+            this.getBillQueue.map(article => article.bill_id = false)  
         },
         addArticle: function () {
             this.models.push(
@@ -135,7 +135,7 @@ export const useArticle = defineStore("Article", {
                     (article.user_id != state.auth.getAuth.id))));
             }
             if (state.article_filter.find(e => e == "2")) {
-                data = data.filter(article => article.total_id);
+                data = data.filter(article => article.bill_id);
             }
             if (state.article_filter.find(e => e == "3")) {
                 data = data.filter(article => !article.is_private);
@@ -146,7 +146,7 @@ export const useArticle = defineStore("Article", {
             return _.sumBy(state.regular_articles, "price");
         },
         getBillQueue: (state) => {
-            return state.regular_articles.filter(article=>article.total_id === true)
+            return state.regular_articles.filter(article=>article.bill_id === true)
         },
         regular_articles: (state) => {
             return state.dashboard.articles.filter(article => (article.user_id == state.auth.getAuth.id)
