@@ -46,7 +46,7 @@ class BillController extends Controller
 
         $articles = Article::find($articles["articles"]);
         $bill = Bill::create([
-            "date"=>now(),
+            "date"=> date_format(now(), "Y-m-d"),
             "user_id" => auth()->id()
         ]);
         $sum = 0.00;

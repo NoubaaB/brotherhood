@@ -8,6 +8,7 @@ export const useDashboard = defineStore("Dashboard", {
             date_start: moment().subtract(6, "days").format("YYYY-MM-DD"),
             date_end: new Date().toISOString().substr(0, 10),
             articles : [],
+            bills : [],
             capital: {},
             is_fetch:false,
             auth: useAuth(),
@@ -24,6 +25,7 @@ export const useDashboard = defineStore("Dashboard", {
                     }
                 }).then(response => {
                     this.articles = _.sortBy(response.data.articles, "date");
+                    this.bills = _.sortBy(response.data.bills, "date");
                     this.capital = response.data.capital;
                     this.is_fetch = false;
                 });
@@ -79,11 +81,38 @@ export const useDashboard = defineStore("Dashboard", {
             });
             return data;
         },
+        amount_bills: state => {
+            let data = [];
+            state.dates.forEach(date => {
+                let sum = _.sumBy(state.bills.filter(bill => (bill.date == date)
+                ), "amount");
+                data.push(sum)
+            });
+            return data;
+        },
+        amount_articles: state => {
+            let data = [];
+            state.dates.forEach(date => {
+                let sum = _.sumBy(state.articles.filter(article => (article.date == date)
+                ), "price");
+                data.push(sum)
+            });
+            return data;
+        },
         dates: (state) => {
             return [...new Set(state.articles.map(article => article.date))];
         },
         dates_format: (state) => {
             return state.dates.map(e => moment(e).format("MM/DD/YYYY"));
+        },
+        total_bills: (state) => {
+            return _.sum(state.amount_bills);
+        },
+        total_articles: (state) => {
+            return _.sum(state.amount_articles);
+        },
+        total_compare: (state) => {
+            return state.total_articles-state.total_bills;
         },
         total_none_private: (state) => {
             return _.sum(state.amounts_none_private);
@@ -99,6 +128,6 @@ export const useDashboard = defineStore("Dashboard", {
         },
         total_global: (state) => {
             return _.sum([state.total_brotherhood, state.total_all]);
-        }
+        },
     }
 });

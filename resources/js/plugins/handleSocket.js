@@ -6,7 +6,7 @@ import { useAuth } from "@/stores/Auth";
 import { initSocket } from "@/echo";
 
 export function establish() {
-    let dashbaord = useDashboard();
+    let dashboard = useDashboard();
     let bill = useBill();
     let notification = useNotification();
     let auth = useAuth();
@@ -15,12 +15,12 @@ export function establish() {
     Echo.private(`articles`)
         .listen("CreateArticleEvent", (event => {
             console.log("CreateArticleEvent", event)
-            if (dashbaord.articles.find(article => article.id != event.article.id)) {
-                dashbaord.articles.push(event.article);
+            if (dashboard.articles.find(article => article.id != event.article.id)) {
+                dashboard.articles.push(event.article);
             }
         })).listen("UpdateArticleEvent", (event => {
             console.log("UpdateArticleEvent", event)
-            let article = dashbaord.articles.find(article => article.id == event.article.id);
+            let article = dashboard.articles.find(article => article.id == event.article.id);
             if (article) {
                 article.date = event.article.date;
                 article.description = event.article.description;
@@ -33,25 +33,25 @@ export function establish() {
             }
         })).listen("DeleteArticleEvent", (event => {
             console.log("DeleteArticleEvent", event)
-            dashbaord.articles = dashbaord.articles.filter(article => article.id != event.article.id);
+            dashboard.articles = dashboard.articles.filter(article => article.id != event.article.id);
         }));
     //end articles websockets
 
     //start bills websockets
     Echo.private(`bills`)
         .listen("CreateBillEvent", (event => {
-            if (bill.bills.find(bill => bill.id != event.bill.id)) {
-                console.log("enter sandman")
-                bill.bills.push(event.bill);
+            console.log("CreateBillEvent")
+            if (!dashboard.bills.find(bill => bill.id == event.bill.id)) {
+                dashboard.bills.push(event.bill);
             }
             event.articles.forEach(article_id => {
-                let article = dashbaord.articles.find(__article => __article.id == article_id);
+                let article = dashboard.articles.find(__article => __article.id == article_id);
                 if (article) {
                     article.bill_id = event.bill.id
                 }
             })
         })).listen("UpdateBillEvent", (event => {
-            let _bill = bill.bills.find(bill => bill.id == event.bill.id);
+            let _bill = dashboard.bills.find(bill => bill.id == event.bill.id);
             if (_bill) {
                 _bill.date = event.bill.date;
                 _bill.amount = event.bill.amount;
@@ -60,10 +60,10 @@ export function establish() {
             }
         })).listen("DeleteBillEvent", (event => {
             console.log("DeleteBillEvent", event);
-            bill.bills = bill.bills.filter(bill => bill.id != event.bill.id);
+            dashboard.bills = dashboard.bills.filter(bill => bill.id != event.bill.id);
             if (event.articles) {
                 event.articles.forEach(article_id => {
-                    let article = dashbaord.articles.find(__article => __article.id == article_id);
+                    let article = dashboard.articles.find(__article => __article.id == article_id);
                     if (article) {
                         article.bill_id = event.bill.id
                     }

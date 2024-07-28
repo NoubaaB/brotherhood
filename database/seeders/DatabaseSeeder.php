@@ -29,13 +29,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'test2@test2.com',
         ]);
 
-        $bills = Bill::factory(3)->create();
+        // $bills = Bill::factory(3)->create();
         Product::factory(33)->create();
         Article::factory(300)->create();
         Capital::factory(14)->create();
-        foreach ($bills as $bill) {
-            $bill->update(["amount"=>$bill->articles()->sum("price")]);
-        }
+        // foreach ($bills as $bill) {
+        //     $bill->update(["amount"=>$bill->articles()->sum("price")]);
+        // }
         Notification::factory(30)->create();
     }
 }

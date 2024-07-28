@@ -15,19 +15,22 @@
     <v-row>
         <YourCharges/>
         <AllCharges/>
+        <BillsArticlesCharges/>
     </v-row>
 </template>
 <script>
 import DatePicker from "@/components/global/DatePicker.vue";
 import YourCharges from "./YourCharges.vue";
 import AllCharges from "./AllCharges.vue";
+import BillsArticlesCharges from "./BillsArticlesCharges.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 
 export default {
     components: {
         DatePicker,
         YourCharges,
-        AllCharges
+        AllCharges,
+        BillsArticlesCharges
     },
     computed: {
         dashboard: function () {

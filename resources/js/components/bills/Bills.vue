@@ -3,8 +3,8 @@
     <v-card-text>
       <v-row align="center" justify="center" dense>
         <template v-if="!bill.is_fetch">
-          <template v-if="bill.bills.length>0">
-            <v-col cols="12" md="6" v-for="bill in bill.bills" :key="bill.id">
+          <template v-if="dashboard.bills.length>0">
+            <v-col cols="12" md="6" v-for="bill in dashboard.bills" :key="bill.id">
                 <Bill :bill="bill" />
             </v-col>
           </template>
@@ -26,6 +26,7 @@ import Bill from "@/components/bills/Bill.vue";
 import NoItemInList from "@/components/global/NoItemInList.vue";
 import Skeleton from "@/components/global/Skeleton.vue";
 import { useBill } from '@/stores/Bill';
+import { useDashboard } from "@/stores/Dashboard";
 export default {
     components: {
         Bill,
@@ -33,12 +34,15 @@ export default {
         NoItemInList
     },
     mounted: async function () {
-        await this.bill.getData();
+      await this.bill.getData();
     },
     computed: {
-        bill: function () {
-            return useBill();
-        }
+      bill: function () {
+        return useBill();
+      },
+      dashboard: function () {
+        return useDashboard();
+      }
     }
 }
 </script>
