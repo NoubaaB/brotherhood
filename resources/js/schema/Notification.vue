@@ -1,7 +1,8 @@
 <template>
     <v-list-item
         class="my-2"
-        :value="notification.id"
+        :value="notification.created_at"
+        @click="goto"
         >
         <template v-slot:prepend>
             <v-badge
@@ -38,6 +39,7 @@
 </template>
 <script>
 
+import { useNotification } from '@/stores/Notification';
 export default {
     props: {
         notification: Object,
@@ -47,6 +49,15 @@ export default {
     computed: {
         getTimeSpan: function () {
             return moment(this.notification.created_at).fromNow()
+        },
+        _notification: function () {
+            return useNotification();
+        }
+    },
+    methods: {
+        goto: function () {
+            this._notification.menu = false;
+            this.$router.push(this.notification.url)
         }
     }
 }

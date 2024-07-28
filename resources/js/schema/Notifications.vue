@@ -11,7 +11,7 @@
     <v-icon v-else>mdi-bell-outline</v-icon>
     </v-btn>
 
-    <v-menu max-height="600" :close-on-content-click="false" v-model="menu" activator="#menu-activator">
+    <v-menu max-height="600" :close-on-content-click="false" v-model="notification.menu" activator="#menu-activator">
       <v-list>
         <template
             v-for="_notification in notification.getNotifications"
@@ -69,11 +69,6 @@ export default {
     mounted: function(){
         this.notification.snackBar = this.$snackbar;  
     },
-    data() {
-        return {
-            menu:false
-        }
-    },
     computed: {
         notification: function () {
             return useNotification()
@@ -88,7 +83,7 @@ export default {
         },
     },
     watch: {
-        menu: function (val) {
+        "notification.menu": function (val) {
             if (!val) {
                 this.notification.decrementNotificationCounter()
             }

@@ -6,6 +6,7 @@ export const useNotification = defineStore("Notification", {
     state: () => {
         return {
             notifications: [],
+            menu:false,
             avatars: [
                 {
                     model: "Article",
