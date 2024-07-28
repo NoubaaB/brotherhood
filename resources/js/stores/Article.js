@@ -80,7 +80,8 @@ export const useArticle = defineStore("Article", {
             await axios.patch(`/api/articles/${_article.id}`, {
                 article: {
                     bill_id:null
-                }
+                },
+                update_bill: true
             }).then(res => {
                 let article = this.dashboard.articles.find(e => e.id == _article.id);
                 if (article) {
@@ -91,7 +92,7 @@ export const useArticle = defineStore("Article", {
         },
         makeBill: async function () {
             return await axios.post(`/api/bills`, {
-                articles: this.getBillQueue.map(e=>e.id)
+                articles: this.getBillQueue.map(e => e.id),
             }).then(res => {
                 this.getBillQueue.forEach(_bill_article => {
                     let article = this.dashboard.articles.find(e => e.id == _bill_article.id);

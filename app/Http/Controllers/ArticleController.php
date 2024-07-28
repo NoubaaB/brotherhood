@@ -104,16 +104,19 @@ class ArticleController extends Controller
         $bill_id = $article->bill_id;
         $article->update($data["article"]);
         
-        if(($bill_id != null)){
+        if($request->has("update_bill")){
             $bill = Bill::find($bill_id);
             $bill->calc();
             broadcast(new UpdateBillEvent($bill))->toOthers();
             if(count($bill->articles)==0){
+                NotificationJob::dispatch("Delete", "Bill", "$bill->date , $bill->amount");
                 broadcast(new DeleteBillEvent($bill,[$article->id]))->toOthers();
                 $bill->delete();
+            }else{
+                NotificationJob::dispatch("Edit", "Bill", $bill_id);
             }
         }
-        if(!$article->is_private){
+        if(!$article->is_private && !$request->has("update_bill") ){
             NotificationJob::dispatch("Edit", "Article", $article->id);
             broadcast(new UpdateArticleEvent($article))->toOthers();
         }
