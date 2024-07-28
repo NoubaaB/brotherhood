@@ -14,8 +14,8 @@
     <v-menu max-height="600" :close-on-content-click="false" v-model="menu" activator="#menu-activator">
       <v-list>
         <template
-          v-for="_notification in notification.getNotifications"
-          :key="_notification.id"
+            v-for="_notification in notification.getNotifications"
+            :key="_notification.created_at"
         >
             <Notification :notification="_notification" :avatar="getAvatar(_notification.model)" :icon="getIcon(_notification.operation)"/> 
         </template>
@@ -25,7 +25,15 @@
           v-if="notification.next_page_url"
         >
             <v-list-item-title @click="notification.init()">
-                See more recent activity
+                <v-icon class="mr-2 mb-1">mdi-bell</v-icon>See more recent activity
+            </v-list-item-title>
+        </v-list-item>
+        <v-list-item
+            class="my-2 text-center text-red-lighten-2"
+            v-else
+        >
+            <v-list-item-title>
+                <v-icon class="mr-2 mb-1">mdi-bell-off-outline</v-icon>No more activity to show
             </v-list-item-title>
         </v-list-item>
       </v-list>
