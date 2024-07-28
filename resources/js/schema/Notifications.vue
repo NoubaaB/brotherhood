@@ -11,7 +11,7 @@
     <v-icon v-else>mdi-bell-outline</v-icon>
     </v-btn>
 
-    <v-menu :close-on-content-click="false" v-model="menu" activator="#menu-activator">
+    <v-menu max-height="600" :close-on-content-click="false" v-model="menu" activator="#menu-activator">
       <v-list>
         <template
           v-for="_notification in notification.notifications"
@@ -22,6 +22,7 @@
 
         <v-list-item
           class="my-2 text-center text-teal-lighten-2"
+          v-if="notification.next_page_url"
         >
             <v-list-item-title @click="notification.init()">
                 See more recent activity

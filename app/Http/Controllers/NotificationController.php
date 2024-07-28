@@ -39,11 +39,13 @@ class NotificationController extends Controller
     public function store(Request $request)
     {
         //
-        $url = $request->get("url");
         $user_id = auth()->id();
+        $page = $request->get("page");
         $notifications = Notification::where("notify_user_id", $user_id)
-        ->latest()->with("notify_user")
-        ->paginate(10)->setPath("http://$domain/api/dashboard/notifications");
+        ->latest()
+        ->take(10 * $page)
+        ->get();
+        
         ReadNotificationJob::dispatch($notifications);
     }
 
