@@ -13,6 +13,7 @@ use App\Events\CreateArticleEvent;
 use App\Events\DeleteArticleEvent;
 use App\Events\UpdateArticleEvent;
 use App\Http\Controllers\Controller;
+use App\Jobs\NotificationJob;
 
 class ArticleController extends Controller
 {
@@ -59,7 +60,8 @@ class ArticleController extends Controller
             $article = Article::create($article);
             $articles[] = $article;
         }
-
+        
+        NotificationJob::dispatch("Create","Article",$article->id);
         broadcast(new CreateArticleEvent($article))->toOthers();
 
         return response()->json(["articles"=>$articles],200);

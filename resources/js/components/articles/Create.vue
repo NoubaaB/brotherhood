@@ -102,8 +102,10 @@ export default {
             this.loading = true;
             await this.article.postArticles().then(res => {
                 this.loading = false;
-                this.$router.push({
-                    name: "articles.list"})
+                this.$router.push(
+                    {
+                        name: "articles.list"
+                    })
             })
         },
         backToListArticle: function () {

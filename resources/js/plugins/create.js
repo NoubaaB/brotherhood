@@ -8,6 +8,7 @@ import VueApexCharts from "vue3-apexcharts";
 import { SnackbarService, Vue3Snackbar } from "vue3-snackbar";
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import "vue3-snackbar/styles";
 
 import methods from "@/plugins/methods.js";
 import { useAuth } from '@/stores/Auth';

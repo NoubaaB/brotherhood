@@ -14,7 +14,7 @@
     <v-menu max-height="600" :close-on-content-click="false" v-model="menu" activator="#menu-activator">
       <v-list>
         <template
-          v-for="_notification in notification.notifications"
+          v-for="_notification in notification.getNotifications"
           :key="_notification.id"
         >
             <Notification :notification="_notification" :avatar="getAvatar(_notification.model)" :icon="getIcon(_notification.operation)"/> 
@@ -30,6 +30,26 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <vue3-snackbar :iconPresets="{}" top right  border="left" dense >
+	<template v-slot:message-icon="{ message }">
+        <v-badge
+        location="bottom end"
+        :color="message.icon.color"
+        >
+            <v-avatar rounded="1">
+                <v-img
+                    :src="message.avatar"
+                >
+                </v-img>
+            </v-avatar>
+            <template v-slot:badge>
+                <v-icon color="white">{{message.icon.icon}}</v-icon>
+            </template>
+        </v-badge> 
+    </template>
+
+    </vue3-snackbar>
+
 </template>
 <script>
 import Notification from "@/schema/Notification.vue"
@@ -38,39 +58,11 @@ export default {
     components: {
         Notification
     },
+    mounted: function(){
+        this.notification.snackBar = this.$snackbar;  
+    },
     data() {
         return {
-            avatars:[
-                {
-                    model: "Article",
-                    avatar:"/storage/article.gif"
-                },
-                {
-                    model: "Bill",
-                    avatar:"/storage/bill.gif"
-                },
-                {
-                    model: "Capital",
-                    avatar:"/storage/capital.gif"
-                },
-            ],
-            operations: [
-                {
-                    operation: "Edit",
-                    icon:"mdi-pencil",
-                    color:"green",
-                },
-                {
-                    operation: "Create",
-                    icon:"mdi-star",
-                    color:"amber",
-                },
-                {
-                    operation: "Delete",
-                    icon:"mdi-delete-alert",
-                    color:"red",
-                },
-            ],
             menu:false
         }
     },
@@ -81,15 +73,14 @@ export default {
     },
     methods: {
         getAvatar: function (model) {
-            return this.avatars.find(e => e.model == model).avatar;
+            return this.notification.avatars.find(e => e.model == model).avatar;
         },
         getIcon: function (operation) {
-            return this.operations.find(e => e.operation == operation);
+            return this.notification.operations.find(e => e.operation == operation);
         },
     },
     watch: {
         menu: function (val) {
-            console.log("val",val)
             if (!val) {
                 this.notification.decrementNotificationCounter()
             }

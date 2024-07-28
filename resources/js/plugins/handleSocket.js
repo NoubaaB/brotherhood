@@ -1,11 +1,15 @@
 
 import { useDashboard } from "@/stores/Dashboard.js";
 import { useBill } from "@/stores/Bill.js";
+import { useNotification } from "@/stores/Notification";
+import { useAuth } from "@/stores/Auth";
 import { initSocket } from "@/echo";
 
 export function establish() {
     let dashbaord = useDashboard();
     let bill = useBill();
+    let notification = useNotification();
+    let auth = useAuth();
     initSocket();
     //start articles websockets
     Echo.private(`articles`)
@@ -67,4 +71,14 @@ export function establish() {
             }
         }));
     //end bills websockets
+
+    //start notification websockets
+    Echo.private(`notifications.${auth.getAuth.id}`)
+        .listen("NotificationEvent", (event => {
+            console.log("NotificationEvent",event)
+            notification.notifications.push(event.notification);
+            ++notification.unread;
+            notification.addToSnackBar(event.notification);
+        }));
+    //end notification websockets
 }

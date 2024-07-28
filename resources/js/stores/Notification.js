@@ -1,13 +1,47 @@
 import axios from "axios";
+import moment from "moment";
 import { defineStore } from "pinia";
 
 export const useNotification = defineStore("Notification", {
     state: () => {
         return {
             notifications: [],
+            avatars: [
+                {
+                    model: "Article",
+                    avatar: "/storage/article.gif"
+                },
+                {
+                    model: "Bill",
+                    avatar: "/storage/bill.gif"
+                },
+                {
+                    model: "Capital",
+                    avatar: "/storage/capital.gif"
+                },
+            ],
+            operations: [
+                {
+                    operation: "Edit",
+                    icon: "mdi-pencil",
+                    color: "green",
+                },
+                {
+                    operation: "Create",
+                    icon: "mdi-star",
+                    color: "amber",
+                },
+                {
+                    operation: "Delete",
+                    icon: "mdi-delete-alert",
+                    color: "red",
+                },
+            ],
+            snackBar:null,
             next_page_url: "/api/notifications",
             current_page_num: 1,
             unread: 0,
+            is_fetch:false
         }
     },
     actions: {
@@ -36,11 +70,25 @@ export const useNotification = defineStore("Notification", {
             if (this.current_page_num) {
                 axios.post(`/api/notifications?page=${this.current_page_num}`)
             }
+        },
+        addToSnackBar: function (notification) {
+            let message = {
+                "type": "info",
+                "title": `${notification.trigger_user.name} has ${notification.operation} an ${notification.model}`,
+                "text": moment(notification.created_at).fromNow(),
+                "duration": 3000,
+                "avatar": this.avatars.find(avatar => avatar.model == notification.model).avatar,
+                "icon": this.operations.find(operation => operation.operation == notification.operation),
+            };
+            this.snackBar.add(message);
         }
     },
     getters: {
         length: state => {
             return state.notifications.length;
+        },
+        getNotifications: state => {
+            return _.orderBy(state.notifications, ["created_at", "model"], ["desc","desc"])
         }
     }
 });

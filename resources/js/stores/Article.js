@@ -43,7 +43,15 @@ export const useArticle = defineStore("Article", {
             return await axios.post("/api/articles", {
                 articles: this.models
             }).then(res => {
-                this.models = [];
+                this.models = [{
+                    id: uuidv4(),
+                    date: new Date().toISOString().substr(0, 10),
+                    description: "",
+                    price: null,
+                    is_private: false,
+                    star: false,
+                    product_id: null,
+                }];
                 return res;
             })
         },

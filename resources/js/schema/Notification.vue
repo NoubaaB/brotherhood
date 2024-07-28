@@ -8,16 +8,16 @@
             location="bottom end"
             :color="icon.color"
             >
-            <v-avatar rounded="1">
-                <v-img
-                    :src="avatar"
-                >
-            </v-img>
-        </v-avatar>
-        <template v-slot:badge>
-            <v-icon color="white">{{icon.icon}}</v-icon>
-        </template>
-        </v-badge>
+                <v-avatar rounded="1">
+                    <v-img
+                        :src="avatar"
+                    >
+                    </v-img>
+                </v-avatar>
+                <template v-slot:badge>
+                    <v-icon color="white">{{icon.icon}}</v-icon>
+                </template>
+            </v-badge>
         </template>
     
         <template v-slot:append v-if="!notification.read">
