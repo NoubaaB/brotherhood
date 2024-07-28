@@ -61,8 +61,10 @@ class ArticleController extends Controller
             $articles[] = $article;
         }
         
-        NotificationJob::dispatch("Create","Article",$article->id);
-        broadcast(new CreateArticleEvent($article))->toOthers();
+        if(!$article->is_private){
+            NotificationJob::dispatch("Create","Article",$article->id);
+            broadcast(new CreateArticleEvent($article))->toOthers();
+        }
 
         return response()->json(["articles"=>$articles],200);
     }
@@ -111,8 +113,10 @@ class ArticleController extends Controller
                 $total->delete();
             }
         }
-
-        broadcast(new UpdateArticleEvent($article))->toOthers();
+        if(!$article->is_private){
+            NotificationJob::dispatch("Edit", "Article", $article->id);
+            broadcast(new UpdateArticleEvent($article))->toOthers();
+        }
 
         return response()->json(["article" => $article], 200);
     }
@@ -123,7 +127,10 @@ class ArticleController extends Controller
     public function destroy(Article $article) : JsonResponse
     {
         //
-        broadcast(new DeleteArticleEvent($article))->toOthers();
+        if(!$article->is_private){
+            NotificationJob::dispatch("Delete", "Article", $article->product->name);
+            broadcast(new DeleteArticleEvent($article))->toOthers();
+        }
         $status = $article->delete();
         return response()->json(["status"=>$status],200);
     }

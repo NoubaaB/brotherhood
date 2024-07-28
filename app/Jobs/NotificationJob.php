@@ -27,7 +27,7 @@ class NotificationJob implements ShouldQueue
         $object = [
             "operation"=> $operation,
             "url"=> "/$_model/view/$id",
-            "text"=>"A $model",
+            "text"=>"$id",
             "model"=> $model,
             "trigger_user_id"=> $auth_id,
             "notify_user_id"=> null,

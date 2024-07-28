@@ -30,7 +30,8 @@
             </v-badge>
         </template>
         <v-list-item-title>
-            <p class="font-weight-bold d-inline">{{notification.trigger_user.name}}</p> has {{ notification.operation }} an {{ notification.model }}
+            <p class="font-weight-bold d-inline">{{notification.trigger_user.name}}</p>
+             has {{ notification.operation }} {{ notification.model }} {{ notification.model != "Delete" ? notification.text : "" }}
             <small class="d-block ml-1">{{getTimeSpan}}</small>
         </v-list-item-title>
     </v-list-item>

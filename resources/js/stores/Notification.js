@@ -72,9 +72,15 @@ export const useNotification = defineStore("Notification", {
             }
         },
         addToSnackBar: function (notification) {
+            let text = "";
+            if (notification.model != "Delete") {
+                text = `${notification.trigger_user.name} has ${notification.operation} ${notification.model}`;
+            } else {
+                text = `${notification.trigger_user.name} has ${notification.operation} ${notification.model} ${notification.text}`;
+            }
             let message = {
                 "type": "info",
-                "title": `${notification.trigger_user.name} has ${notification.operation} an ${notification.model}`,
+                "title": text,
                 "text": moment(notification.created_at).fromNow(),
                 "duration": 3000,
                 "avatar": this.avatars.find(avatar => avatar.model == notification.model).avatar,
