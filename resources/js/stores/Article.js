@@ -107,6 +107,9 @@ export const useArticle = defineStore("Article", {
                 article.bill_id = !article.bill_id
             }
         },
+        toggleBills: function () {
+            this.articles.forEach(article => article.bill_id = !article.bill_id);
+        },
         resetBillPlanning: function () {
             this.getBillQueue.map(article => article.bill_id = false)  
         },
@@ -145,6 +148,9 @@ export const useArticle = defineStore("Article", {
         },
         total_articles: (state) => {
             return _.sumBy(state.regular_articles, "price");
+        },
+        total_articles_selected: (state) => {
+            return _.sumBy(state.getBillQueue, "price");
         },
         getBillQueue: (state) => {
             return state.regular_articles.filter(article=>article.bill_id === true)

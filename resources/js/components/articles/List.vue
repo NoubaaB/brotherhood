@@ -24,8 +24,12 @@
         </v-col>
     </v-row>
     <v-row>
-        <v-col class="text-center">
-        <v-btn :loading="loading" :disabled="article.getBillQueue.length == 0" rounded @click="makeBill" color="blue"><v-icon>mdi-text-box-plus</v-icon> {{article.getBillQueue.length}} Make Bill </v-btn>            
+        <v-col class="text-center pt-0">
+            <v-checkbox
+            hide-details
+            @click="toggleBills"
+            color="primary"
+            ></v-checkbox>
         </v-col>
         <v-col class="text-center">
             <v-chip color="blue" variant="tonal">
@@ -34,6 +38,19 @@
                 </v-icon>
                 {{ formatFloatNumber(article.total_articles) }} MAD
             </v-chip>
+        </v-col>
+        <v-col class="text-center">
+            <v-chip :disabled="article.total_articles_selected==0" color="amber" variant="tonal">
+                <v-icon class="mr-2">
+                    mdi-cash
+                </v-icon>
+                {{ formatFloatNumber(article.total_articles_selected) }} MAD
+            </v-chip>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col class="text-center">
+            <v-btn :loading="loading" :disabled="article.getBillQueue.length == 0" rounded @click="makeBill" color="blue"><v-icon>mdi-text-box-plus</v-icon> {{article.getBillQueue.length}} Make Bill </v-btn>            
         </v-col>
     </v-row>
     <v-row class="center_empty">
@@ -113,7 +130,10 @@ export default {
                 name: "bills.view",
                 params:{id:this.bill.id}
             })
-        }
+        },
+        toggleBills: function () {
+          this.article.toggleBills()  
+        },
     },
     mounted: function () {
         this.dashboard.getData(); 
