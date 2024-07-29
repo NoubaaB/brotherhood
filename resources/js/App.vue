@@ -16,6 +16,13 @@
       icon="mdi-chevron-up"
     >
     </v-btn>
+    <v-btn
+      color="blue-darken-1"
+      class="floating-btn-previous"
+      @click="goPrevious"
+      icon="mdi-arrow-u-left-bottom-bold"
+    >
+    </v-btn>
 
 </template>
 
@@ -64,6 +71,13 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
+  z-index: 1000;
+}
+
+.floating-btn-previous {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
   z-index: 1000;
 }
 

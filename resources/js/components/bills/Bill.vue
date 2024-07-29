@@ -79,6 +79,7 @@
                                 <v-list-item
                                     v-for="article in bill.articles"
                                     :key="article.id"
+                                    @click="goTo(article.id)"
                                 >
                                     <template v-slot:title>
                                         <strong>
@@ -233,6 +234,9 @@ export default {
                 this.loading = false;
                 this.pause = false;
             }, 1000);
+        },
+        goTo: function (id) {
+            this.$router.push(`/articles/view/${id}`)
         }
     }
 }
