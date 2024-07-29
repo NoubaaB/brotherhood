@@ -57,7 +57,11 @@ class BillController extends Controller
             $articles_id [] = $article->id;
         }
         $bill->update(["amount"=>$sum]);
-        $bill->load(["user","articles"]);
+        if(count($articles_id)>10){
+            $bill->load(["user"]);
+        }else{
+            $bill->load(["user","articles"]);
+        }
         NotificationJob::dispatch("Create", "Bill", $bill->id);
         broadcast(new CreateBillEvent($bill, $articles_id))->toOthers();
 
