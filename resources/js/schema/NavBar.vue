@@ -4,7 +4,10 @@
             <v-app-bar-nav-icon v-if="auth.is_auth" @click="auth.drawer= !auth.drawer"></v-app-bar-nav-icon>
         </template>
 
-        <v-app-bar-title class="text-center">Brotherhood App</v-app-bar-title>
+        <v-app-bar-title class="text-center">
+            <v-img height="40" src="/storage/logo_title.png">
+            </v-img>
+        </v-app-bar-title>
         <template v-slot:append>
             <Notifications v-if="auth.is_auth"/>
             <v-btn icon="mdi-account-edit"></v-btn>

@@ -136,7 +136,17 @@ class ArticleController extends Controller
             NotificationJob::dispatch("Delete", "Article", $article->product->name);
             broadcast(new DeleteArticleEvent($article))->toOthers();
         }
+        $bill_id = $article->bill_id;
         $status = $article->delete();
+        if($bill_id){
+            $bill = Bill::find($bill_id);
+            $bill->calc();
+            if(count($bill->articles)>0){
+                broadcast(new UpdateBillEvent($bill))->toOthers();
+            }else{
+                broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn ($item) => $item->id)))->toOthers();
+            }
+        }
         return response()->json(["status"=>$status],200);
     }
 }

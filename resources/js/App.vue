@@ -17,7 +17,7 @@
     >
     </v-btn>
     <v-btn
-      color="blue-darken-1"
+      color="amber-darken-1"
       class="floating-btn-previous"
       @click="goPrevious"
       icon="mdi-arrow-u-left-bottom-bold"
@@ -50,6 +50,9 @@
       },
       handleScroll() {
         this.showButton = window.scrollY > 200;
+      },
+      goPrevious: function () {
+        this.$router.back();
       }
     },
     computed: {

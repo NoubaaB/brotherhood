@@ -8,7 +8,7 @@
                             alt="login image"
                             style="mix-blend-mode: multiply"
                             class="d-sm-none"
-                            src="/storage/login.png"
+                            src="/storage/logo.png"
                         ></v-img>
                     </v-col>
                 </v-row>
