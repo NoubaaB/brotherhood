@@ -106,6 +106,7 @@
 
                                     <template v-slot:append>
                                         <v-btn
+                                            v-if="article.user_id == auth.getAuth.id"
                                             color="red-lighten-1"
                                             icon="mdi-trash-can"
                                             variant="tonal"

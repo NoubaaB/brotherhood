@@ -57,8 +57,7 @@ class BillController extends Controller
             $articles_id [] = $article->id;
         }
         $bill->update(["amount"=>$sum]);
-        $bill->load("user");
-        $bill->without("articles");
+        $bill->load(["user","articles"]);
         NotificationJob::dispatch("Create", "Bill", $bill->id);
         broadcast(new CreateBillEvent($bill, $articles_id))->toOthers();
 
