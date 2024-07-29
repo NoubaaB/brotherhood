@@ -68,17 +68,21 @@ export default {
         }
     },
     mounted: async function () {
-        let article = await this._article.getArticle(this.$route.params.id);
-        if ((!article.id)) {
-            this.$router.push({
-                name: "error404"
-            });
-        } else {
+        let article = this.dashboard.articles.find(__article => __article.id == this.$route.params.id);
+        if (article) {
             this.article = article;
+        } else {
+            article = await this._article.getArticle(this.$route.params.id).catch(error => {
+                this.$router.push({
+                    name: "error404"
+                });
+            });
+            if (article) {
+                this.article = article;
+                this.dashboard.articles.push(this.article);
+            }
         }
-        if (!this.dashboard.articles.find(__article => __article.id == this.$route.params.id)) {
-            this.dashboard.articles.push(this.article);
-        };
+
     },
     methods: {
         goToCreateArticles: function () {

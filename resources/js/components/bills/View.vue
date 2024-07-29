@@ -52,17 +52,20 @@ export default {
         }
     },
     mounted: async function () {
-        let bill = await this._bill.getBill(this.$route.params.id);
-        if ((!bill.id)) {
-            this.$router.push({
-                name: "error404"
-            });
-        } else {
+        let bill = this._bill.bills.find(__bill => __bill.id == this.$route.params.id);
+        if (bill) {
             this.bill = bill;
+        } else {
+            bill = await this._bill.getBill(this.$route.params.id).catch(error => {
+                this.$router.push({
+                    name: "error404"
+                });
+            });
+            if (bill) {
+                this.bill = bill;
+                this._bill.bills.push(this.bill);
+            }
         }
-        if (!this._bill.bills.find(__bill => __bill.id == this.$route.params.id)) {
-            this._bill.bills.push(this.bill);
-        };
     },
     watch: {
         bill: {
