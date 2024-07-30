@@ -10,8 +10,8 @@
                 class="text-center"
                 alt="empty"
                 width="30"
-                src="/storage/24-hours.gif"
-            />
+                :src="'/storage/24-hours.gif'"
+            >
         </v-col>
     </v-row>
 </template>

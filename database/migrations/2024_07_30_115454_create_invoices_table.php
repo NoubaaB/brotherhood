@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bills', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->date("date");
-            $table->double("amount")->default(0.00);
-            $table->boolean("checked")->default(false);
-
+            $table->double("price");
             $table->foreignId('user_id')->nullable()->index();
+            $table->foreignId('bill_id')->nullable()->index();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bills');
+        Schema::dropIfExists('invoices');
     }
 };

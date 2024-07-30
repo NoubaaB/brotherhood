@@ -18,7 +18,7 @@
     </v-btn>
     <v-btn
       color="amber-darken-1"
-      class="floating-btn-previous"
+      class="floating-btn-previous text-white"
       @click="goPrevious"
       icon="mdi-arrow-u-left-bottom-bold"
     >

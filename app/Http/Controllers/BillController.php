@@ -62,6 +62,7 @@ class BillController extends Controller
         }else{
             $bill->load(["user","articles"]);
         }
+        $bill->cals_invoices();
         NotificationJob::dispatch("Create", "Bill", $bill->id);
         broadcast(new CreateBillEvent($bill, $articles_id))->toOthers();
 
