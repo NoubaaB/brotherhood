@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->double("price");
+            $table->boolean("checked")->default(false);
             $table->foreignId('user_id')->nullable()->index();
             $table->foreignId('bill_id')->nullable()->index();
             $table->timestamps();

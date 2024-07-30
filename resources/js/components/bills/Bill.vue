@@ -66,15 +66,51 @@
                     </template>
                     <v-spacer></v-spacer>
                     <v-card-actions class="bg-blue-lighten-5">
-                        <p class="font-weight-thin">
-                            {{ expand ? "Hide":"Show" }} Bill's Articles >  
-                        </p>
                         <v-spacer></v-spacer>
+                        <v-btn class="mr-2" color="deep-purple-darken-1" size="x-small" variant="tonal" :icon="expand_invoices ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="expand_invoices = !expand_invoices"></v-btn>
+                        <v-btn class="mr-2" color="blue-darken-1" size="x-small" variant="tonal" :icon="expand_articles ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="expand_articles = !expand_articles"></v-btn>
                         <v-btn class="mr-2" color="green-darken-1" size="x-small" variant="tonal" icon="mdi-text-box" @click="viewBill" v-if="!$route.params.id" ></v-btn>
-                        <v-btn class="mr-2" color="deep-purple-darken-1" size="x-small" variant="tonal" :icon="expand ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="expand = !expand"></v-btn>
                     </v-card-actions>
                     <v-expand-transition>
-                        <div v-if="expand" class="bg-blue-lighten-5">
+                            <v-table v-if="expand_invoices">
+                                <thead>
+                                <tr>
+                                    <th class="text-left">
+                                    Name
+                                    </th>
+                                    <th class="text-left">
+                                    Amount
+                                    </th>
+                                    <th class="text-left">
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr
+                                    v-for="invoice in bill.invoices"
+                                    :key="invoice.id"
+                                >
+                                    <td class="text-left">{{ invoice.user.name }}</td>
+                                    <td class="text-left">
+                                        <v-chip variant="tonal" color="green" v-if="invoice.price>0">{{ invoice.price}} MAD</v-chip>
+                                        <v-chip variant="tonal" color="gray" v-else-if="invoice.price == 0">{{ invoice.price}} MAD</v-chip>
+                                        <v-chip variant="tonal" color="red" v-else>{{ invoice.price}} MAD</v-chip>
+                                    </td>
+                                    <td class="text-left">
+                                        <v-checkbox
+                                        :model-value="!!invoice.checked"
+                                        hide-details
+                                        @click="toggleInvoice(invoice)"
+                                        color="primary"
+                                        :disabled="auth.getAuth.id != invoice.user_id"
+                                        ></v-checkbox>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </v-table>
+                    </v-expand-transition>
+                    <v-expand-transition>
+                        <div v-if="expand_articles" class="bg-blue-lighten-5">
                             <v-list lines="two" class="bg-blue-lighten-5">
                                 <v-list-item
                                     v-for="article in bill.articles"
@@ -134,7 +170,8 @@ export default {
     },
     data: function () {
         return {
-            expand:false,
+            expand_articles:false,
+            expand_invoices:false,
             loading:false,
             loading_bill:false,
             on_delete:false,
@@ -234,6 +271,10 @@ export default {
                 this.loading = false;
                 this.pause = false;
             }, 1000);
+        },
+        toggleInvoice: function (invoice) {
+            this._bill.toggleInvoice(invoice.id, !invoice.checked);
+            invoice.checked = !invoice.checked;
         },
         goTo: function (id) {
             this.$router.push(`/articles/view/${id}`)

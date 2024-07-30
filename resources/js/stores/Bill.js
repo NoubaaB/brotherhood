@@ -55,6 +55,11 @@ export const useBill = defineStore("Bill", {
         cancelBill: function () {
             
         },
+        toggleInvoice: function (invoice_bill,checked) {
+            axios.put(`/api/invoices/${invoice_bill}`, {
+                checked
+            })
+        },
         unBillArticle: async function (article_id,bill_id) {
             return axios.patch(`/api/articles/${article_id}`, {
                 article: {

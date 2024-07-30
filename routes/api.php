@@ -6,8 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CapitalController;
-use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\NotificationController;
 
 #region non-authentication routes
 Route::controller(AuthController::class)->group(function () {
@@ -42,6 +43,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
         "capitals" => CapitalController::class,
         "bills" => BillController::class,
         "notifications" => NotificationController::class,
+        "invoices" => InvoiceController::class,
     ]);
     Route::post("bills_collect", [BillController::class, "delete_collect"]);
     

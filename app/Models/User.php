@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Bill;
 use App\Models\Article;
 use App\Models\Capital;
+use App\Models\Invoice;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -61,5 +62,9 @@ class User extends Authenticatable
 
     function bills() : HasMany {
         return $this->hasMany(Bill::class);
+    }
+
+    function invoices() : HasMany {
+        return $this->hasMany(Invoice::class);
     }
 }
