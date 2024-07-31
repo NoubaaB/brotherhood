@@ -28,7 +28,7 @@ class Bill extends Model
     {
         parent::boot();
         //manage resources
-        static::deleting(fn ($model) => $model->deletet());
+        static::deleting(fn ($model) => $model->delete_resources());
     }
 
     function articles() : HasMany {
@@ -50,6 +50,7 @@ class Bill extends Model
         User::each(function ($user) use ($that, $total_each) {
             $my_charge = $that->articles->where("user_id", $user->id)->sum("price");
             Invoice::create([
+                "spent" => $my_charge,
                 "price" => ($my_charge - $total_each),
                 "user_id" => $user->id,
                 "bill_id" => $that->id,
@@ -61,7 +62,7 @@ class Bill extends Model
         $this->update(["amount"=> $this->articles->sum("price")]);
     }
 
-    function delete()  : void {
+    function delete_resources()  : void {
         $this->articles()->each(fn ($article) => $article->update(["bill_id" => null]));
         $this->invoices()->delete();
     }

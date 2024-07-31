@@ -122,9 +122,15 @@ export default {
         makeBill: async function () {
             this.loading = true;
             await this.article.makeBill().then(res => {
-                this.bill =  res
                 this.loading = false;
-                this.snackbar_bill = true;
+                if (res === true) {
+                    this.$router.push({
+                        name:"bills.list"
+                    })
+                } else {
+                    this.snackbar_bill = true;
+                    this.bill =  res
+                }
             })
         },
         viewBill: function () {

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->double("spent");
             $table->double("price");
             $table->boolean("checked")->default(false);
             $table->foreignId('user_id')->nullable()->index();

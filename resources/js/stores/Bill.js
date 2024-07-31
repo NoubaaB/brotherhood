@@ -44,6 +44,8 @@ export const useBill = defineStore("Bill", {
             }).then(res => {
                 this.dashboard.bills = this.dashboard.bills.filter(e => !bills_ids.includes(e.id))
                 return res
+            }).catch(error => {
+                console.log("error", error)
             })
         },
         toggleBill: function (bill_id) {

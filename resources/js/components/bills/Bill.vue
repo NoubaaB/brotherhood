@@ -75,10 +75,13 @@
                             <v-table v-if="expand_invoices">
                                 <thead>
                                 <tr>
-                                    <th class="text-left">
+                                    <th class="text-left pr-0">
                                     Name
                                     </th>
-                                    <th class="text-left">
+                                    <th class="text-left px-0">
+                                    Spent
+                                    </th>
+                                    <th class="text-left px-0">
                                     Amount
                                     </th>
                                     <th class="text-left">
@@ -90,13 +93,16 @@
                                     v-for="invoice in bill.invoices"
                                     :key="invoice.id"
                                 >
-                                    <td class="text-left">{{ invoice.user.name }}</td>
-                                    <td class="text-left">
+                                    <td class="text-left pr-0">{{ invoice.user.name }}</td>
+                                    <td class="text-left px-0 text-red">
+                                        -{{ invoice.spent}} MAD
+                                    </td>
+                                    <td class="text-left px-0">
                                         <v-chip variant="tonal" color="green" v-if="invoice.price>0">{{ invoice.price}} MAD</v-chip>
                                         <v-chip variant="tonal" color="gray" v-else-if="invoice.price == 0">{{ invoice.price}} MAD</v-chip>
                                         <v-chip variant="tonal" color="red" v-else>{{ invoice.price}} MAD</v-chip>
                                     </td>
-                                    <td class="text-left">
+                                    <td class="text-left px-0">
                                         <v-checkbox
                                         :model-value="!!invoice.checked"
                                         hide-details

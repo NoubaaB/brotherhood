@@ -53,6 +53,8 @@ export const useArticle = defineStore("Article", {
                     product_id: null,
                 }];
                 return res;
+            }).catch(error => {
+                console.log("error",error)
             })
         },
         getArticle: async function (id) {
@@ -99,6 +101,9 @@ export const useArticle = defineStore("Article", {
                     article.bill_id = res.data.bill.id;
                 })
                 return res.data.bill
+            }).catch(error => {
+                return true
+                console.log("error", error)
             })
         },
         toggleBill: function (article_id) {
