@@ -18,7 +18,7 @@ class ArticleFactory extends Factory
     {
         return [
             //
-            "date"=>fake()->dateTimeBetween("-30 days","now"),
+            "date"=>date_format(fake()->dateTimeBetween("-30 days", "now"),"Y-m-d"),
             "description"=>fake()->text(300),
             "price"=>fake()->numberBetween(1,4),
             "is_private"=>fake()->boolean(),

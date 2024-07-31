@@ -18,8 +18,8 @@ class CapitalFactory extends Factory
     {
         return [
             //
-            "date_start"=>fake()->date(),
-            "date_end"=>fake()->date(),
+            "date_start"=>fake()->date("Y-m-d"),
+            "date_end"=>fake()->date("Y-m-d"),
             "user_id" => fake()->numberBetween(1, 3),
             "amount"=>fake()->numberBetween(14,16)
         ];
