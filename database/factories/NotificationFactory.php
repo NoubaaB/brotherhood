@@ -23,8 +23,8 @@ class NotificationFactory extends Factory
             "text"=>fake()->text(150),
             "model"=>fake()->randomElement(["Bill", "Article", "Capital"]),
             "read"=>fake()->boolean(),
-            "notify_user_id"=>fake()->randomElement([1,2]),
-            "trigger_user_id"=>fake()->randomElement([1,2]),
+            "notify_user_id"=>fake()->randomElement([1,3]),
+            "trigger_user_id"=>fake()->randomElement([1,3]),
         ];
     }
 }

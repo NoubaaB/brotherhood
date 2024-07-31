@@ -16,7 +16,7 @@
                             <v-chip value="0" color="red">My Article</v-chip>
                             <v-chip value="1" color="green">Other Articles</v-chip>
                             <v-chip value="2" color="blue">Bills</v-chip>
-                            <v-chip value="3" color="purple-lighten-2"><v-icon>mdi-eye</v-icon></v-chip>
+                            <v-chip value="3" color="purple-lighten-2"><v-icon>{{article.article_filter.find(f=>f=='3')? "mdi-eye":"mdi-eye-off"}}</v-icon></v-chip>
                         </v-chip-group>
                     </v-col>
                 </template>

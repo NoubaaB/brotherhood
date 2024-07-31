@@ -30,6 +30,18 @@ export const useDashboard = defineStore("Dashboard", {
                     this.is_fetch = false;
                 });
             }
+        },
+        get_amounts: function (user_id) {
+            let data = [];
+            this.dates.forEach(date => {
+                let sum = _.sumBy(this.articles.filter(article => (
+                    !article.is_private
+                    && article.user_id == user_id
+                    && article.date == date)
+                ), "price");
+                data.push(sum)
+            });
+            return data;
         }
     },
     getters: {
@@ -93,7 +105,7 @@ export const useDashboard = defineStore("Dashboard", {
         amount_articles: state => {
             let data = [];
             state.dates.forEach(date => {
-                let sum = _.sumBy(state.articles.filter(article => (article.date == date)
+                let sum = _.sumBy(state.articles.filter(article => (article.date == date && !article.is_private)
                 ), "price");
                 data.push(sum)
             });

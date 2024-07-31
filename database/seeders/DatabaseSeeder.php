@@ -28,6 +28,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test2 User2',
             'email' => 'test2@test2.com',
         ]);
+        User::factory()->create([
+            'name' => 'Test3 User3',
+            'email' => 'test3@test3.com',
+        ]);
 
         // $bills = Bill::factory(3)->create();
         Product::factory(33)->create();

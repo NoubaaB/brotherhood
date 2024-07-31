@@ -27,7 +27,7 @@ export const useArticle = defineStore("Article", {
                     product_id: null,
                 }
             ],
-            article_filter: ["0","1"],
+            article_filter: ["0","3"],
             dashboard: useDashboard(),
             auth : useAuth()
         }
@@ -143,11 +143,13 @@ export const useArticle = defineStore("Article", {
             }
             if (state.article_filter.find(e => e == "3")) {
                 data = data.filter(article => !article.is_private);
+            } else {
+                data = data.filter(article => article.is_private);
             }
             return _.orderBy(data, ["star", "date"], ["desc","desc"]);
         },
         total_articles: (state) => {
-            return _.sumBy(state.regular_articles, "price");
+            return _.sumBy(state.articles, "price");
         },
         total_articles_selected: (state) => {
             return _.sumBy(state.getBillQueue, "price");

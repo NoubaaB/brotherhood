@@ -184,7 +184,8 @@ class AuthController extends Controller implements HasMiddleware
     function getData(): array
     {
         return [
-            "products"=> Product::all()
+            "products" => Product::all(),
+            "users" => User::all()
         ];
     }
 }

@@ -26,17 +26,17 @@
                     </v-chip>
                 </v-col>
                 <v-col>
-                    <v-chip color="green" variant="tonal">
+                    <v-chip color="indigo-lighten-2" variant="tonal">
                         <v-icon class="mr-2">
-                            mdi-cash-fast
+                            mdi-cash-sync
                         </v-icon>
                         {{ formatFloatNumber(dashboard.total_brotherhood) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>
-                    <v-chip color="amber-darken-3" variant="tonal">
+                    <v-chip color="purple-lighten-1" variant="tonal">
                         <v-icon class="mr-2">
-                            mdi-cash-plus
+                            mdi-cash-multiple
                         </v-icon>
                         {{ formatFloatNumber(dashboard.total_global) }} MAD
                     </v-chip>
@@ -50,11 +50,15 @@
     </v-col>
 </template>
 <script>
-import {useDashboard} from "@/stores/Dashboard.js";
+import { useDashboard } from "@/stores/Dashboard.js";
+import { useUser } from "@/stores/User";
 export default {
     computed: {
         dashboard: function () {
             return useDashboard();
+        },
+        user: function () {
+            return useUser();
         },
         option: function () {
             return {
@@ -113,16 +117,16 @@ export default {
             }
         },
         series: function () {
-            return [
-                {
-                    name: "Your Share",
-                    data: this.dashboard.amounts_all
-                },
-                {
-                    name: "Other Share",
-                    data: this.dashboard.amounts_brotherhood
-                }
-            ]
+            let data = [];
+            this.user.users.forEach(user => {
+                data.push(
+                    {
+                        name: `${user.name} Share`,
+                        data: this.dashboard.get_amounts(user.id)
+                    }
+                );
+            });
+            return data ; 
         },
     }
 }

@@ -19,7 +19,7 @@ class BillFactory extends Factory
         return [
             //
             "date" => fake()->dateTimeBetween("-1 days", "now"),
-            "user_id"=>fake()->numberBetween(1,2)
+            "user_id"=>fake()->numberBetween(1,3)
         ];
     }
 }

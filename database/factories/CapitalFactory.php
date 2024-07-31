@@ -20,7 +20,7 @@ class CapitalFactory extends Factory
             //
             "date_start"=>fake()->date(),
             "date_end"=>fake()->date(),
-            "user_id" => fake()->numberBetween(1, 2),
+            "user_id" => fake()->numberBetween(1, 3),
             "amount"=>fake()->numberBetween(14,16)
         ];
     }
