@@ -107,8 +107,8 @@ export const useArticle = defineStore("Article", {
                 article.bill_id = !article.bill_id
             }
         },
-        toggleBills: function () {
-            this.articles.forEach(article => article.bill_id = !article.bill_id);
+        toggleBills: function (value) {
+            this.articles.forEach(article => article.bill_id = !value);
         },
         resetBillPlanning: function () {
             this.getBillQueue.map(article => article.bill_id = false)  

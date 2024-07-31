@@ -28,6 +28,7 @@
             <v-checkbox
             hide-details
             @click="toggleBills"
+            v-model="toggle_bills"
             color="primary"
             ></v-checkbox>
         </v-col>
@@ -102,6 +103,7 @@ export default {
         return {
             loading:false,
             snackbar_bill:false,
+            toggle_bills:false,
             bill:null,
         }  
     },
@@ -132,7 +134,7 @@ export default {
             })
         },
         toggleBills: function () {
-          this.article.toggleBills()  
+          this.article.toggleBills(this.toggle_bills)  
         },
     },
     mounted: function () {
