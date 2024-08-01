@@ -4,9 +4,17 @@
             <v-app-bar-nav-icon v-if="auth.is_auth" @click="auth.drawer= !auth.drawer"></v-app-bar-nav-icon>
         </template>
 
-        <v-app-bar-title class="text-center">
-            <v-img height="40" src="/storage/logo_title.png">
-            </v-img>
+        <v-app-bar-title class="text-center px-6">
+            <v-row dense>
+                <v-col class="text-right">
+                    <img class="d-inline" height="40" :src="'/storage/login.png'">                 
+                </v-col>
+                <v-col class="text-left my-auto">
+                    <div class="d-inline pb-3">
+                        Brotherhood
+                    </div>
+                </v-col>
+            </v-row>
         </v-app-bar-title>
         <template v-slot:append>
             <Notifications v-if="auth.is_auth"/>
