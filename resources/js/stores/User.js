@@ -33,6 +33,12 @@ export const useUser = defineStore("User", {
                 this.is_fetch = false;
                 return res.data.user;
             })
+        },
+        deleteUser: async function (user_id) {
+            await axios.delete(`/api/users/${user_id}`).then(res => {
+                this.users = this.users.filter(user => user_id != user.id);
+                return res
+            })
         }
     },
     getters: {

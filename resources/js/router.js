@@ -82,6 +82,11 @@ const routes = [
                                 name: "users.list",
                                 component: () => import("@/components/users/List.vue"),
                             },
+                            {
+                                path: "view/:id",
+                                name: "users.view",
+                                component: () => import("@/components/users/View.vue"),
+                            }
                         ]
                     }
                 ]

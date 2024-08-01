@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -30,16 +31,16 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $user = $request->validate([
+        $data = $request->validate([
             "name"=>"required|string|max:25",
             "email"=>"required|string|email|max:35",
-            "avatar" => "required|string|max:50",
-            "password"=> "required|string|required_with:confirm_password|same:confirm_password|max:35",
-            "confirm_password"=> "required|string|max:35",
+            "image" => "required|string|max:50",
+            "password" => "min:6|required_with:confirm_password|same:confirm_password|max:35"
         ]);
+        $data['password'] = Hash::make($data['password']);
 
-        $user = User::create($user);
-
+        $user = User::create($data);
+        
         return response()->json(["user"=>$user],200);
     }
 
@@ -68,10 +69,12 @@ class UserController extends Controller
         $data = $request->validate([
             "name" => "required|string|max:25",
             "email" => "required|string|email|max:35",
-            "avatar" => "required|string|max:50",
-            "password" => "sometimes|string|required_with:confirm_password|same:confirm_password|max:35",
-            "confirm_password" => "sometimes|string|max:35",
+            "image" => "required|string|max:50",
+            "password" => "sometimes|min:6|required_with:confirm_password|same:confirm_password|max:35"
         ]);
+        if(isset($data['password'])){
+            $data['password'] = Hash::make($data['password']);
+        }
 
         $user->update($data);
 
@@ -84,5 +87,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+        $status = $user->delete();
+        response()->json(["status"=>$status],200);
     }
 }

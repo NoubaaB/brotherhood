@@ -10,7 +10,7 @@
         </v-app-bar-title>
         <template v-slot:append>
             <Notifications v-if="auth.is_auth"/>
-            <v-btn icon="mdi-account-edit"></v-btn>
+            <v-btn @click="editUser" icon="mdi-account-edit"></v-btn>
         </template>
     </v-app-bar>
 </template>
@@ -31,5 +31,15 @@ export default {
             return useAuth();
         }
     },
+    methods: {
+        editUser:function(){
+            this.$router.push({
+                name : "users.view",
+                params:{
+                    id:this.auth.getAuth.id
+                }
+            })
+        }
+    }
 }
 </script>

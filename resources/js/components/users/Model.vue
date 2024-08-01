@@ -114,7 +114,6 @@
                 ></v-text-field>
             </v-col>
         </v-row>
-
         <small class="text-caption text-medium-emphasis">*indicates required field</small>
     </v-card-text>
 
@@ -124,6 +123,7 @@
         <v-spacer></v-spacer>
 
         <v-btn
+        v-if="!$route.params.id"
         text="Close"
         variant="plain"
         @click="cancelDialog"
@@ -155,7 +155,7 @@ export default {
             form: {
                 name:"",
                 email:"",
-                avatar:"/storage/users/alien_2.gif",
+                image:"/storage/users/alien_2.gif",
                 password:"",
                 confirm_password:"",
             },
@@ -179,10 +179,6 @@ export default {
         submitUser: function () {
             let request = null;
             if (this.user_id) {
-                if (!!this.form.password) {
-                    delete this.form.password    
-                    delete this.form.confirm_password    
-                }
                 request = this.user.updateUser(this.user_id,this.form)
             } else {
                 request = this.user.postUser(this.form)

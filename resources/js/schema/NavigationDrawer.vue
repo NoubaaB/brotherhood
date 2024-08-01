@@ -12,7 +12,7 @@
               size="64"
             >
               <v-img
-              :src="auth.getAuth.avatar"
+              :src="auth.getAuth.image"
               >
 
               </v-img>
@@ -53,7 +53,7 @@
               size="40"
             >
               <v-img
-              :src="auth.getAuth.avatar"
+              :src="auth.getAuth.image"
               >
 
               </v-img>
