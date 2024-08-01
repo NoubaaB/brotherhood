@@ -33,8 +33,11 @@ export async function registerPlugins(app) {
             }
         );
     if (localStorage.getItem("token")) {
-        await useAuth().attemp().catch(err => {
-            router.push({ name: "login" })
+        await useAuth().attemp().then(res => {
+            return res
+        }).catch(err => {
+            router.push({ name: "login" });
+            return err;
         });
     }
 

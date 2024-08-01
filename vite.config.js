@@ -17,4 +17,5 @@ export default defineConfig({
             '@': fileURLToPath(new URL('./resources/js', import.meta.url))
         },
     }, 
+    build: { chunkSizeWarningLimit: 11600, }
 });

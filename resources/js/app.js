@@ -13,6 +13,7 @@ window.Swiper = Swiper;
 
 const app = createApp(App)
 
-registerPlugins(app)
+registerPlugins(app).then(res => {
+    app.mount('#app')
+})
 
-app.mount('#app')

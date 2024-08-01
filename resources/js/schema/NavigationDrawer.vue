@@ -2,18 +2,27 @@
     <v-navigation-drawer 
     temporary 
     v-model="auth.drawer">
-      <v-sheet
-        class="pa-4"
-        color="grey-lighten-4"
-      >
-        <v-avatar
-          class="mb-4"
-          color="grey-darken-1"
-          size="64"
-        ></v-avatar>
+      <v-row class="bg-grey-lighten-4" style="align-items: center;">
+        <v-col>
+          <v-sheet
+            class="pa-4"
+            color="grey-lighten-4"
+          >
+            <v-avatar
+              size="64"
+            >
+              <v-img
+              :src="auth.getAuth.avatar"
+              >
 
-        <div>{{auth.email}}</div>
-      </v-sheet>
+              </v-img>
+            </v-avatar>
+          </v-sheet>
+        </v-col>
+        <v-col>
+          <div>{{auth.getAuth.email}}</div>
+        </v-col>
+      </v-row>  
 
       <v-divider></v-divider>
 
