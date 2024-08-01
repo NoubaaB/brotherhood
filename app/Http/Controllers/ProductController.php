@@ -30,6 +30,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            "name"=>"required|string|max:50"
+        ]);
+        
+        $product = Product::create($data);
+
+        return response()->json(["product"=> $product],200);
     }
 
     /**
