@@ -2,18 +2,27 @@
     <v-navigation-drawer 
     temporary 
     v-model="auth.drawer">
-      <v-sheet
-        class="pa-4"
-        color="grey-lighten-4"
-      >
-        <v-avatar
-          class="mb-4"
-          color="grey-darken-1"
-          size="64"
-        ></v-avatar>
+      <v-row class="bg-grey-lighten-4" style="align-items: baseline;">
+        <v-col>
+          <v-sheet
+            class="pa-4"
+            color="grey-lighten-4"
+          >
+            <v-avatar
+              size="64"
+            >
+              <v-img
+              :src="auth.getAuth.image"
+              >
 
-        <div>{{auth.email}}</div>
-      </v-sheet>
+              </v-img>
+            </v-avatar>
+          </v-sheet>
+        </v-col>
+        <v-col>
+          <p class="font-weight-medium mx-3">{{auth.getAuth.email}}</p>
+        </v-col>
+      </v-row>  
 
       <v-divider></v-divider>
 
@@ -42,7 +51,13 @@
             <v-avatar
               color="grey-darken-1"
               size="40"
-            ></v-avatar>
+            >
+              <v-img
+              :src="auth.getAuth.image"
+              >
+
+              </v-img>
+            </v-avatar>
             <div class="ml-3 d-block">
               <div class="font-weight-light">
                 {{auth.get_full_name}}
@@ -81,6 +96,7 @@ export default {
               ["mdi-cart-plus", "Create Articles","articles.create"],
               ["mdi-cart", "List Articles","articles.list"],
               ["mdi-text-box-multiple", "List Bills","bills.list"],
+              ["mdi-account-group", "List Users","users.list"],
           ]
       }
   },

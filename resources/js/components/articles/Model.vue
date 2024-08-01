@@ -9,7 +9,19 @@
                 <v-text-field v-model="model.description" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description" :rules="descriptionRules"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                <v-autocomplete v-model="model.product_id" :items="product.collect" item-title="name" item-value="id" variant="solo-filled" prepend-inner-icon="mdi-cart-arrow-down" rounded flat label="Products List" :rules="productIdRules"></v-autocomplete>
+                <v-autocomplete
+                    v-model="model.product_id" 
+                    :items="product.collect" 
+                    auto-select-first
+                    chips
+                    @keydown.prevent.enter="addProduct"
+                    item-title="name" 
+                    item-value="id" 
+                    variant="solo-filled" 
+                    prepend-inner-icon="mdi-cart-arrow-down" 
+                    rounded flat label="Products List" 
+                    :rules="productIdRules">
+                </v-autocomplete>
                 </v-col>
                 <v-col cols="12" sm="6">
                 <v-text-field v-model="model.price" variant="solo-filled" prepend-inner-icon="mdi-cash" rounded flat label="Price" :rules="priceRules" type="number"></v-text-field>
@@ -91,6 +103,10 @@ export default {
         },
         deleteModel: function (id) {
             this.article.deleteModel(id)
+        },
+        addProduct: async function ($event) {
+            console.log("addProduct", this.product_name, $event.target._value);
+            await this.product.postProduct($event.target._value);
         }
     },
     validations: {

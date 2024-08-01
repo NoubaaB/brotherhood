@@ -72,6 +72,22 @@ const routes = [
                                 component: () => import("@/components/bills/List.vue"),
                             },
                         ]
+                    },
+                    {
+                        path: "/users",
+                        redirect: { name: 'users.list' },
+                        children: [
+                            {
+                                path: "list",
+                                name: "users.list",
+                                component: () => import("@/components/users/List.vue"),
+                            },
+                            {
+                                path: "view/:id",
+                                name: "users.view",
+                                component: () => import("@/components/users/View.vue"),
+                            }
+                        ]
                     }
                 ]
             },
