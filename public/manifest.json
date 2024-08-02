@@ -1,0 +1,47 @@
+{
+    "name": "Brotherhood App",
+    "short_name": "Brotherhood App",
+    "scope": "/",
+    "start_url": "/",
+    "description": "Brotherhood App",
+    "theme_color": "#fff",
+    "title_bar_color": "#fff",
+    "background_color": "#fff",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "/storage/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/storage/icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/storage/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/storage/icons/icon-320x320.png",
+            "sizes": "320x320",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Application"
+        },
+        {
+            "src": "/storage/icons/icon-320x320.png",
+            "sizes": "320x320",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Application"
+        }
+    ]
+}
