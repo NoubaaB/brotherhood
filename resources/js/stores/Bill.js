@@ -72,6 +72,7 @@ export const useBill = defineStore("Bill", {
                 let bill = this.dashboard.bills.find(bill => bill.id == bill_id)
                 if (bill) {
                     bill.articles = bill.articles.filter(article => article.id != article_id)
+                    bill.amount = _.sumBy(bill.articles, "price");
                     return false
                 } else {
                     return true

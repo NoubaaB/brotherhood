@@ -266,6 +266,7 @@ export default {
                 this.loading_bill = false
                 if (res) {
                     this.bill.articles = this.bill.articles.filter(article => article.id != article_id)
+                    this.bill.amount = _.sumBy(this.bill.articles, "price");
                 }
             })
         },

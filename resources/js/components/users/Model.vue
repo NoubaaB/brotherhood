@@ -92,7 +92,6 @@
                         :title="item.raw.name"
                         ></v-list-item>
                     </template>
-
                 </v-autocomplete>
             </v-col>
 

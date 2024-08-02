@@ -30,15 +30,15 @@
     ],
     "screenshots": [
         {
-            "src": "/storage/icons/icon-320x320.png",
-            "sizes": "320x320",
+            "src": "/storage/icons/icon-230x230.png",
+            "sizes": "230x230",
             "type": "image/png",
             "form_factor": "wide",
             "label": "Application"
         },
         {
-            "src": "/storage/icons/icon-320x320.png",
-            "sizes": "320x320",
+            "src": "/storage/icons/icon-230x230.png",
+            "sizes": "230x230",
             "type": "image/png",
             "form_factor": "narrow",
             "label": "Application"

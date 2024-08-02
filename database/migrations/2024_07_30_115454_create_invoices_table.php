@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean("checked")->default(false);
             $table->foreignId('user_id')->nullable()->index();
             $table->foreignId('bill_id')->nullable()->index();
+            $table->unique(['user_id', 'bill_id']);
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@ export const useProduct = defineStore("Product", {
     },
     actions: {
         postProduct:async function (name) {
-            await axios.post('/api/products', {
+            return await axios.post('/api/products', {
                 name
             }).then(res => {
                 this.collect.push(res.data.product)

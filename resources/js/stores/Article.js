@@ -15,6 +15,7 @@ export const useArticle = defineStore("Article", {
                 is_private: false,
                 star: false,
                 product_id: null,
+                users_id:[],
             },
             models: [
                 {
@@ -95,6 +96,7 @@ export const useArticle = defineStore("Article", {
         makeBill: async function () {
             return await axios.post(`/api/bills`, {
                 articles: this.getBillQueue.map(e => e.id),
+                users_id:this.users_id,
             }).then(res => {
                 this.getBillQueue.forEach(_bill_article => {
                     let article = this.dashboard.articles.find(e => e.id == _bill_article.id);

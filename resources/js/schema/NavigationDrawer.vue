@@ -94,9 +94,9 @@ export default {
           return [
               ["mdi-human-male-board-poll", "Dashboard","index"],
               ["mdi-cart-plus", "Create Articles","articles.create"],
-              ["mdi-cart", "List Articles","articles.list"],
-              ["mdi-text-box-multiple", "List Bills","bills.list"],
-              ["mdi-account-group", "List Users","users.list"],
+              ["mdi-cart", "Articles","articles.list"],
+              ["mdi-text-box-multiple", "Bills","bills.list"],
+              ["mdi-account-group", "Users","users.list"],
           ]
       }
   },

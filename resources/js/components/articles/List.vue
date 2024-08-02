@@ -51,7 +51,54 @@
     </v-row>
     <v-row>
         <v-col class="text-center">
-            <v-btn :loading="loading" :disabled="article.getBillQueue.length == 0" rounded @click="makeBill" color="blue"><v-icon>mdi-text-box-plus</v-icon> {{article.getBillQueue.length}} Make Bill </v-btn>            
+                <v-select
+                v-model="article.users_id"
+                :items="user.users"
+                item-value="id"
+                item-text="name"
+                color="blue-grey-lighten-2"
+                variant="solo-filled" 
+                rounded flat
+                hide-spin-buttons
+                multiple
+                hide-details
+                menu-icon=""
+                >
+                    <template v-slot:chip="{ props, item , index}">
+                        <v-chip 
+                        :prepend-avatar="item.raw.image"
+                        :text="null"
+                        v-bind="props" 
+                        v-if="index < 2">
+                        </v-chip>
+                        <span
+                            v-bind="props"
+                            v-if="index === 2"
+                            class="text-grey text-caption align-self-center"
+                        >
+                            (+{{ article.users_id.length - 2 }})
+                        </span>
+                    </template>
+
+                    <template v-slot:item="{ props, item }">
+                        <v-list-item
+                        v-bind="props"
+                        :prepend-avatar="item.raw.image"
+                        :subtitle="item.raw.email"
+                        :title="item.raw.name"
+                        ></v-list-item>
+                    </template>
+                </v-select>
+        </v-col>
+        <v-col class="text-center mt-2">
+            <v-btn :loading="loading" 
+            :disabled="article.getBillQueue.length == 0 || article.users_id.length == 0" 
+            rounded 
+            @click="makeBill" 
+            color="blue">
+                <v-icon>mdi-text-box-plus</v-icon> 
+                {{article.getBillQueue.length}} Make Bill 
+            </v-btn>            
         </v-col>
     </v-row>
     <v-row class="center_empty">
@@ -93,6 +140,7 @@ import Articles from "@/components/articles/Articles.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 import { useArticle } from "@/stores/Article";
 import { useAuth } from "@/stores/Auth";
+import { useUser } from "@/stores/User";
 
 export default {
     components: {
@@ -103,19 +151,22 @@ export default {
         return {
             loading:false,
             snackbar_bill:false,
-            toggle_bills:false,
+            toggle_bills: false,
             bill:null,
         }  
     },
     computed: {
         dashboard: function () {
-                return useDashboard();
+            return useDashboard();
         },
         article: function () {
-                return useArticle();
+            return useArticle();
         },
         auth: function () {
             return useAuth()
+        },
+        user: function () {
+            return useUser();
         }
     },
     methods: {

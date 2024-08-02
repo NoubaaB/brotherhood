@@ -9,22 +9,28 @@
                 <v-text-field v-model="model.description" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description" :rules="descriptionRules"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                <v-autocomplete
-                    v-model="model.product_id" 
-                    :items="product.collect" 
-                    auto-select-first
-                    chips
-                    @keydown.prevent.enter="addProduct"
-                    item-title="name" 
-                    item-value="id" 
-                    variant="solo-filled" 
-                    prepend-inner-icon="mdi-cart-arrow-down" 
-                    rounded flat label="Products List" 
-                    :rules="productIdRules">
-                </v-autocomplete>
+                <v-text-field v-model="model.price" variant="solo-filled" prepend-inner-icon="mdi-cash" rounded flat label="Price" :rules="priceRules" type="number"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                <v-text-field v-model="model.price" variant="solo-filled" prepend-inner-icon="mdi-cash" rounded flat label="Price" :rules="priceRules" type="number"></v-text-field>
+                    <v-autocomplete
+                        v-model="model.product_id" 
+                        :items="product.collect" 
+                        auto-select-first
+                        chips
+                        @keydown.prevent.enter="addProduct"
+                        item-title="name" 
+                        item-value="id" 
+                        ref="product"
+                        :search="search"
+                        variant="solo-filled" 
+                        rounded flat label="Products List" 
+                        :rules="productIdRules">
+                        <template v-slot:prepend-inner>
+                            <v-btn :loading="loading_product" @click.prevent="addProduct(this)" size="x-small" icon variant="tonal">
+                                <v-icon>mdi-cart-arrow-down</v-icon>
+                            </v-btn>
+                        </template>
+                    </v-autocomplete>
                 </v-col>
                 <v-col cols="12" sm="6">
                     <v-row>
@@ -56,6 +62,8 @@ export default {
     data() {
         return {
             v$: useValidate(),
+            loading_product: false,
+            search:"e"
         }
     },
     computed: {
@@ -105,8 +113,11 @@ export default {
             this.article.deleteModel(id)
         },
         addProduct: async function ($event) {
-            console.log("addProduct", this.product_name, $event.target._value);
-            await this.product.postProduct($event.target._value);
+            console.log("addProduct", $event);
+            this.loading_product = true;
+            await this.product.postProduct($event.target._value).then(res => {
+                this.loading_product = false;
+            });
         }
     },
     validations: {

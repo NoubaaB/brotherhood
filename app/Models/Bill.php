@@ -44,22 +44,50 @@ class Bill extends Model
     }
 
     function cals_invoices() : void {
-        $total_each = $this->amount / User::count();
-        $that = $this;
-        $this->invoices()->delete();
-        User::each(function ($user) use ($that, $total_each) {
-            $my_charge = $that->articles->where("user_id", $user->id)->sum("price");
-            Invoice::create([
-                "spent" => $my_charge,
-                "price" => ($my_charge - $total_each),
-                "user_id" => $user->id,
-                "bill_id" => $that->id,
+        $filtred_users = [];
+        if(request()->has("users_id")){
+            $users_id = request()->validate([
+                "users_id.*" => "sometimes|exists:users,id"
             ]);
-        });
+            
+            $merged_users = array_merge($users_id['users_id'], $this->invoices()->get("user_id")->toArray());
+            
+            // Get unique values
+            $filtred_users = array_unique($merged_users);
+        }else{
+            $filtred_users = $this->invoices->map(fn ($model) => $model->user_id)->toArray();
+        }
+
+        // dd($filtred_users);
+        Invoice::where("bill_id", $this->id)->whereNotIn("user_id", $filtred_users)->delete();
+        
+        $total_each = $this->amount / User::find($filtred_users)->count();
+
+        foreach ($filtred_users as $user_id) {
+            $my_charge = $this->articles->where("user_id", $user_id)->sum("price");
+            $invoice = Invoice::where("bill_id",$this->id)->where("user_id", $user_id)->first();
+            
+            if($invoice){
+                $invoice->update([
+                    "spent" => $my_charge,
+                    "price" => ($my_charge - $total_each),                    
+                ]);
+            }else{
+                Invoice::create([
+                    "spent" => $my_charge,
+                    "price" => ($my_charge - $total_each),
+                    "user_id" => $user_id,
+                    "bill_id" => $this->id,
+                ]);
+            }
+        }
     }
 
     public function calc() {
-        $this->update(["amount"=> $this->articles->sum("price")]);
+        $sum = $this->articles->sum("price");
+        $this->amount = $sum;
+        $this->cals_invoices();
+        $this->save();
     }
 
     function delete_resources()  : void {
