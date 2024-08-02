@@ -66,7 +66,8 @@ export const useBill = defineStore("Bill", {
             return axios.patch(`/api/articles/${article_id}`, {
                 article: {
                     bill_id: null
-                }
+                },
+                update_bill:true
             }).then(res => {
                 let bill = this.dashboard.bills.find(bill => bill.id == bill_id)
                 if (bill) {

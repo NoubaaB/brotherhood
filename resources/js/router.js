@@ -88,6 +88,17 @@ const routes = [
                                 component: () => import("@/components/users/View.vue"),
                             }
                         ]
+                    },
+                    {
+                        path: "/invoices",
+                        redirect: { name: 'invoices.view' },
+                        children: [
+                            {
+                                path: "view/:id",
+                                name: "invoices.view",
+                                component: () => import("@/components/invoices/View.vue"),
+                            }
+                        ]
                     }
                 ]
             },

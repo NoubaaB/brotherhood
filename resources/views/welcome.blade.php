@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/gif" href="/storage/atom.gif">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brotherhood</title>
     @vite(['resources/css/app.css'])

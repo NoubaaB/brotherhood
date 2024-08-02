@@ -7,7 +7,7 @@
         <v-app-bar-title class="text-center px-6">
             <v-row dense>
                 <v-col class="text-right">
-                    <img class="d-inline" height="40" :src="'/storage/login.png'">                 
+                    <img class="d-inline" height="40" :src="'/storage/atmo.gif'">                 
                 </v-col>
                 <v-col class="text-left my-auto">
                     <div class="d-inline pb-3">

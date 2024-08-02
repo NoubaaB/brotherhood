@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use App\Jobs\NotificationJob;
+use App\Events\UpdateBillEvent;
 
 class InvoiceController extends Controller
 {
@@ -37,6 +39,7 @@ class InvoiceController extends Controller
     public function show(Invoice $invoice)
     {
         //
+        return response()->json(["bill_id"=>$invoice->bill_id],200);
     }
 
     /**
@@ -57,6 +60,9 @@ class InvoiceController extends Controller
             "checked"=>"required|boolean"
         ]);
         $invoice->update($data);
+
+        NotificationJob::dispatch("Edit", "Invoice", $invoice->id);
+        broadcast(new UpdateBillEvent($invoice->bill))->toOthers();
         
         return response()->json(["invoice"=>$invoice],200);
     }

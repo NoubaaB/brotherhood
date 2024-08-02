@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="mx-auto" style="width: 100% !important;">
     <v-card-text>
       <v-row align="center" justify="center" dense>
         <template v-if="!bill.is_fetch">

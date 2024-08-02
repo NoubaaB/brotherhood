@@ -95,12 +95,12 @@
                                 >
                                     <td class="text-left pr-0">{{ invoice.user.name }}</td>
                                     <td class="text-left px-0 text-red">
-                                        -{{ invoice.spent}} MAD
+                                        -{{ formatFloatNumber(invoice.spent)}} MAD
                                     </td>
                                     <td class="text-left px-0">
-                                        <v-chip variant="tonal" color="green" v-if="invoice.price>0">{{ invoice.price}} MAD</v-chip>
-                                        <v-chip variant="tonal" color="gray" v-else-if="invoice.price == 0">{{ invoice.price}} MAD</v-chip>
-                                        <v-chip variant="tonal" color="red" v-else>{{ invoice.price}} MAD</v-chip>
+                                        <v-chip variant="tonal" color="green" v-if="invoice.price>0">{{ formatFloatNumber(invoice.price)}} MAD</v-chip>
+                                        <v-chip variant="tonal" color="gray" v-else-if="invoice.price == 0">{{ formatFloatNumber(invoice.price)}} MAD</v-chip>
+                                        <v-chip variant="tonal" color="red" v-else>{{ formatFloatNumber(invoice.price)}} MAD</v-chip>
                                     </td>
                                     <td class="text-left px-0">
                                         <v-checkbox
@@ -154,7 +154,7 @@
                                             icon="mdi-trash-can"
                                             variant="tonal"
                                             size="x-small"
-                                            @click="unBillArticle(article.id,bill.id)"
+                                            @click.stop="unBillArticle(article.id,bill.id)"
                                         ></v-btn>
                                     </template>
                                 </v-list-item>
@@ -260,8 +260,10 @@ export default {
         toggleBill: function () {
             this._bill.toggleBill(this.bill.id)
         },
-        unBillArticle: async function (article_id , bill_id) {
+        unBillArticle: async function (article_id, bill_id) {
+            this.loading_bill = true
             await this._bill.unBillArticle(article_id, bill_id).then(res => {
+                this.loading_bill = false
                 if (res) {
                     this.bill.articles = this.bill.articles.filter(article => article.id != article_id)
                 }

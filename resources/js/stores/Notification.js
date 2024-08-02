@@ -20,6 +20,10 @@ export const useNotification = defineStore("Notification", {
                     model: "Capital",
                     avatar: "/storage/capital.gif"
                 },
+                {
+                    model: "Invoice",
+                    avatar: "/storage/invoice.gif"
+                },
             ],
             operations: [
                 {

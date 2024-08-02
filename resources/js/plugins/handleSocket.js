@@ -52,10 +52,12 @@ export function establish() {
             })
         })).listen("UpdateBillEvent", (event => {
             let _bill = dashboard.bills.find(bill => bill.id == event.bill.id);
+            console.log("UpdateBillEvent")
             if (_bill) {
                 _bill.date = event.bill.date;
                 _bill.amount = event.bill.amount;
                 _bill.articles = event.bill.articles;
+                _bill.invoices = event.bill.invoices;
                 _bill.user_id = event.bill.user_id;
             }
         })).listen("DeleteBillEvent", (event => {
