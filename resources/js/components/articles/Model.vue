@@ -113,10 +113,15 @@ export default {
             this.article.deleteModel(id)
         },
         addProduct: async function () {
+            let product_name = document.getElementById('_product').value;
             this.loading_product = true;
-            await this.product.postProduct(document.getElementById('_product').value).then(res => {
-                this.loading_product = false;
-            });
+            if (this.product.collect.find(p=>p.name == product_name)) {
+                return 0;
+            } else {
+                await this.product.postProduct(product_name).then(res => {
+                    this.loading_product = false;
+                });
+            }
         }
     },
     validations: {

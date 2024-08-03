@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Events\CreateProductEvent;
+use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
@@ -35,6 +36,8 @@ class ProductController extends Controller
         ]);
         
         $product = Product::create($data);
+
+        broadcast(new CreateProductEvent($product))->toOthers();
 
         return response()->json(["product"=> $product],200);
     }

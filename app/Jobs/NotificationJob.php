@@ -36,6 +36,7 @@ class NotificationJob implements ShouldQueue
         foreach ($users as $user) {
             $object["notify_user_id"]= $user->id;
             $notification = Notification::create($object);
+            $notification->load(["notify_user", "trigger_user"]);
             broadcast(new NotificationEvent($notification));
         }
     }

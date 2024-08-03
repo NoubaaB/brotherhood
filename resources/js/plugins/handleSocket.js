@@ -1,15 +1,15 @@
 
 import { useDashboard } from "@/stores/Dashboard.js";
-import { useBill } from "@/stores/Bill.js";
 import { useNotification } from "@/stores/Notification";
 import { useAuth } from "@/stores/Auth";
+import { useProduct } from "@/stores/Product";
 import { initSocket } from "@/echo";
 
 export function establish() {
     let dashboard = useDashboard();
-    let bill = useBill();
     let notification = useNotification();
     let auth = useAuth();
+    let product = useProduct();
     initSocket();
     //start articles websockets
     Echo.private(`articles`)
@@ -83,4 +83,12 @@ export function establish() {
             notification.addToSnackBar(event.notification);
         }));
     //end notification websockets
+
+    //start product websockets
+    Echo.private(`products`)
+        .listen("CreateProductEvent", (event => {
+            console.log("CreateProductEvent",event)
+            product.collect.push(event.product);
+        }));
+    //end product websockets
 }
