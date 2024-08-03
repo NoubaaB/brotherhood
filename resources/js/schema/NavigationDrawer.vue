@@ -3,9 +3,9 @@
     temporary 
     v-model="auth.drawer">
       <v-row class="bg-grey-lighten-4" style="align-items: baseline;">
-        <v-col>
+        <v-col class="text-center mt-3">
           <v-sheet
-            class="pa-4"
+            class="pl-3"
             color="grey-lighten-4"
           >
             <v-avatar
@@ -19,12 +19,15 @@
             </v-avatar>
           </v-sheet>
         </v-col>
-        <v-col>
-          <p class="font-weight-medium mx-3">{{auth.getAuth.email}}</p>
+        <v-col class="mb-2 text-center">
+          <v-chip class="font-weight-medium mx-3">
+            <v-icon>mdi-email</v-icon>
+            {{auth.getAuth.email}}
+          </v-chip>
         </v-col>
       </v-row>  
 
-      <v-divider></v-divider>
+      <v-divider class="mt-3"></v-divider>
 
       <v-list v-model:opened="open" >
         <template v-for="([icon , text , url], i) in links" :key="i">

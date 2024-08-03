@@ -26,11 +26,20 @@
     <v-row>
         <v-col class="text-center pt-0">
             <v-checkbox
+            class="pr-2"
             hide-details
             @click="toggleBills"
             v-model="toggle_bills"
             color="primary"
             ></v-checkbox>
+        </v-col>
+        <v-col class="text-center px-0">
+            <v-chip color="blue">
+                <v-icon>
+                    mdi-cart-plus
+                </v-icon>
+                {{ article.articles.length }}
+            </v-chip>
         </v-col>
         <v-col class="text-center">
             <v-chip color="blue" variant="tonal">
@@ -40,7 +49,7 @@
                 {{ formatFloatNumber(article.total_articles) }} MAD
             </v-chip>
         </v-col>
-        <v-col class="text-center">
+        <v-col class="text-center pl-0">
             <v-chip :disabled="article.total_articles_selected==0" color="amber" variant="tonal">
                 <v-icon class="mr-2">
                     mdi-cash
@@ -67,8 +76,9 @@
                     <template v-slot:chip="{ props, item , index}">
                         <v-chip 
                         :prepend-avatar="item.raw.image"
-                        :text="null"
-                        v-bind="props" 
+                        :text="formatStringLength(item.raw.name,2)"
+                        color="blue"
+                        v-bind="props"
                         v-if="index < 2">
                         </v-chip>
                         <span
@@ -195,6 +205,7 @@ export default {
         },
     },
     mounted: function () {
+        this.article.users_id = this.user.users.map(user => user.id);
         this.dashboard.getData(); 
     },
     watch: {

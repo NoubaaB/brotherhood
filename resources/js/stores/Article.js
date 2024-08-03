@@ -7,6 +7,7 @@ import { useAuth } from "./Auth";
 export const useArticle = defineStore("Article", {
     state: () => {
         return {
+            users_id: [],
             model: {
                 id:uuidv4,
                 date: new Date().toISOString().substr(0, 10),
@@ -15,7 +16,6 @@ export const useArticle = defineStore("Article", {
                 is_private: false,
                 star: false,
                 product_id: null,
-                users_id:[],
             },
             models: [
                 {
@@ -153,6 +153,9 @@ export const useArticle = defineStore("Article", {
             } else {
                 data = data.filter(article => article.is_private);
             }
+
+            data = state.regular_articles.filter(article => state.users_id.includes(article.user_id))
+
             return _.orderBy(data, ["star", "date"], ["desc","desc"]);
         },
         total_articles: (state) => {
