@@ -4,9 +4,9 @@
             <v-app-bar-nav-icon v-if="auth.is_auth" @click="auth.drawer= !auth.drawer"></v-app-bar-nav-icon>
         </template>
 
-        <v-app-bar-title class="text-center px-6">
+        <v-app-bar-title class="text-center px-auto">
             <v-row dense>
-                <v-col class="text-right">
+                <v-col cols="5" class="text-right">
                     <img class="d-inline" height="40" :src="'/storage/atmo.gif'">                 
                 </v-col>
                 <v-col class="text-left my-auto">
@@ -17,8 +17,10 @@
             </v-row>
         </v-app-bar-title>
         <template v-slot:append>
-            <Notifications v-if="auth.is_auth"/>
-            <v-btn @click="editUser" icon="mdi-account-edit"></v-btn>
+            <div v-if="auth.is_auth">
+                <Notifications/>
+                <v-btn @click="editUser" icon="mdi-account-edit"></v-btn>
+            </div>
         </template>
     </v-app-bar>
 </template>
