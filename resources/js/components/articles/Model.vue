@@ -13,20 +13,20 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                     <v-autocomplete
-                        v-model="model.product_id" 
+                        v-model="model.product_id"
+                        id="_product"
                         :items="product.collect" 
                         auto-select-first
                         chips
                         @keydown.prevent.enter="addProduct"
                         item-title="name" 
                         item-value="id" 
-                        ref="product"
-                        :search="search"
+                        :open-text="search"
                         variant="solo-filled" 
                         rounded flat label="Products List" 
                         :rules="productIdRules">
                         <template v-slot:prepend-inner>
-                            <v-btn :loading="loading_product" @click.prevent="addProduct(this)" size="x-small" icon variant="tonal">
+                            <v-btn :loading="loading_product" @click.prevent="addProduct" size="x-small" icon variant="tonal">
                                 <v-icon>mdi-cart-arrow-down</v-icon>
                             </v-btn>
                         </template>
@@ -41,7 +41,7 @@
                             <v-checkbox hide-details v-model="model.star" inset color="yellow" variant="solo-filled" true-icon="mdi-star" flat ></v-checkbox>
                         </v-col>
                         <v-col cols="2">
-                            <v-btn class="mt-3" size="x-small" color="red" variant="tonal" icon="mdi-close" @click="deleteModel(model.id)"></v-btn>
+                            <v-btn :disabled="article.models.length<=1" class="mt-3" size="x-small" color="red" variant="tonal" icon="mdi-close" @click="deleteModel(model.id)"></v-btn>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -112,10 +112,9 @@ export default {
         deleteModel: function (id) {
             this.article.deleteModel(id)
         },
-        addProduct: async function ($event) {
-            console.log("addProduct", $event);
+        addProduct: async function () {
             this.loading_product = true;
-            await this.product.postProduct($event.target._value).then(res => {
+            await this.product.postProduct(document.getElementById('_product').value).then(res => {
                 this.loading_product = false;
             });
         }

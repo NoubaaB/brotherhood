@@ -34,6 +34,9 @@ export const useArticle = defineStore("Article", {
         }
     },
     actions: {
+        deleteModel: function (id) {
+            this.models = this.models.filter(e => e.id != id);
+        },
         deleteArticle: async function (id) {
             await axios.delete(`/api/articles/${id}`).then(res => {
                 this.dashboard.articles = this.dashboard.articles.filter(e=>e.id != id)
