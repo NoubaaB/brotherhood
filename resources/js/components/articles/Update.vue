@@ -128,7 +128,7 @@ export default {
             {
                 id: { required , numeric },
                 date: { required },
-                description: { required },
+                description: {  },
                 product_id: { required },
                 price: { required ,numeric },
             }

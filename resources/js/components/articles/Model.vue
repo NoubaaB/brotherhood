@@ -1,53 +1,56 @@
 <template>
-    <v-card rounded="lg" variant="tonal" class="my-2" color="blue">
-        <v-card-item>
-            <v-row no-gutters>
-                <v-col cols="12" sm="6" class="mb-4">
-                    <VueDatePicker v-model="model.date" :enable-time-picker="false" :clearable="false" :rules="dateRules" vertical :calendar="calendarFn" :max-date="maxDate"/>
-                </v-col>
-                <v-col cols="12" sm="6">
-                <v-text-field v-model="model.description" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description" :rules="descriptionRules"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                <v-text-field v-model="model.price" variant="solo-filled" prepend-inner-icon="mdi-cash" rounded flat label="Price" :rules="priceRules" type="number"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                    <v-autocomplete
-                        v-model="model.product_id"
-                        id="_product"
-                        :items="product.collect" 
-                        auto-select-first
-                        chips
-                        @keydown.prevent.enter="addProduct"
-                        item-title="name" 
-                        item-value="id" 
-                        :open-text="search"
-                        variant="solo-filled" 
-                        rounded flat label="Products List" 
-                        :rules="productIdRules">
-                        <template v-slot:prepend-inner>
-                            <v-btn color="green" :loading="loading_product" @click.prevent="addProduct" size="x-small" icon variant="tonal">
-                                <v-icon>mdi-cart-arrow-down</v-icon>
-                            </v-btn>
-                        </template>
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="12" sm="6">
-                    <v-row>
-                        <v-col cols="8">
-                            <v-switch hide-details v-model="model.is_private" inset color="blue" variant="solo-filled" true-icon="mdi-eye-plus" rounded flat label="Private" ></v-switch>
-                        </v-col>
-                        <v-col>
-                            <v-checkbox hide-details v-model="model.star" inset color="yellow" variant="solo-filled" true-icon="mdi-star" flat ></v-checkbox>
-                        </v-col>
-                        <v-col cols="2">
-                            <v-btn :disabled="article.models.length<=1" class="mt-3" size="x-small" color="red" variant="tonal" icon="mdi-close" @click="deleteModel(model.id)"></v-btn>
-                        </v-col>
-                    </v-row>
-                </v-col>
-            </v-row>
-        </v-card-item>
-    </v-card>
+    <v-form autocomplete="off">
+        <v-card rounded="lg" variant="tonal" class="my-2" color="blue">
+            <v-card-item>
+                <v-row no-gutters>
+                    <v-col cols="12" sm="6" class="mb-4">
+                        <VueDatePicker v-model="model.date" :enable-time-picker="false" :clearable="false" :rules="dateRules" vertical :calendar="calendarFn" :max-date="maxDate"/>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                    <v-text-field v-model="model.description" autocomplete="off" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-autocomplete
+                            v-model="model.product_id"
+                            id="_product"
+                            :items="product.collect" 
+                            auto-select-first
+                            chips
+                            @keydown.prevent.enter="addProduct"
+                            autocomplete="off"
+                            item-title="name" 
+                            item-value="id" 
+                            :open-text="search"
+                            variant="solo-filled" 
+                            rounded flat label="Products List" 
+                            :rules="productIdRules">
+                            <template v-slot:prepend-inner>
+                                <v-btn color="green" :loading="loading_product" @click.prevent="addProduct" size="x-small" icon variant="tonal">
+                                    <v-icon>mdi-cart-arrow-down</v-icon>
+                                </v-btn>
+                            </template>
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                    <v-text-field v-model="model.price" autocomplete="off" variant="solo-filled" prepend-inner-icon="mdi-cash" rounded flat label="Price" :rules="priceRules" type="number"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-row>
+                            <v-col cols="8">
+                                <v-switch hide-details v-model="model.is_private" inset color="blue" variant="solo-filled" true-icon="mdi-eye-plus" rounded flat label="Private" ></v-switch>
+                            </v-col>
+                            <v-col>
+                                <v-checkbox hide-details v-model="model.star" inset color="yellow" variant="solo-filled" true-icon="mdi-star" flat ></v-checkbox>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-btn :disabled="article.models.length<=1" class="mt-3" size="x-small" color="red" variant="tonal" icon="mdi-close" @click="deleteModel(model.id)"></v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
+            </v-card-item>
+        </v-card>
+    </v-form>
 </template>
 <script>
 import { required , numeric } from '@vuelidate/validators';
@@ -127,7 +130,7 @@ export default {
     validations: {
         model :{
             date: { required },
-            description: { required },
+            description: {  },
             product_id: { required },
             price: { required ,numeric },
         }

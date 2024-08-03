@@ -51,7 +51,7 @@ class ArticleController extends Controller
         //
         $r_articles = $request->validate([
             "articles.*.date"=> "required|string",
-            "articles.*.description"=> "required|string|max:400",
+            "articles.*.description"=> "sometimes|nullable|string|max:400",
             "articles.*.price"=> "required|numeric",
             "articles.*.is_private"=> "required|boolean",
             "articles.*.product_id"=> "required|exists:products,id"
@@ -97,7 +97,7 @@ class ArticleController extends Controller
     {
         $data = $request->validate([
             "article.date" => "sometimes|string",
-            "article.description" => "sometimes|string|max:400",
+            "article.description" => "sometimes|nullable|string|max:400",
             "article.price" => "sometimes|numeric",
             "article.is_private" => "sometimes|boolean",
             "article.product_id" => "sometimes|exists:products,id",

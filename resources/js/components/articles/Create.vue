@@ -117,7 +117,7 @@ export default {
             models: [
                 {
                     date: { required },
-                    description: { required },
+                    description: {  },
                     product_id: { required },
                     price: { required ,numeric },
                 }

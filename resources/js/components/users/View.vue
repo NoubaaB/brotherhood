@@ -1,5 +1,19 @@
 <template>
-    <Model :user_id="user_id"/>
+    <v-row class="my-6">
+        <v-col class="text-center">
+            <v-avatar size="150" class="mx-auto" rounded="0">
+                <v-img
+                    alt="dashboards"
+                    src="/storage/shield.gif"
+                ></v-img>
+            </v-avatar>
+        </v-col>
+    </v-row>  
+    <v-row>
+        <v-col>
+            <Model :user_id="user_id"/>
+        </v-col>
+    </v-row>
 </template>
 <script>
 import User from "@/components/users/User.vue";
