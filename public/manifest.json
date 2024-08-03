@@ -28,6 +28,12 @@
             "purpose": "any"
         },
         {
+            "src": "/storage/icons/icon-230x230.png",
+            "sizes": "230x230",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
             "src": "/storage/icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png",

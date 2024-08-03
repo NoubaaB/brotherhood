@@ -1,4 +1,4 @@
-var staticCacheName = "01";
+var staticCacheName = "00";
 var filesToCache = [
     "/build",
     "/storage/icons/icon.png",
