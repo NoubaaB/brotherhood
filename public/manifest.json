@@ -19,6 +19,12 @@
             "src": "/storage/icons/icon-144x144.png",
             "sizes": "144x144",
             "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/storage/icons/icon-230x230.png",
+            "sizes": "230x230",
+            "type": "image/png",
             "purpose": "any"
         },
         {

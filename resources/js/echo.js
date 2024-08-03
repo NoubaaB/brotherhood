@@ -3,7 +3,6 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 export function initSocket() {
     window.Pusher = Pusher;
-    console.log("localStorage.getItem('token')", localStorage.getItem('token'))
     window.Echo = new Echo({
         broadcaster: 'reverb',
         key: import.meta.env.VITE_REVERB_APP_KEY,
