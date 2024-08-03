@@ -26,7 +26,7 @@
                         rounded flat label="Products List" 
                         :rules="productIdRules">
                         <template v-slot:prepend-inner>
-                            <v-btn :loading="loading_product" @click.prevent="addProduct" size="x-small" icon variant="tonal">
+                            <v-btn color="green" :loading="loading_product" @click.prevent="addProduct" size="x-small" icon variant="tonal">
                                 <v-icon>mdi-cart-arrow-down</v-icon>
                             </v-btn>
                         </template>
@@ -114,10 +114,10 @@ export default {
         },
         addProduct: async function () {
             let product_name = document.getElementById('_product').value;
-            this.loading_product = true;
-            if (this.product.collect.find(p=>p.name == product_name)) {
+            if (product_name == "" || !!this.product.collect.find(p => p.name == product_name)) {
                 return 0;
             } else {
+                this.loading_product = true;
                 await this.product.postProduct(product_name).then(res => {
                     this.loading_product = false;
                 });
