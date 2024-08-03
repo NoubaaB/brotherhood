@@ -154,7 +154,7 @@ export const useArticle = defineStore("Article", {
                 data = data.filter(article => article.is_private);
             }
 
-            data = state.regular_articles.filter(article => state.users_id.includes(article.user_id))
+            data = data.filter(article => state.users_id.includes(article.user_id))
 
             return _.orderBy(data, ["star", "date"], ["desc","desc"]);
         },
