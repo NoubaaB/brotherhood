@@ -1,7 +1,7 @@
 <template>
     <div :id="article.id" class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            <div class="swiper-slide width_card">
                 <v-card hover class="mx-auto" :class="{ on_delete:on_delete ,'bg-blue-grey-lighten-5': (article.bill_id >> 0 && article.bill_id !== true  && !on_delete)}">
                     <template v-slot:loader>
                         <v-progress-linear
