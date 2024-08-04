@@ -14,6 +14,11 @@ class Capital extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        "date_start" => "date:Y-m-d",
+        "date_end" => "date:Y-m-d"
+    ];
+
     function user() : BelongsTo {
         return $this->BelongsTo(User::class);
     }

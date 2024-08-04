@@ -20,7 +20,8 @@ class Article extends Model
     protected $with = ["product","user"];
 
     protected $casts= [
-        "is_private"=>"boolean"
+        "is_private"=>"boolean",
+        "date"=> "date:Y-m-d"
     ];
 
     /**

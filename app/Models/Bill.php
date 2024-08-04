@@ -19,6 +19,10 @@ class Bill extends Model
 
     protected $with = ["articles","user", "invoices"];
 
+    protected $casts = [
+        "date" => "date:Y-m-d"
+    ];
+
     /**
      * The "booting" method of the model.
      *
