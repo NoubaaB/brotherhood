@@ -12,7 +12,7 @@
                     <v-col cols="12" sm="6">
                         <v-autocomplete
                             v-model="model.product_id"
-                            id="_product"
+                            :id="model.id"
                             :items="product.collect" 
                             auto-select-first
                             chips
@@ -116,7 +116,7 @@ export default {
             this.article.deleteModel(id)
         },
         addProduct: async function () {
-            let product_name = document.getElementById('_product').value;
+            let product_name = document.getElementById(this.model.id).value;
             if (product_name == "" || !!this.product.collect.find(p => p.name == product_name)) {
                 return 0;
             } else {
