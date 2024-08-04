@@ -37,8 +37,8 @@ class CapitalController extends Controller
             "date_start" => "required|date_format:Y-m-d",
             "date_end" => "sometimes|nullable|date_format:Y-m-d"
         ]);
-
-        $date["user_id"]= auth()->id();
+            
+        $data["user_id"] = auth()->id();
 
         $capital = Capital::create($data);
 
