@@ -23,9 +23,13 @@ class ArticleController extends Controller
     public function index() : JsonResponse
     {
         //
+        $auth_id = auth()->id();
         $date_start = request()->query("date_start");
         $date_end = request()->query("date_end");
-        $articles = Article::whereBetween("date", [$date_start, $date_end])->get();
+        $articles = collect(Article::whereBetween("date", [$date_start, $date_end])->get())->filter(function($article) use($auth_id){
+            return ($article->user_id == $auth_id)||(($article->user_id != $auth_id)&&($article->is_private == false));
+        })->values()->toArray();
+
         $bills = Bill::whereBetween("date", [$date_start, $date_end])->get();
         $capital = Capital::where("date_start",">=", $date_start)->where("user_id", auth()->id())->first();
         return response()->json([
