@@ -27,7 +27,7 @@ class ArticleController extends Controller
         $date_end = request()->query("date_end");
         $articles = Article::whereBetween("date", [$date_start, $date_end])->get();
         $bills = Bill::whereBetween("date", [$date_start, $date_end])->get();
-        $capital = Capital::where("date_end","<=", $date_end)->where("user_id", auth()->id())->first();
+        $capital = Capital::where("date_start",">=", $date_start)->where("user_id", auth()->id())->first();
         return response()->json([
             "articles" => $articles,
             "bills" => $bills,
