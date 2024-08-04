@@ -74,6 +74,11 @@ export default {
     mounted: async function () {
         let article = this.dashboard.articles.find(__article => __article.id == this.$route.params.id);
         if (article) {
+            if (article.user_id != this.auth.getAuth.id) {
+                this.$router.push({
+                    name: "error404"
+                });
+            }            
             this.article = article;
         } else {
             article = await this._article.getArticle(this.$route.params.id).catch(error => {
@@ -82,15 +87,15 @@ export default {
                 });
             });
             if (article) {
+                if (article.user_id != this.auth.getAuth.id) {
+                    this.$router.push({
+                        name: "error404"
+                    });
+                }
                 this.article = article;
                 this.dashboard.articles.push(this.article);
             }
         }
-        // if (article.user_id != this.auth.getAuth.id) {
-        //     this.$router.push({
-        //         name: "error404"
-        //     });
-        // }
 
     },
     methods: {
