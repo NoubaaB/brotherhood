@@ -49,6 +49,7 @@
 import Article from "@/components/articles/Article.vue"
 import { useArticle } from '@/stores/Article';
 import { useDashboard } from '@/stores/Dashboard';
+import { useAuth } from '@/stores/Auth';
 
 export default {
     components: {
@@ -65,6 +66,9 @@ export default {
         },
         dashboard: function(){
             return useDashboard();
+        },
+        auth: function () {
+            return useAuth();
         }
     },
     mounted: async function () {
@@ -81,6 +85,11 @@ export default {
                 this.article = article;
                 this.dashboard.articles.push(this.article);
             }
+        }
+        if (article.user_id != this.auth.getAuth.id) {
+            this.$router.push({
+                name: "error404"
+            });
         }
 
     },
