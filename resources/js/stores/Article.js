@@ -121,7 +121,7 @@ export const useArticle = defineStore("Article", {
             }
         },
         toggleBills: function (value) {
-            this.articles.forEach(article => article.bill_id = !value);
+            this.articles.filter(article => (typeof (article.bill_id) == "object") || (typeof (article.bill_id) == "boolean")).forEach(article => article.bill_id = !value);
         },
         resetBillPlanning: function () {
             this.getBillQueue.map(article => article.bill_id = false)  
