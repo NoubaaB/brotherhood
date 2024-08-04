@@ -19,6 +19,10 @@ class Article extends Model
 
     protected $with = ["product","user"];
 
+    protected $casts= [
+        "is_private"=>"boolean"
+    ];
+
     /**
      * The "booting" method of the model.
      *
