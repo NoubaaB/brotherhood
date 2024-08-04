@@ -37,7 +37,7 @@
                     <v-col cols="12" sm="6">
                         <v-row>
                             <v-col cols="8">
-                                <v-switch hide-details v-model="model.is_private" inset color="blue" variant="solo-filled" true-icon="mdi-eye-off" false-icon="mdi-eye" rounded flat :label="model.is_private ? 'Private':'Public'" ></v-switch>
+                                <v-switch :disabled="article.bill_id" hide-details v-model="model.is_private" inset color="blue" variant="solo-filled" true-icon="mdi-eye-off" false-icon="mdi-eye" rounded flat :label="model.is_private ? 'Private':'Public'" ></v-switch>
                             </v-col>
                             <v-col>
                                 <v-checkbox hide-details v-model="model.star" inset color="yellow" variant="solo-filled" true-icon="mdi-star" flat ></v-checkbox>

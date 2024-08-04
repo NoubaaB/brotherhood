@@ -113,7 +113,7 @@ export const useDashboard = defineStore("Dashboard", {
             return data;
         },
         dates: (state) => {
-            return [...new Set(state.articles.map(article => article.date)), ...new Set(state.bills.map(bill => bill.date))];
+            return _.uniq([...new Set(state.articles.map(article => article.date)), ...new Set(state.bills.map(bill => bill.date))]);
         },
         dates_format: (state) => {
             return state.dates.map(e => moment(e).format("MM/DD/YYYY"));

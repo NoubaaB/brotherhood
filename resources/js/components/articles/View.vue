@@ -86,11 +86,11 @@ export default {
                 this.dashboard.articles.push(this.article);
             }
         }
-        if (article.user_id != this.auth.getAuth.id) {
-            this.$router.push({
-                name: "error404"
-            });
-        }
+        // if (article.user_id != this.auth.getAuth.id) {
+        //     this.$router.push({
+        //         name: "error404"
+        //     });
+        // }
 
     },
     methods: {
