@@ -16,6 +16,7 @@
         <template v-slot:append>
         </template>
         <v-card-item class="px-5 text-center">
+            {{ dashboard.dates_format }}
             <v-row>
                 <v-col>
                     <v-chip color="blue" variant="tonal">

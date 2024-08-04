@@ -116,7 +116,7 @@ export const useDashboard = defineStore("Dashboard", {
             return _.uniq([...new Set(state.articles.map(article => article.date)), ...new Set(state.bills.map(bill => bill.date))]);
         },
         dates_format: (state) => {
-            return state.dates.map(e => moment(e).format("MM/DD/YYYY"));
+            return state.dates.map(e => moment(e).format("YYYY-MM-DD"));
         },
         total_bills: (state) => {
             return _.sum(state.amount_bills);
