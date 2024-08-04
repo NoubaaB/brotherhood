@@ -96,6 +96,7 @@ export const useDashboard = defineStore("Dashboard", {
         amount_bills: state => {
             let data = [];
             state.dates.forEach(date => {
+                console.log("state.bills", date, state.bills.filter(bill => (bill.date == date)))
                 let sum = _.sumBy(state.bills.filter(bill => (bill.date == date)
                 ), "amount");
                 data.push(sum)
@@ -112,7 +113,7 @@ export const useDashboard = defineStore("Dashboard", {
             return data;
         },
         dates: (state) => {
-            return [...new Set(state.articles.map(article => article.date))];
+            return [...new Set(state.articles.map(article => article.date)), ...new Set(state.bills.map(bill => bill.date))];
         },
         dates_format: (state) => {
             return state.dates.map(e => moment(e).format("MM/DD/YYYY"));
@@ -133,7 +134,7 @@ export const useDashboard = defineStore("Dashboard", {
             return _.sum(state.amounts_private);
         },
         total_all: (state) => {
-            return state.total_none_private + state.total_private;
+            return state.total_none_private;
         },
         total_brotherhood: (state) => {
             return _.sum(state.amounts_brotherhood);

@@ -3,6 +3,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { useDashboard } from "./Dashboard";
 import { useAuth } from "./Auth";
+import moment from "moment";
 
 export const useArticle = defineStore("Article", {
     state: () => {
@@ -44,6 +45,7 @@ export const useArticle = defineStore("Article", {
             })
         },
         postArticles: async function () {
+            this.models.forEach(model => model.date = moment(model.date).format("YYYY-MM-DD"))
             return await axios.post("/api/articles", {
                 articles: this.models
             }).then(res => {
@@ -67,6 +69,7 @@ export const useArticle = defineStore("Article", {
             })
         },
         updateArticle: async function (_article) {
+            _article.date = moment(_article.date).format("YYYY-MM-DD")
             await axios.patch(`/api/articles/${_article.id}`, {
                 article:_article
             }).then(res => {

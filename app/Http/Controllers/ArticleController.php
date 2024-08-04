@@ -50,7 +50,7 @@ class ArticleController extends Controller
     {
         //
         $r_articles = $request->validate([
-            "articles.*.date"=> "required|string",
+            "articles.*.date"=> "required|date_format:Y-m-d",
             "articles.*.description"=> "sometimes|nullable|string|max:400",
             "articles.*.price"=> "required|numeric",
             "articles.*.is_private"=> "required|boolean",
@@ -96,7 +96,7 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article) : JsonResponse
     {
         $data = $request->validate([
-            "article.date" => "sometimes|string",
+            "article.date" => "required|date_format:Y-m-d",
             "article.description" => "sometimes|nullable|string|max:400",
             "article.price" => "sometimes|numeric",
             "article.is_private" => "sometimes|boolean",
