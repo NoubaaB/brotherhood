@@ -22,7 +22,7 @@
                         <v-icon class="mr-2">
                             mdi-cash-refund
                         </v-icon>
-                        {{ formatFloatNumber(dashboard.total_all) }} MAD
+                        {{ formatFloatNumber(dashboard.total_none_private) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>

@@ -134,13 +134,13 @@ export const useDashboard = defineStore("Dashboard", {
             return _.sum(state.amounts_private);
         },
         total_all: (state) => {
-            return state.total_none_private;
+            return state.total_none_private + state.total_private;
         },
         total_brotherhood: (state) => {
             return _.sum(state.amounts_brotherhood);
         },
         total_global: (state) => {
-            return _.sum([state.total_brotherhood, state.total_all]);
+            return _.sum([state.total_brotherhood, state.total_none_private]);
         },
         get_grouping_labels: (state) => {
             return _.uniqBy(state.articles.filter(article => article.user_id == state.auth.getAuth.id).map(articel => {
@@ -151,7 +151,9 @@ export const useDashboard = defineStore("Dashboard", {
             }),"product_id")
         },
         get_grouping_series: (state) => {
-            let data = [], auth_articles = state.articles.filter(article => (article.user_id == state.auth.getAuth.id)) , total = _.sumBy(auth_articles,"price");
+            let data = [],
+                auth_articles = state.articles.filter(article => (article.user_id == state.auth.getAuth.id)),
+                total = _.sumBy(auth_articles, "price");
             state.get_grouping_labels.forEach(e => {
                 data.push(_.sumBy(auth_articles.filter(article => (article.product_id == e.product_id)),"price")/total)
             })
