@@ -74,7 +74,7 @@ export default {
     mounted: async function () {
         let article = this.dashboard.articles.find(__article => __article.id == this.$route.params.id);
         if (article) {
-            if (article.user_id != this.auth.getAuth.id) {
+            if ((article.user_id != this.auth.getAuth.id)&&(article.is_private == true)) {
                 this.$router.push({
                     name: "error404"
                 });
@@ -87,7 +87,7 @@ export default {
                 });
             });
             if (article) {
-                if (article.user_id != this.auth.getAuth.id) {
+                if ((article.user_id != this.auth.getAuth.id)&&(article.is_private == true)) {
                     this.$router.push({
                         name: "error404"
                     });
