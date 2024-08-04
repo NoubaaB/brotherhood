@@ -94,18 +94,39 @@ export default {
                     opacity: 1
                 },
                 annotations: {
-                    yaxis: [{
-                        y: this.dashboard?.capital?.amount, // Position of the horizontal line
-                        borderColor: '#ff4560',
+                    yaxis: [
+                        {
+                        y: this.dashboard?.capital?.amount,
+                        borderColor: '#FEB019',
                         label: {
-                            borderColor: '#ff4560',
+                            borderColor: '#FEB019',
                             style: {
                             color: '#fff',
-                            background: '#ff4560'
+                            background: '#FEB019',
                             },
-                            text: `Limit : ${this.dashboard?.capital?.amount} DH`
-                        }
-                    }]
+                            text: `Limit : ${this.dashboard?.capital?.amount} DH`,
+                        },
+                        },
+                    ],
+                    xaxis: [
+                        {
+                        x: this.dashboard?.capital?.date_start,
+                        x2: this.dashboard?.capital?.date_end,
+                        borderColor: '#775DD0',
+                        fillColor: '#775DD0',
+                        opacity: 0.1,
+                        label: {
+                            borderColor: '#775DD0',
+                            style: {
+                            fontSize: '10px',
+                            color: '#fff',
+                            background: '#775DD0',
+                            },
+                            orientation: 'horizontal',
+                            text: `Limit : ${this.dashboard?.capital?.amount} DH`,
+                        },
+                        },
+                    ],
                 }
             }
         },

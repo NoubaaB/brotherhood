@@ -14,6 +14,8 @@ class CapitalController extends Controller
     public function index()
     {
         //
+        $capitals = Capital::where("user_id",auth()->id())->get();
+        return response()->json(["capitals"=>$capitals],200);
     }
 
     /**
@@ -30,6 +32,17 @@ class CapitalController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            "amount" => "required|numeric",
+            "date_start" => "required|date_format:Y-m-d",
+            "date_end" => "sometimes|nullable|date_format:Y-m-d"
+        ]);
+
+        $date["user_id"]= auth()->id();
+
+        $capital = Capital::create($data);
+
+        return response()->json(["capital"=>$capital],200);
     }
 
     /**
@@ -54,6 +67,15 @@ class CapitalController extends Controller
     public function update(Request $request, Capital $capital)
     {
         //
+        $data = $request->validate([
+            "amount" => "required|numeric",
+            "date_start" => "required|date_format:Y-m-d",
+            "date_end" => "sometimes|nullable|date_format:Y-m-d"
+        ]);
+
+        $capital->update($data);
+
+        return response()->json(["capital" => $capital], 200);
     }
 
     /**
@@ -62,5 +84,9 @@ class CapitalController extends Controller
     public function destroy(Capital $capital)
     {
         //
+        $status = $capital->delete();
+        return response()->json([
+            "status"=>$status
+        ],200);
     }
 }

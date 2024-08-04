@@ -99,6 +99,7 @@ export default {
               ["mdi-cart-plus", "Create Articles","articles.create"],
               ["mdi-cart", "Articles","articles.list"],
               ["mdi-text-box-multiple", "Bills","bills.list"],
+              ["mdi-cash-marker", "Capitals","capital.list"],
               ["mdi-account-group", "Users","users.list"],
           ]
       }

@@ -20,30 +20,30 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        // User::factory()->create([
+        //     'name' => 'Bachir',
+        //     'email' => 'bachirnoubaa117@gmail.com',
+        // ]);
         User::factory()->create([
-            'name' => 'Bachir',
-            'email' => 'bachirnoubaa117@gmail.com',
+            'name' => 'Test User',
+            'email' => 'test@test.com',
         ]);
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@test.com',
-        // ]);
-        // User::factory()->create([
-        //     'name' => 'Test2 User2',
-        //     'email' => 'test2@test2.com',
-        // ]);
-        // User::factory()->create([
-        //     'name' => 'Test3 User3',
-        //     'email' => 'test3@test3.com',
-        // ]);
+        User::factory()->create([
+            'name' => 'Test2 User2',
+            'email' => 'test2@test2.com',
+        ]);
+        User::factory()->create([
+            'name' => 'Test3 User3',
+            'email' => 'test3@test3.com',
+        ]);
 
-        // $bills = Bill::factory(3)->create();
-        // Product::factory(33)->create();
-        // Article::factory(300)->create();
+        $bills = Bill::factory(3)->create();
+        Product::factory(33)->create();
+        Article::factory(300)->create();
         Capital::factory(14)->create();
-        // foreach ($bills as $bill) {
-        //     $bill->update(["amount"=>$bill->articles()->sum("price")]);
-        // }
+        foreach ($bills as $bill) {
+            $bill->update(["amount"=>$bill->articles()->sum("price")]);
+        }
         // Notification::factory(30)->create();
     }
 }

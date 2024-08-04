@@ -74,7 +74,23 @@ const routes = [
                         ]
                     },
                     {
-                        path: "/users",
+                        path: "/capital",
+                        redirect: { name: 'capital.list' },
+                        children: [
+                            {
+                                path: "list",
+                                name: "capital.list",
+                                component: () => import("@/components/capital/List.vue"),
+                            },
+                            // {
+                            //     path: "view/:id",
+                            //     name: "capital.view",
+                            //     component: () => import("@/components/capital/View.vue"),
+                            // }
+                        ]
+                    },
+                    {
+                        path: "/capital",
                         redirect: { name: 'users.list' },
                         children: [
                             {
