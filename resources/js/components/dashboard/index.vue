@@ -16,6 +16,7 @@
         <YourCharges/>
         <AllCharges/>
         <BillsArticlesCharges/>
+        <Grouping/>
     </v-row>
 </template>
 <script>
@@ -23,6 +24,7 @@ import DatePicker from "@/components/global/DatePicker.vue";
 import YourCharges from "./YourCharges.vue";
 import AllCharges from "./AllCharges.vue";
 import BillsArticlesCharges from "./BillsArticlesCharges.vue";
+import Grouping from "./Grouping.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 
 export default {
@@ -30,7 +32,8 @@ export default {
         DatePicker,
         YourCharges,
         AllCharges,
-        BillsArticlesCharges
+        BillsArticlesCharges,
+        Grouping
     },
     computed: {
         dashboard: function () {

@@ -142,5 +142,20 @@ export const useDashboard = defineStore("Dashboard", {
         total_global: (state) => {
             return _.sum([state.total_brotherhood, state.total_all]);
         },
+        get_grouping_labels: (state) => {
+            return _.uniqBy(state.articles.filter(article => article.user_id == state.auth.getAuth.id).map(articel => {
+                return {
+                    product_id:articel.product_id,
+                    name:articel.product.name,
+                }
+            }),"product_id")
+        },
+        get_grouping_series: (state) => {
+            let data = [], auth_articles = state.articles.filter(article => (article.user_id == state.auth.getAuth.id)) , total = _.sumBy(auth_articles,"price");
+            state.get_grouping_labels.forEach(e => {
+                data.push(_.sumBy(auth_articles.filter(article => (article.product_id == e.product_id)),"price")/total)
+            })
+            return data;
+        }
     }
 });
