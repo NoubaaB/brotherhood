@@ -32,6 +32,14 @@ export default {
                     type: "donut",
                     width:"350"
                 },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }],
                 labels: this.dashboard.get_grouping_labels.map(e=>e.name)
             }  
         },

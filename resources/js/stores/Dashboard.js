@@ -152,10 +152,9 @@ export const useDashboard = defineStore("Dashboard", {
         },
         get_grouping_series: (state) => {
             let data = [],
-                auth_articles = state.articles.filter(article => (article.user_id == state.auth.getAuth.id)),
-                total = _.sumBy(auth_articles, "price");
+                auth_articles = state.articles.filter(article => (article.user_id == state.auth.getAuth.id));
             state.get_grouping_labels.forEach(e => {
-                data.push(_.sumBy(auth_articles.filter(article => (article.product_id == e.product_id)),"price")/total)
+                data.push(_.sumBy(auth_articles.filter(article => (article.product_id == e.product_id)),"price"))
             })
             return data;
         }
