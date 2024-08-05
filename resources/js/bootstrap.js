@@ -11,17 +11,21 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 Notification.requestPermission().then((permission) => {
     if (permission === 'granted') {
         // get service worker
-        navigator.serviceWorker.ready.then((sw) => {
-            // subscribe
-            sw.pushManager.subscribe({
-                userVisibleOnly: true,
-                // applicationServerKey: import.meta.env.VAPID_PUBLIC_KEY,
-                applicationServerKey: "BB774-m5v8jfEmvjXg2L9ZMKvUJwFoBBJAA0nL2uxsLIxEYJ_B6ZPogj1i9YbmhF9ttmmabK7ZI4fQYJ0hSLPDQ",
-            }).then((subscription) => {
-                console.log(JSON.stringify(subscription));
-                saveSub(JSON.stringify(subscription));
+        if (localStorage.getItem("web_push") == null) {
+            console.log('permission', import.meta.env.VITE_WEB_PUSH_PUBLIC_KEY)
+            navigator.serviceWorker.ready.then((sw) => {
+                // subscribe
+                sw.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    // applicationServerKey: import.meta.env.VAPID_PUBLIC_KEY,
+                    applicationServerKey: import.meta.env.VITE_WEB_PUSH_PUBLIC_KEY,
+                }).then((subscription) => {
+                    console.log(JSON.stringify(subscription));
+                    localStorage.setItem("web_push", JSON.stringify(subscription))
+                    saveSub(JSON.stringify(subscription));
+                });
             });
-        });
+        }
     }
 });
 

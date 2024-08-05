@@ -2,9 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Events\NotificationEvent;
-use App\Models\Notification;
 use App\Models\User;
+use App\Models\Notification;
+use Minishlink\WebPush\WebPush;
+use App\Models\PushNotification;
+use App\Events\NotificationEvent;
+use Minishlink\WebPush\Subscription;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -39,6 +42,42 @@ class NotificationJob implements ShouldQueue
             $notification->load(["notify_user", "trigger_user"]);
             broadcast(new NotificationEvent($notification));
         }
+
+        $auth = [
+            'VAPID' => [
+                'subject' => 'https://broterhood.congelationvillamar.com/', // can be a mailto: or your website address
+                'publicKey' => env('WEB_PUSH_PUBLIC_KEY'), // (recommended) uncompressed public key P-256 encoded in Base64-URL
+                'privateKey' => env('WEB_PUSH_PRIVATE_KEY'), // (recommended) in fact the secret multiplier of the private key encoded in Base64-URL
+            ],
+        ];
+
+        $webPush = new WebPush($auth);
+
+        // Construct the payload with the logo.
+        $user_name = auth()->user()->name;
+        $notification_operation = $object['operation'];
+        $notification_model = $object['model'];
+        $text = $object['model'] != "Delete" ? $object['text'] : "";
+        $g_text = "$user_name has $notification_operation $notification_model $text" ;
+        $url = $object['url'];
+        $payload = json_encode([
+            'title' => "Brotherhood App",
+            'body' => $g_text,
+            'url' => "https://brotherhoodsocket.congelationvillamar.com/$url",
+        ]);
+        
+        $notifications = PushNotification::all();
+        // dd($notifications);
+
+        foreach ($notifications as $notification) {
+            $webPush->sendOneNotification(
+                Subscription::create($notification['subscriptions']),
+                $payload,
+                ['TTL' => 5000]
+            );
+        }
+
+
     }
 
     /**

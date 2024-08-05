@@ -81,14 +81,15 @@ self.addEventListener("fetch", event => {
 });
 
 // Serve push web notification
+console.log("test")
 self.addEventListener('push', function (event) {
-    let notification = event.notification.json();
+    let data = event.data.json();
     event.waitUntil(
-        self.registration.showNotification(notification.title, {
-            body: notification.body,
+        self.registration.showNotification(data.title, {
+            body: data.body,
             icon: "/storage/icons/icon.png",
             data: {
-                url: notification.url
+                url: data.url
             }
         })
     );

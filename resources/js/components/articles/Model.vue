@@ -12,7 +12,7 @@
                     <v-col cols="12" sm="6">
                         <v-autocomplete
                             v-model="model.product_id"
-                            :id="model.id"
+                            :id="model.id+''"
                             :items="product.collect" 
                             auto-select-first
                             chips
