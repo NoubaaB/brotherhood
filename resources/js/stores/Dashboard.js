@@ -96,7 +96,6 @@ export const useDashboard = defineStore("Dashboard", {
         amount_bills: state => {
             let data = [];
             state.dates.forEach(date => {
-                console.log("state.bills", date, state.bills.filter(bill => (bill.date == date)))
                 let sum = _.sumBy(state.bills.filter(bill => (bill.date == date)
                 ), "amount");
                 data.push(sum)

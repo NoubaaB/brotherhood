@@ -1,6 +1,5 @@
-var staticCacheName = "00";
+var staticCacheName = "0.0.1";
 var filesToCache = [
-    "/build",
     "/storage/icons/icon.png",
     "/storage/icons/icon-144x144.png",
     "/storage/icons/icon-192x192.png",
@@ -27,6 +26,8 @@ var filesToCache = [
     "/storage/trash.gif",
     "/storage/watch.gif",
     "/storage/wind.gif",
+    "/storage/pie-chart.gif",
+    "/storage/line-chart.gif",
     "/storage/users/alien_1.gif",
     "/storage/users/alien_1.png",
     "/storage/users/alien_2.gif",
@@ -42,15 +43,18 @@ var filesToCache = [
 ];
 
 // Cache on install
-self.addEventListener("install", event => {
-    this.skipWaiting();
+self.addEventListener('install', function (event) {
     event.waitUntil(
-        caches.open(staticCacheName)
-            .then(cache => {
-                return cache.addAll(filesToCache);
-            })
-    )
+        caches.open(staticCacheName).then(function (cache) {
+            return Promise.all(filesToCache.map(async function (url) {
+                return await cache.add(url).catch(function (err) {
+                    console.error('Failed to cache ' + url + ': ' + err);
+                });
+            }));
+        })
+    );
 });
+
 
 // Clear cache on activate
 self.addEventListener('activate', event => {
@@ -74,4 +78,25 @@ self.addEventListener("fetch", event => {
                 return caches.match('offline');
             })
     )
+});
+
+// Serve push web notification
+self.addEventListener('push', function (event) {
+    let notification = event.notification.json();
+    event.waitUntil(
+        self.registration.showNotification(notification.title, {
+            body: notification.body,
+            icon: "/storage/icons/icon.png",
+            data: {
+                url: notification.url
+            }
+        })
+    );
+});
+
+self.addEventListener('notificationclick', function (event) {
+    // event.notification.close();
+    event.waitUntil(
+        clients.openWindow(event.notification.data.url)
+    );
 });

@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Capital;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 
 class CapitalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : JsonResponse
     {
         //
         $capitals = Capital::where("user_id",auth()->id())->get();
@@ -29,7 +30,7 @@ class CapitalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : JsonResponse
     {
         //
         $data = $request->validate([
@@ -64,7 +65,7 @@ class CapitalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Capital $capital)
+    public function update(Request $request, Capital $capital) : JsonResponse
     {
         //
         $data = $request->validate([
@@ -81,7 +82,7 @@ class CapitalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Capital $capital)
+    public function destroy(Capital $capital) : JsonResponse
     {
         //
         $status = $capital->delete();

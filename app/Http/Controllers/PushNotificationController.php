@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Invoice;
 use Illuminate\Http\Request;
-use App\Jobs\NotificationJob;
-use App\Events\UpdateBillEvent;
+use App\Models\PushNotification;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 
-class InvoiceController extends Controller
+class PushNotificationController extends Controller
 {
+    function saveSubscription(Request $request) : JsonResponse {
+        $items = new PushNotification();
+        $items->subscriptions = json_decode($request->sub);
+        $items->save();
+
+        return response()->json(["message"=>"added successfully"],200);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -37,16 +44,15 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Invoice $invoice) : JsonResponse
+    public function show(PushNotification $pushNotification)
     {
         //
-        return response()->json(["bill_id"=>$invoice->bill_id],200);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Invoice $invoice)
+    public function edit(PushNotification $pushNotification)
     {
         //
     }
@@ -54,24 +60,15 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Invoice $invoice) : JsonResponse
+    public function update(Request $request, PushNotification $pushNotification)
     {
         //
-        $data = $request->validate([
-            "checked"=>"required|boolean"
-        ]);
-        $invoice->update($data);
-
-        NotificationJob::dispatch("Edit", "Invoice", $invoice->id);
-        broadcast(new UpdateBillEvent($invoice->bill))->toOthers();
-        
-        return response()->json(["invoice"=>$invoice],200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoice $invoice)
+    public function destroy(PushNotification $pushNotification)
     {
         //
     }

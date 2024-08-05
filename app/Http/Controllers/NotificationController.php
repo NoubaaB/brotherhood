@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
-use App\Http\Controllers\Controller;
-use App\Jobs\ReadNotificationJob;
 use Illuminate\Http\Request;
+use App\Jobs\ReadNotificationJob;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 
 class NotificationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : JsonResponse
     {
         //
         $user_id = auth()->id();
@@ -36,7 +37,7 @@ class NotificationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : void
     {
         //
         $user_id = auth()->id();

@@ -4,17 +4,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CapitalController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\PushNotificationController;
 
 #region non-authentication routes
 Route::controller(AuthController::class)->group(function () {
     //login route
     Route::post("login", "login");
+
+    //subscription to web push notification
+    Route::post("save-push-notification-sub", [PushNotificationController::class, "saveSubscription"]);
 });
 #endregion 
 
