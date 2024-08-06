@@ -62,16 +62,18 @@ class Bill extends Model
             $filtred_users = $this->invoices->map(fn ($model) => $model->user_id)->toArray();
         }
 
-        // dd($filtred_users);
-        Invoice::where("bill_id", $this->id)->whereNotIn("user_id", $filtred_users)->delete();
+        Invoice::where([
+            ["user_id", "!=", $filtred_users],
+            ["bill_id", "=" ,$this->id]
+        ])->delete();
         
         $total_each = $this->amount / User::find($filtred_users)->count();
 
         foreach ($filtred_users as $user_id) {
             $my_charge = $this->articles->where("user_id", $user_id)->sum("price");
             $invoice = Invoice::where([
-                "bill_id",$this->id,
-                "user_id"=> $user_id
+                ["bill_id","=",$this->id],
+                ["user_id" , "=" , $user_id]
             ])->first();
 
             if($invoice){
