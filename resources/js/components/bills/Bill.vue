@@ -124,9 +124,11 @@
                                     @click="goTo(article.id)"
                                 >
                                     <template v-slot:title>
-                                        <strong>
+                                        <strong class="mr-1">
                                             {{ article.product.name }}
-                                        </strong>
+                                        </strong>:
+                                        <v-chip size="x-small" v-if="auth.getAuth.id == article.user_id" color="green">Me</v-chip>
+                                        <v-chip size="x-small" v-else color="blue">{{ article.user.name }}</v-chip>
                                     </template>
                                     <template v-slot:subtitle>
                                         <div class="d-inline">
