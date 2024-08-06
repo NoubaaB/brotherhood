@@ -12,7 +12,6 @@ Notification.requestPermission().then((permission) => {
     if (permission === 'granted') {
         // get service worker
         if (localStorage.getItem("web_push") == null) {
-            console.log('permission', import.meta.env.VITE_WEB_PUSH_PUBLIC_KEY)
             navigator.serviceWorker.ready.then((sw) => {
                 // subscribe
                 sw.pushManager.subscribe({
@@ -32,8 +31,6 @@ Notification.requestPermission().then((permission) => {
 function saveSub(sub) {
     axios.post("/api/save-push-notification-sub", {
         'sub': sub
-    }).then(res => {
-        console.log("res", res);
     })
 }
 /**

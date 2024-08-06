@@ -42,7 +42,6 @@ class NotificationJob implements ShouldQueue
             $notification->load(["notify_user", "trigger_user"]);
             broadcast(new NotificationEvent($notification));
         }
-
         $auth = [
             'VAPID' => [
                 'subject' => 'https://broterhood.congelationvillamar.com/', // can be a mailto: or your website address
