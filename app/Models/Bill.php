@@ -69,8 +69,11 @@ class Bill extends Model
 
         foreach ($filtred_users as $user_id) {
             $my_charge = $this->articles->where("user_id", $user_id)->sum("price");
-            $invoice = Invoice::where("bill_id",$this->id)->where("user_id", $user_id)->first();
-            
+            $invoice = Invoice::where([
+                "bill_id",$this->id,
+                "user_id"=> $user_id
+            ])->first();
+
             if($invoice){
                 $invoice->update([
                     "spent" => $my_charge,

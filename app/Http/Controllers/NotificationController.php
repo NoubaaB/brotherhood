@@ -21,7 +21,10 @@ class NotificationController extends Controller
         ->latest()->with("notify_user")
         ->paginate(10);
 
-        $count = Notification::where("notify_user_id", $user_id)->where("read", false)->count();
+        $count = Notification::where([
+            "notify_user_id", $user_id,  
+            "read", false
+        ])->count();
         return response()->json(['notifications' => $notifications, 'count' => $count], 200);
 
     }

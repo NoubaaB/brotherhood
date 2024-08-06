@@ -31,7 +31,11 @@ class ArticleController extends Controller
         })->values()->toArray();
 
         $bills = Bill::whereBetween("date", [$date_start, $date_end])->get();
-        $capital = Capital::where("date_start",">=", $date_start)->where("user_id", auth()->id())->first();
+        $capital = Capital::where([
+            "date_start", ">=", $date_start,
+            "user_id", auth()->id()
+        ])->first();
+        
         return response()->json([
             "articles" => $articles,
             "bills" => $bills,

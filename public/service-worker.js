@@ -81,7 +81,6 @@ self.addEventListener("fetch", event => {
 });
 
 // Serve push web notification
-console.log("test")
 self.addEventListener('push', function (event) {
     let data = event.data.json();
     event.waitUntil(
