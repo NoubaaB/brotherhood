@@ -65,7 +65,9 @@ class NotificationJob implements ShouldQueue
             'url' => "https://brotherhoodsocket.congelationvillamar.com/$url",
         ]);
         
-        $notifications = PushNotification::all();
+        $notifications = PushNotification::where([
+            "user_id","!=", $auth_id
+        ])->get();
         // dd($notifications);
 
         foreach ($notifications as $notification) {

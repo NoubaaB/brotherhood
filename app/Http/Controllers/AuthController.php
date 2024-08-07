@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\PushNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controllers\Middleware;
@@ -82,9 +83,12 @@ class AuthController extends Controller implements HasMiddleware
 
         /** @var User $auth_user */
         $auth_user = auth()->user();
-
+        
+        $push_notification = PushNotification::where("user_id",$auth_user->id)->first();
+        if($push_notification){
+            $push_notification->delete();
+        }
         $status = $auth_user->tokens()->delete();
-
         return response()->json(["status" => $status], 200);
     }
 

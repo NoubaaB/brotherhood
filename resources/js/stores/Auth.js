@@ -4,6 +4,8 @@ import { useProduct } from "@/stores/Product"
 import { useNotification } from "@/stores/Notification";
 import { useUser } from "@/stores/User";
 import { establish } from "@/plugins/handleSocket";
+import { watch } from 'vue'
+
 
 export const useAuth = defineStore("Auth", {
     state: () => {
@@ -31,8 +33,11 @@ export const useAuth = defineStore("Auth", {
                 this.user = response.data.user;
                 this._user.users = response.data.users;
                 this.product.collect = response.data.products;
-                this.notification.init();
-                establish();
+                if (this.user) {
+                    this.notification.init();
+                    establish();
+                    this.subscribe();
+                }
                 return this.user;
             })
         },
@@ -47,8 +52,11 @@ export const useAuth = defineStore("Auth", {
                 this.token = response.data.token;
                 localStorage.setItem('token', this.token);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-                this.notification.init();
-                establish();
+                if (this.user) {
+                    this.notification.init();
+                    establish();
+                    this.subscribe();
+                }
                 return response.data;
             });
         },
@@ -60,9 +68,33 @@ export const useAuth = defineStore("Auth", {
             return await axios.post("/api/logout",).then(response => {
                 this.user = null;
                 this.token = null;
+                localStorage.removeItem("web_push");
                 return response.data;
             });
         },
+        subscribe: async function () {
+            // Subscribe Users to Push Notifications
+            await Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    // get service worker
+                    if (localStorage.getItem("web_push") == null) {
+                        navigator.serviceWorker.ready.then((sw) => {
+                            // subscribe
+                            sw.pushManager.subscribe({
+                                userVisibleOnly: true,
+                                // applicationServerKey: import.meta.env.VAPID_PUBLIC_KEY,
+                                applicationServerKey: import.meta.env.VITE_WEB_PUSH_PUBLIC_KEY,
+                            }).then(async (subscription) => {
+                                localStorage.setItem("web_push", JSON.stringify(subscription))
+                                await axios.post("/api/save-push-notification-sub", {
+                                    'subscription': JSON.stringify(subscription)
+                                })
+                            });
+                        });
+                    }
+                }
+            });
+        }
     },
     getters: {
         getAuth: (state) => {

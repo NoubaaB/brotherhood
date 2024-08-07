@@ -66,6 +66,23 @@
                     </template>
                     <v-spacer></v-spacer>
                     <v-card-actions class="bg-blue-lighten-5">
+                        <div v-for="invoice in bill.invoices" :key="invoice.id" class="mr-3">
+                            <v-badge :color="invoice.checked?'green':'yellow'" location="bottom end">
+                                <template v-slot:badge>
+                                    <v-icon v-if="invoice.checked">mdi-check</v-icon>
+                                    <v-icon v-else>mdi-close</v-icon>
+                                </template>
+                                <v-avatar
+                                size="20"
+                                >
+                                    <v-img
+                                    :src="user.getUserImage(invoice.user_id)"
+                                    >
+            
+                                    </v-img>
+                                </v-avatar>
+                            </v-badge>
+                        </div>
                         <v-spacer></v-spacer>
                         <v-btn class="mr-2" color="deep-purple-darken-1" size="x-small" variant="tonal" :icon="expand_invoices ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="expand_invoices = !expand_invoices"></v-btn>
                         <v-btn class="mr-2" color="blue-darken-1" size="x-small" variant="tonal" :icon="expand_articles ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="expand_articles = !expand_articles"></v-btn>
@@ -171,6 +188,7 @@
 <script>
 import { useAuth } from '@/stores/Auth';
 import { useBill } from '@/stores/Bill';
+import { useUser } from '@/stores/User';
 
 export default {
     props: {
@@ -228,6 +246,9 @@ export default {
         },
         auth: function () {
             return useAuth();
+        },
+        user: function () {
+            return useUser();
         }
     },
     methods: {

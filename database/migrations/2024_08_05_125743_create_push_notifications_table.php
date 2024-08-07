@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('push_notifications', function (Blueprint $table) {
             $table->id();
             $table->json("subscriptions");
+            $table->foreignId('user_id')->nullable()->index();
             $table->timestamps();
         });
     }

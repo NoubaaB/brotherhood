@@ -39,6 +39,9 @@ export const useUser = defineStore("User", {
                 this.users = this.users.filter(user => user_id != user.id);
                 return res
             })
+        },
+        getUserImage: function (user_id) {
+            return this.users.find(u=>u.id == user_id)?.image
         }
     },
     getters: {

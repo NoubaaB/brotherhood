@@ -11,7 +11,8 @@ class PushNotificationController extends Controller
 {
     function saveSubscription(Request $request) : JsonResponse {
         $items = new PushNotification();
-        $items->subscriptions = json_decode($request->sub);
+        $items->subscriptions = json_decode($request->subscription);
+        $items->user_id = auth()->id();
         $items->save();
 
         return response()->json(["message"=>"added successfully"],200);

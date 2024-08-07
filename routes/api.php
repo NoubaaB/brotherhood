@@ -16,9 +16,6 @@ use App\Http\Controllers\PushNotificationController;
 Route::controller(AuthController::class)->group(function () {
     //login route
     Route::post("login", "login");
-
-    //subscription to web push notification
-    Route::post("save-push-notification-sub", [PushNotificationController::class, "saveSubscription"]);
 });
 #endregion 
 
@@ -29,6 +26,8 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::get("me", [AuthController::class, "me"]); //get auth user with
     Route::post("logout", [AuthController::class, "logout"]);
     Route::post("update", [AuthController::class, "update"]);
+    //subscription to web push notification
+    Route::post("save-push-notification-sub", [PushNotificationController::class, "saveSubscription"]);
     #endregion
 
     #region daily routes
