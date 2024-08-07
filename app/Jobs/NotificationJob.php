@@ -66,7 +66,7 @@ class NotificationJob implements ShouldQueue
         ]);
         
         $notifications = PushNotification::where([
-            "user_id","!=", $auth_id
+            ["user_id","!=", $auth_id]
         ])->get();
         // dd($notifications);
 
