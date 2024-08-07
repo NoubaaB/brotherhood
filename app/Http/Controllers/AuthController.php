@@ -77,14 +77,14 @@ class AuthController extends Controller implements HasMiddleware
         ], 201);
     }
 
-    public function logout(): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
         //delete all tokens
 
         /** @var User $auth_user */
         $auth_user = auth()->user();
-        
-        $push_notification = PushNotification::where("user_id",$auth_user->id)->first();
+        $auth_key = $request->all()["params"]["auth_key"];
+        $push_notification = PushNotification::whereJsonContains("subscriptions->keys->auth", $auth_key)->first();
         if($push_notification){
             $push_notification->delete();
         }
