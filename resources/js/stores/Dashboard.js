@@ -69,6 +69,19 @@ export const useDashboard = defineStore("Dashboard", {
             });
             return data;
         },
+        amounts_none_public_nette: (state) => {
+            let data = [];
+            state.dates.forEach(date => {
+                let bills = state.bills.filter(bill => bill.date == date);
+                let invoices = [];
+                bills.forEach(bill=>{
+                    invoices.push(...bill.invoices.filter(invoice => (invoice.user_id == state.auth.getAuth.id) && (invoice.checked)));
+                })
+                let sum = _.sumBy(invoices,"price");
+                data.push(sum)
+            });
+            return data;
+        },
         amounts_all: (state) => {
             let data = [];
             state.dates.forEach(date => {
@@ -128,6 +141,9 @@ export const useDashboard = defineStore("Dashboard", {
         },
         total_none_private: (state) => {
             return _.sum(state.amounts_none_private);
+        },
+        total_none_public_nette: (state) => {
+            return _.sum(state.amounts_none_public_nette);
         },
         total_private: (state) => {
             return _.sum(state.amounts_private);

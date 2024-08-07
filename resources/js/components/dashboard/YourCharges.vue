@@ -22,11 +22,19 @@
                         <v-icon class="mr-2">
                             mdi-cash-fast
                         </v-icon>
-                        {{ formatFloatNumber(dashboard.total_none_private) }} MAD
+                        {{ formatFloatNumber(dashboard.total_none_public_nette) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>
                     <v-chip color="green" variant="tonal">
+                        <v-icon class="mr-2">
+                            mdi-cash-fast
+                        </v-icon>
+                        {{ formatFloatNumber(dashboard.total_none_private) }} MAD
+                    </v-chip>
+                </v-col>
+                <v-col>
+                    <v-chip color="amber-darken-3" variant="tonal">
                         <v-icon class="mr-2">
                             mdi-cash-refund
                         </v-icon>
@@ -34,7 +42,7 @@
                     </v-chip>
                 </v-col>
                 <v-col>
-                    <v-chip color="amber-darken-3" variant="tonal">
+                    <v-chip color="deep-purple-lighten-1" variant="tonal">
                         <v-icon class="mr-2">
                             mdi-cash-plus
                         </v-icon>
@@ -97,14 +105,14 @@ export default {
                     yaxis: [
                         {
                         y: this.dashboard?.capital?.amount,
-                        borderColor: '#FEB019',
+                        borderColor: '#FF0000',
                         label: {
-                            borderColor: '#FEB019',
+                            borderColor: '#FF0000',
                             style: {
                             color: '#fff',
-                            background: '#FEB019',
+                            background: '#FF0000',
                             },
-                            text: `Limit : ${this.dashboard?.capital?.amount} DH`,
+                            text: `Capital : ${this.dashboard?.capital?.amount} DH`,
                         },
                         },
                     ],
@@ -112,18 +120,18 @@ export default {
                         {
                         x: this.dashboard?.capital?.date_start,
                         x2: this.dashboard?.capital?.date_end,
-                        borderColor: '#775DD0',
-                        fillColor: '#775DD0',
+                        borderColor: '#FF0000',
+                        fillColor: '#FF0000',
                         opacity: 0.1,
                         label: {
-                            borderColor: '#775DD0',
+                            borderColor: '#FF0000',
                             style: {
                             fontSize: '10px',
                             color: '#fff',
-                            background: '#775DD0',
+                            background: '#FF0000',
                             },
                             orientation: 'horizontal',
-                            text: `Limit : ${this.dashboard?.capital?.amount} DH`,
+                            text: `Capital : ${this.dashboard?.capital?.amount} DH`,
                         },
                         },
                     ],
@@ -133,7 +141,11 @@ export default {
         series: function () {
             return [
                 {
-                    name: "Amount you spent To Public",
+                    name: "Amount you spent To Public (Nette)",
+                    data: this.dashboard.amounts_none_public_nette
+                },
+                {
+                    name: "Amount you spent To Public (Brute)",
                     data: this.dashboard.amounts_none_private
                 },
                 {
