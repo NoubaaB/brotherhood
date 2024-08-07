@@ -149,7 +149,7 @@ export const useDashboard = defineStore("Dashboard", {
             return _.sum(state.amounts_private);
         },
         total_all: (state) => {
-            return state.total_none_private + state.total_private;
+            return (state.total_none_public_nette*-1) + state.total_private;
         },
         total_brotherhood: (state) => {
             return _.sum(state.amounts_brotherhood);
