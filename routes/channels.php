@@ -18,4 +18,9 @@ Broadcast::channel("products", function ($user) {
     return (int) $user->id;
 });
 
+Broadcast::channel("users", function ($user) {
+    $id = auth()->id();
+    return (int) $user->id === (int) $id ? $user : null;
+});
+
 Broadcast::routes(['middleware' => ['auth:sanctum']]);

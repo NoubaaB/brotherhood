@@ -4,6 +4,7 @@ export const useUser = defineStore("User", {
     state: () => {
         return {
             users: [],
+            connected_users: [],
             is_fetch:false
         }
     },
@@ -23,6 +24,15 @@ export const useUser = defineStore("User", {
                 this.is_fetch = false;
                 return res.data.user;
             })
+        },
+        join: function (user) {
+            this.connected_users.push(user);  
+        },
+        leave: function (user) {
+            let index = this.connected_users.findIndex(
+                (u) => u.id == user.id
+            );
+            this.connected_users.splice(index, 1);
         },
         postUser: async function (form) {
             this.is_fetch = true;

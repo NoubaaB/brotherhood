@@ -3,6 +3,9 @@
         <template v-slot:prepend>
             <v-app-bar-nav-icon v-if="auth.is_auth" @click="auth.drawer= !auth.drawer"></v-app-bar-nav-icon>
         </template>
+        <v-icon size="x-small">
+            mdi-antenna
+        </v-icon>
 
         <v-app-bar-title class="text-center px-auto">
             <v-row dense>

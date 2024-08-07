@@ -3,14 +3,35 @@ import { useDashboard } from "@/stores/Dashboard.js";
 import { useNotification } from "@/stores/Notification";
 import { useAuth } from "@/stores/Auth";
 import { useProduct } from "@/stores/Product";
+import { useUser } from "@/stores/User";
 import { initSocket } from "@/echo";
 
 export function establish() {
     let dashboard = useDashboard();
     let notification = useNotification();
     let auth = useAuth();
+    let user = useUser();
     let product = useProduct();
     initSocket();
+
+    //start users private presence channel
+    Echo.join(`users`)
+        .here((users) => {
+            user.connected_users = users
+                .filter((u) => u.id != auth.getAuth.id)
+        })
+        .joining((user) => {
+            if (
+                !user.connected_users.find((u) => u.id == user.id) &&
+                user.id != auth.getAuth.id
+            ) {
+                user.join(user);
+            }
+        })
+        .leaving((user) => {
+            user.leave(user);
+        })
+    //end users private presence channel
     //start articles websockets
     Echo.private(`articles`)
         .listen("CreateArticleEvent", (event => {
