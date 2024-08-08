@@ -88,7 +88,7 @@ export const useBill = defineStore("Bill", {
             return _.sumBy(state.dashboard.bills, "amount");
         },
         bills: state => {
-            return state.dashboard.bills
+            return _.orderBy(state.dashboard.bills,["date"], ["desc"])
         }
     }
 });
