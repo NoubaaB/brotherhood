@@ -71,7 +71,8 @@ export const useArticle = defineStore("Article", {
         updateArticle: async function (_article) {
             _article.date = moment(_article.date).format("YYYY-MM-DD")
             await axios.patch(`/api/articles/${_article.id}`, {
-                article:_article
+                article: _article,
+                update_bill: !!_article.bill_id
             }).then(res => {
                 let article = this.dashboard.articles.find(e => e.id == _article.id);
                 if (article) {
