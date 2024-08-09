@@ -5,7 +5,11 @@ export const useUser = defineStore("User", {
         return {
             users: [],
             connected_users: [],
-            is_fetch:false
+            menu: false,
+            snack_bar: false,
+            connected_user_name: "",
+            connected_msg: "",
+            is_fetch: false
         }
     },
     actions: {
@@ -26,12 +30,19 @@ export const useUser = defineStore("User", {
             })
         },
         join: function (user) {
-            this.connected_users.push(user);  
+            this.connected_users.push(user);
+            this.snack_bar = true;
+            this.connected_user_name = user.name;
+            this.connected_msg = "hase Joined";
         },
         leave: function (user) {
             let index = this.connected_users.findIndex(
                 (u) => u.id == user.id
             );
+            this.snack_bar = true;
+            this.connected_user_name = user.name;
+            this.connected_msg = "hase Leaved";
+
             this.connected_users.splice(index, 1);
         },
         postUser: async function (form) {
@@ -51,7 +62,7 @@ export const useUser = defineStore("User", {
             })
         },
         getUserImage: function (user_id) {
-            return this.users.find(u=>u.id == user_id)?.image
+            return this.users.find(u => u.id == user_id)?.image
         }
     },
     getters: {

@@ -20,16 +20,13 @@ export function establish() {
             user.connected_users = users
                 .filter((u) => u.id != auth.getAuth.id)
         })
-        .joining((user) => {
-            if (
-                !user.connected_users.find((u) => u.id == user.id) &&
-                user.id != auth.getAuth.id
-            ) {
-                user.join(user);
+        .joining((_user) => {
+            if (!user.connected_users.find((u) => u.id == _user.id) && _user.id != auth.getAuth.id) {
+                user.join(_user);
             }
         })
-        .leaving((user) => {
-            user.leave(user);
+        .leaving((_user) => {
+            user.leave(_user);
         })
     //end users private presence channel
     //start articles websockets
@@ -98,7 +95,7 @@ export function establish() {
     //start notification websockets
     Echo.private(`notifications.${auth.getAuth.id}`)
         .listen("NotificationEvent", (event => {
-            console.log("NotificationEvent",event)
+            console.log("NotificationEvent", event)
             notification.notifications.push(event.notification);
             ++notification.unread;
             notification.addToSnackBar(event.notification);
@@ -108,7 +105,7 @@ export function establish() {
     //start product websockets
     Echo.private(`products`)
         .listen("CreateProductEvent", (event => {
-            console.log("CreateProductEvent",event)
+            console.log("CreateProductEvent", event)
             product.collect.push(event.product);
         }));
     //end product websockets

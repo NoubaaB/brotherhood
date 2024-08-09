@@ -36,6 +36,7 @@
 <script>
 import Bill from "@/components/bills/Bill.vue"
 import { useBill } from '@/stores/Bill';
+import { useError } from '@/stores/Error';
 
 export default {
     components: {
@@ -49,6 +50,9 @@ export default {
     computed: {
         _bill: function () {
             return useBill();
+        },
+        error: function () {
+            return useError();
         }
     },
     mounted: async function () {
@@ -57,8 +61,11 @@ export default {
             this.bill = bill;
         } else {
             bill = await this._bill.getBill(this.$route.params.id).catch(error => {
+                this.error.text = `Bill N° : ${this.$route.params.id} Has been Deleted`,
+                this.error.image = "delete_bill.gif";
+
                 this.$router.push({
-                    name: "error404"
+                    name: "error404",
                 });
             });
             if (bill) {

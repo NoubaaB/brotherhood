@@ -50,6 +50,7 @@ import Article from "@/components/articles/Article.vue"
 import { useArticle } from '@/stores/Article';
 import { useDashboard } from '@/stores/Dashboard';
 import { useAuth } from '@/stores/Auth';
+import { useError } from '@/stores/Error';
 
 export default {
     components: {
@@ -69,12 +70,18 @@ export default {
         },
         auth: function () {
             return useAuth();
+        },
+        error: function () {
+            return useError();
         }
     },
     mounted: async function () {
         let article = this.dashboard.articles.find(__article => __article.id == this.$route.params.id);
         if (article) {
-            if ((article.user_id != this.auth.getAuth.id)&&(article.is_private == true)) {
+            if ((article.user_id != this.auth.getAuth.id) && (article.is_private == true)) {
+                this.error.text = `Article N° : ${this.$route.params.id} Has been Deleted`,
+                this.error.image = "delete_article.gif";
+
                 this.$router.push({
                     name: "error404"
                 });
@@ -82,12 +89,18 @@ export default {
             this.article = article;
         } else {
             article = await this._article.getArticle(this.$route.params.id).catch(error => {
+                this.error.text = `Article N° : ${this.$route.params.id} Has been Deleted`,
+                this.error.image = "delete_article.gif";
+
                 this.$router.push({
                     name: "error404"
                 });
             });
             if (article) {
-                if ((article.user_id != this.auth.getAuth.id)&&(article.is_private == true)) {
+                if ((article.user_id != this.auth.getAuth.id) && (article.is_private == true)) {
+                    this.error.text = `Article N° : ${this.$route.params.id} Has been Deleted`,
+                    this.error.image = "delete_article.gif";
+
                     this.$router.push({
                         name: "error404"
                     });
