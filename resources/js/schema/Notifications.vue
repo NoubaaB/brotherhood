@@ -5,10 +5,10 @@
       varian="tonel"
       icon
     >
-      <v-badge v-if="notification.unread" size="2" color="red" :content="notification.unread">
-        <v-icon>mdi-bell-ring</v-icon>
-    </v-badge> 
-    <v-icon v-else>mdi-bell-outline</v-icon>
+        <v-badge v-if="notification.unread" size="2" color="red" :content="notification.unread">
+            <v-icon>mdi-bell-ring</v-icon>
+        </v-badge> 
+        <v-icon v-else>mdi-bell-outline</v-icon>
     </v-btn>
 
     <v-menu max-height="600" :close-on-content-click="false" v-model="notification.menu" activator="#menu-activator">

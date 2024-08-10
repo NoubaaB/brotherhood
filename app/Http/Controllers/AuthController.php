@@ -83,10 +83,12 @@ class AuthController extends Controller implements HasMiddleware
 
         /** @var User $auth_user */
         $auth_user = auth()->user();
-        $auth_key = $request->all()["params"]["auth_key"];
-        $push_notification = PushNotification::whereJsonContains("subscriptions->keys->auth", $auth_key)->first();
-        if($push_notification){
-            $push_notification->delete();
+        $auth_key = $request->all()["params"]["auth_key"]??null;
+        if($auth_key){
+            $push_notification = PushNotification::whereJsonContains("subscriptions->keys->auth", $auth_key)->first();
+            if($push_notification){
+                $push_notification->delete();
+            }
         }
         $status = $auth_user->tokens()->delete();
         return response()->json(["status" => $status], 200);

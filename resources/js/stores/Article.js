@@ -10,7 +10,7 @@ export const useArticle = defineStore("Article", {
         return {
             users_id: [],
             model: {
-                id:uuidv4,
+                id: uuidv4,
                 date: new Date().toISOString().substr(0, 10),
                 description: "",
                 price: null,
@@ -22,16 +22,16 @@ export const useArticle = defineStore("Article", {
                 {
                     id: uuidv4(),
                     date: new Date().toISOString().substr(0, 10),
-                    description: "",    
+                    description: "",
                     price: null,
                     is_private: false,
                     star: false,
                     product_id: null,
                 }
             ],
-            article_filter: ["0","3"],
+            article_filter: ["0", "3"],
             dashboard: useDashboard(),
-            auth : useAuth()
+            auth: useAuth()
         }
     },
     actions: {
@@ -40,7 +40,7 @@ export const useArticle = defineStore("Article", {
         },
         deleteArticle: async function (id) {
             await axios.delete(`/api/articles/${id}`).then(res => {
-                this.dashboard.articles = this.dashboard.articles.filter(e=>e.id != id)
+                this.dashboard.articles = this.dashboard.articles.filter(e => e.id != id)
                 return res
             })
         },
@@ -60,7 +60,7 @@ export const useArticle = defineStore("Article", {
                 }];
                 return res;
             }).catch(error => {
-                console.log("error",error)
+                console.log("error", error)
             })
         },
         getArticle: async function (id) {
@@ -71,7 +71,8 @@ export const useArticle = defineStore("Article", {
         updateArticle: async function (_article) {
             _article.date = moment(_article.date).format("YYYY-MM-DD")
             await axios.patch(`/api/articles/${_article.id}`, {
-                article:_article
+                article: _article,
+                update_bill: !!_article.bill_id
             }).then(res => {
                 let article = this.dashboard.articles.find(e => e.id == _article.id);
                 if (article) {
@@ -88,7 +89,7 @@ export const useArticle = defineStore("Article", {
         cancelBill: async function (_article) {
             await axios.patch(`/api/articles/${_article.id}`, {
                 article: {
-                    bill_id:null
+                    bill_id: null
                 },
                 update_bill: true
             }).then(res => {
@@ -102,7 +103,7 @@ export const useArticle = defineStore("Article", {
         makeBill: async function () {
             return await axios.post(`/api/bills`, {
                 articles: this.getBillQueue.map(e => e.id),
-                users_id:this.users_id,
+                users_id: this.users_id,
             }).then(res => {
                 this.getBillQueue.forEach(_bill_article => {
                     let article = this.dashboard.articles.find(e => e.id == _bill_article.id);
@@ -124,7 +125,7 @@ export const useArticle = defineStore("Article", {
             this.articles.filter(article => (typeof (article.bill_id) == "object") || (typeof (article.bill_id) == "boolean")).forEach(article => article.bill_id = !value);
         },
         resetBillPlanning: function () {
-            this.getBillQueue.map(article => article.bill_id = false)  
+            this.getBillQueue.map(article => article.bill_id = false)
         },
         addArticle: function () {
             this.models.push(
@@ -160,9 +161,9 @@ export const useArticle = defineStore("Article", {
                 data = data.filter(article => article.is_private);
             }
 
-            data = data.filter(article => state.users_id.includes(article.user_id))
+            // data = data.filter(article => state.users_id.includes(article.user_id))
 
-            return _.orderBy(data, ["star", "date"], ["desc","desc"]);
+            return _.orderBy(data, ["star", "date"], ["asc", "desc"]);
         },
         total_articles: (state) => {
             return _.sumBy(state.articles, "price");
@@ -171,7 +172,7 @@ export const useArticle = defineStore("Article", {
             return _.sumBy(state.getBillQueue, "price");
         },
         getBillQueue: (state) => {
-            return state.regular_articles.filter(article=>article.bill_id === true)
+            return state.regular_articles.filter(article => article.bill_id === true)
         },
         regular_articles: (state) => {
             return state.dashboard.articles.filter(article => (article.user_id == state.auth.getAuth.id)

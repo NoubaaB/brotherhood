@@ -20,22 +20,22 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() : JsonResponse
+    public function index(): JsonResponse
     {
         //
         $auth_id = auth()->id();
         $date_start = request()->query("date_start");
         $date_end = request()->query("date_end");
-        $articles = collect(Article::whereBetween("date", [$date_start, $date_end])->get())->filter(function($article) use($auth_id){
-            return ($article->user_id == $auth_id)||(($article->user_id != $auth_id)&&($article->is_private == false));
+        $articles = collect(Article::whereBetween("date", [$date_start, $date_end])->get())->filter(function ($article) use ($auth_id) {
+            return ($article->user_id == $auth_id) || (($article->user_id != $auth_id) && ($article->is_private == false));
         })->values()->toArray();
 
         $bills = Bill::whereBetween("date", [$date_start, $date_end])->get();
         $capital = Capital::where([
-            ["date_start", ">=", $date_start],
-            ["user_id", "=",auth()->id()]
+            ["date_start", "<=", $date_start],
+            ["user_id", "=", $auth_id]
         ])->first();
-        
+
         return response()->json([
             "articles" => $articles,
             "bills" => $bills,
@@ -54,15 +54,15 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : JsonResponse
+    public function store(Request $request): JsonResponse
     {
         //
         $r_articles = $request->validate([
-            "articles.*.date"=> "required|date_format:Y-m-d",
-            "articles.*.description"=> "sometimes|nullable|string|max:400",
-            "articles.*.price"=> "required|numeric",
-            "articles.*.is_private"=> "required|boolean",
-            "articles.*.product_id"=> "required|exists:products,id"
+            "articles.*.date" => "required|date_format:Y-m-d",
+            "articles.*.description" => "sometimes|nullable|string|max:400",
+            "articles.*.price" => "required|numeric",
+            "articles.*.is_private" => "required|boolean",
+            "articles.*.product_id" => "required|exists:products,id"
         ]);
         $articles = [];
         foreach ($r_articles["articles"] as $article) {
@@ -70,24 +70,24 @@ class ArticleController extends Controller
             $article = Article::create($article);
             $articles[] = $article;
         }
-        
-        if(!$article->is_private){
-            NotificationJob::dispatch("Create","Article",$article->id);
+
+        if (!$article->is_private) {
+            NotificationJob::dispatch("Create", "Article", $article->id);
             broadcast(new CreateArticleEvent($article))->toOthers();
         }
 
-        return response()->json(["articles"=>$articles],200);
+        return response()->json(["articles" => $articles], 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Article $article) : JsonResponse
+    public function show(Article $article): JsonResponse
     {
         //
         return response()->json([
-            "article"=>$article
-        ],200);
+            "article" => $article
+        ], 200);
     }
 
     /**
@@ -101,10 +101,10 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article) : JsonResponse
+    public function update(Request $request, Article $article): JsonResponse
     {
         $data = $request->validate([
-            "article.date" => "required|date_format:Y-m-d",
+            "article.date" => "sometimes|date_format:Y-m-d",
             "article.description" => "sometimes|nullable|string|max:400",
             "article.price" => "sometimes|numeric",
             "article.is_private" => "sometimes|boolean",
@@ -113,20 +113,20 @@ class ArticleController extends Controller
         ]);
         $bill_id = $article->bill_id;
         $article->update($data["article"]);
-        
-        if($request->has("update_bill")){
+
+        if ($request->has("update_bill") && $request->get("update_bill")) {
             $bill = Bill::find($bill_id);
             $bill->calc();
             broadcast(new UpdateBillEvent($bill))->toOthers();
-            if(count($bill->articles)==0){
+            if (count($bill->articles) == 0) {
                 NotificationJob::dispatch("Delete", "Bill", "$bill->date , $bill->amount");
-                broadcast(new DeleteBillEvent($bill,[$article->id]))->toOthers();
+                broadcast(new DeleteBillEvent($bill, [$article->id]))->toOthers();
                 $bill->delete();
-            }else{
+            } else {
                 NotificationJob::dispatch("Edit", "Bill", $bill_id);
             }
         }
-        if(!$article->is_private && !$request->has("update_bill") ){
+        if (!$article->is_private && !$request->has("update_bill")) {
             NotificationJob::dispatch("Edit", "Article", $article->id);
             broadcast(new UpdateArticleEvent($article))->toOthers();
         }
@@ -137,24 +137,24 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article) : JsonResponse
+    public function destroy(Article $article): JsonResponse
     {
         //
-        if(!$article->is_private){
+        if (!$article->is_private) {
             NotificationJob::dispatch("Delete", "Article", $article->product->name);
             broadcast(new DeleteArticleEvent($article))->toOthers();
         }
         $bill_id = $article->bill_id;
         $status = $article->delete();
-        if($bill_id){
+        if ($bill_id) {
             $bill = Bill::find($bill_id);
             $bill->calc();
-            if(count($bill->articles)>0){
+            if (count($bill->articles) > 0) {
                 broadcast(new UpdateBillEvent($bill))->toOthers();
-            }else{
-                broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn ($item) => $item->id)))->toOthers();
+            } else {
+                broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn($item) => $item->id)))->toOthers();
             }
         }
-        return response()->json(["status"=>$status],200);
+        return response()->json(["status" => $status], 200);
     }
 }

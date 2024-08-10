@@ -2,8 +2,8 @@
     <v-empty-state
     headline="Whoops 404"
     title="Resource is Not Found"
-    text="Resource Or Component is Not Exist o Deleted"
-    image="/storage/error-404.png"
+    :text="error.text??'Resource Or Component is Not Exist o Deleted'"
+    :image="`/storage/${error.image ?? 'error-404.png'}`"
     style="margin-top:30%"
     >
         <template v-slot:actions>
@@ -26,6 +26,12 @@
     </v-empty-state>
 </template>
 <script>
+import { useError } from '@/stores/Error';
 export default {
+    computed: {
+        error: function () {
+            return useError();
+        }
+    }
 }
 </script>

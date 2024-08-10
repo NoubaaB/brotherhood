@@ -44,7 +44,7 @@ class NotificationJob implements ShouldQueue
         }
         $auth = [
             'VAPID' => [
-                'subject' => 'https://broterhood.congelationvillamar.com/', // can be a mailto: or your website address
+                'subject' => env('WEB_PUSH_PUBLIC_OBJETCT'), // can be a mailto: or your website address
                 'publicKey' => env('WEB_PUSH_PUBLIC_KEY'), // (recommended) uncompressed public key P-256 encoded in Base64-URL
                 'privateKey' => env('WEB_PUSH_PRIVATE_KEY'), // (recommended) in fact the secret multiplier of the private key encoded in Base64-URL
             ],

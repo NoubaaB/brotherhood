@@ -67,7 +67,7 @@ export const useAuth = defineStore("Auth", {
             console.log("logout");
             return await axios.post("/api/logout", {
                 params: {
-                    auth_key: JSON.parse(localStorage.getItem("web_push")).keys.auth
+                    auth_key: JSON.parse(localStorage.getItem("web_push"))?.keys?.auth
                 }
             }).then(response => {
                 this.user = null;
