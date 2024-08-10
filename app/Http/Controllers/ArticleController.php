@@ -113,8 +113,13 @@ class ArticleController extends Controller
         ]);
         $bill_id = $article->bill_id;
         $article->update($data["article"]);
+<<<<<<< HEAD
 
         if ($request->has("update_bill") && $request->get("update_bill")) {
+=======
+        
+        if($request->has("update_bill") && $request->get("update_bill")){
+>>>>>>> 778ae945817744a67152f4c54bc2f56530699b3b
             $bill = Bill::find($bill_id);
             $bill->calc();
             broadcast(new UpdateBillEvent($bill))->toOthers();

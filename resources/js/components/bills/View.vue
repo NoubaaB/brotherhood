@@ -61,10 +61,16 @@ export default {
             this.bill = bill;
         } else {
             bill = await this._bill.getBill(this.$route.params.id).catch(error => {
+<<<<<<< HEAD
                 this.error.text = `Bill N°: ${this.$route.params.id} has been Deleted`;
                 this.error.image = "delete_bill.gif";
+=======
+                this.error.text = `Bill N° : ${this.$route.params.id} Has been Deleted`,
+                this.error.image = "delete_bill.gif";
+
+>>>>>>> 778ae945817744a67152f4c54bc2f56530699b3b
                 this.$router.push({
-                    name: "error404"
+                    name: "error404",
                 });
             });
             if (bill) {

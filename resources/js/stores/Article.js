@@ -163,7 +163,11 @@ export const useArticle = defineStore("Article", {
 
             // data = data.filter(article => state.users_id.includes(article.user_id))
 
+<<<<<<< HEAD
             return _.orderBy(data, ["star", "date"], ["asc", "desc"]);
+=======
+            return _.orderBy(data, ["star", "date"], ["asc","desc"]);
+>>>>>>> 778ae945817744a67152f4c54bc2f56530699b3b
         },
         total_articles: (state) => {
             return _.sumBy(state.articles, "price");
