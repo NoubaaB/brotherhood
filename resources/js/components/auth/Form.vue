@@ -3,7 +3,6 @@
         Space Login
     </v-card-title>
     <v-form @submit.prevent="submit">
-        <div class="mx-3 text-subtitle-1 text-medium-emphasis">Email</div>
         
         <v-text-field
             v-model="auth.model.email"
@@ -21,8 +20,6 @@
             @blur="v$.auth.model.email.$touch"
             label="Enter Your E-mail"
         ></v-text-field>
-
-        <div class="mx-3 text-subtitle-1 text-medium-emphasis">Password</div>
 
         <v-text-field
             v-model="auth.model.password"
