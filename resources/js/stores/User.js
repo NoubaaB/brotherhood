@@ -33,7 +33,7 @@ export const useUser = defineStore("User", {
             this.connected_users.push(user);
             this.snack_bar = true;
             this.connected_user_name = user.name;
-            this.connected_msg = "hase Joined";
+            this.connected_msg = "has Joined";
         },
         leave: function (user) {
             let index = this.connected_users.findIndex(
@@ -41,7 +41,7 @@ export const useUser = defineStore("User", {
             );
             this.snack_bar = true;
             this.connected_user_name = user.name;
-            this.connected_msg = "hase Leaved";
+            this.connected_msg = "has Leaved";
 
             this.connected_users.splice(index, 1);
         },
