@@ -3,9 +3,48 @@
         <template v-slot:prepend>
             <v-app-bar-nav-icon v-if="auth.is_auth" @click="auth.drawer= !auth.drawer"></v-app-bar-nav-icon>
         </template>
-        <v-icon size="x-small">
-            mdi-antenna
-        </v-icon>
+        <template v-if="auth.is_auth">
+            <v-btn
+            id="menu-activator-connected-users"
+            color="primary"
+            varian="tonel"
+            icon
+            >
+                <v-badge v-if="user.connected_users.length!=0" size="2" color="green" floating :content="user.connected_users.length">
+                    <v-icon size="x-small">
+                        mdi-antenna
+                    </v-icon>
+                </v-badge> 
+                <v-icon v-else size="x-small">mdi-antenna</v-icon>
+            </v-btn>
+            <v-menu v-if="user.connected_users.length!=0" max-height="600" :close-on-content-click="false" v-model="user.menu" activator="#menu-activator-connected-users">
+                <v-list>
+                    <template
+                        v-for="connected_user in user.connected_users"
+                        :key="connected_user.id"
+                    >
+                        <v-list-item
+                        class="my-2 text-center text-blue-lighten-2"
+                        >
+                            <template v-slot:prepend>
+                                <v-avatar
+                                size="30"
+                                >
+                                    <v-img
+                                    :src="connected_user.image"
+                                    >
+    
+                                    </v-img>
+                                </v-avatar>
+                            </template>
+                            <v-list-item-title>
+                                {{ connected_user.name }}
+                            </v-list-item-title>
+                        </v-list-item>
+                    </template>
+                </v-list>
+            </v-menu>
+        </template>
 
         <v-app-bar-title class="text-center px-auto">
             <v-row dense>
@@ -25,6 +64,21 @@
                 <v-btn @click="editUser" icon="mdi-account-edit"></v-btn>
             </div>
         </template>
+        <v-snackbar
+          v-model="user.snack_bar"
+        >
+          {{ user.connected_user_name }} {{ user.connected_msg }}
+    
+          <template v-slot:actions>
+            <v-btn
+              color="pink"
+              variant="text"
+              @click="user.snack_bar = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
         <v-snackbar
           v-model="user.snack_bar"
         >
@@ -61,7 +115,7 @@ export default {
         },
         user:function(){
             return useUser();
-        }
+        },
     },
     methods: {
         editUser:function(){

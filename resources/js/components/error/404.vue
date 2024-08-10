@@ -2,13 +2,8 @@
     <v-empty-state
     headline="Whoops 404"
     title="Resource is Not Found"
-<<<<<<< HEAD
-    :text="error.text??'Resource Or Component is Not Exist o Deleted'"
-    :image="`/storage/${error.image ?? 'error-404.png'}`"
-=======
     :text="error.text"
     :image="`/storage/${error.image||'error-404.png'}`"
->>>>>>> 778ae945817744a67152f4c54bc2f56530699b3b
     style="margin-top:30%"
     >
         <template v-slot:actions>

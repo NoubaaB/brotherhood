@@ -79,14 +79,9 @@ export default {
         let article = this.dashboard.articles.find(__article => __article.id == this.$route.params.id);
         if (article) {
             if ((article.user_id != this.auth.getAuth.id) && (article.is_private == true)) {
-<<<<<<< HEAD
-                this.error.text = `Article N°: ${this.$route.params.id} has been Deleted`;
-                this.error.image = "delete_article.gif";
-=======
                 this.error.text = `Article N° : ${this.$route.params.id} Has been Deleted`,
                 this.error.image = "delete_article.gif";
 
->>>>>>> 778ae945817744a67152f4c54bc2f56530699b3b
                 this.$router.push({
                     name: "error404"
                 });
@@ -94,29 +89,18 @@ export default {
             this.article = article;
         } else {
             article = await this._article.getArticle(this.$route.params.id).catch(error => {
-<<<<<<< HEAD
-                this.error.text = `Article N°: ${this.$route.params.id} has been Deleted`;
-                this.error.image = "delete_article.gif";
-=======
                 this.error.text = `Article N° : ${this.$route.params.id} Has been Deleted`,
                 this.error.image = "delete_article.gif";
 
->>>>>>> 778ae945817744a67152f4c54bc2f56530699b3b
                 this.$router.push({
                     name: "error404"
                 });
             });
             if (article) {
-<<<<<<< HEAD
-                if ((article.user_id != this.auth.getAuth.id)&&(article.is_private == true)) {
-                    this.error.text = `Article N°: ${this.$route.params.id} has been Deleted`;
-                    this.error.image = "delete_article.gif";
-=======
                 if ((article.user_id != this.auth.getAuth.id) && (article.is_private == true)) {
                     this.error.text = `Article N° : ${this.$route.params.id} Has been Deleted`,
                     this.error.image = "delete_article.gif";
 
->>>>>>> 778ae945817744a67152f4c54bc2f56530699b3b
                     this.$router.push({
                         name: "error404"
                     });
