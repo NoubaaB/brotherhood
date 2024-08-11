@@ -58,7 +58,9 @@
                         ></v-img>
                         </v-avatar>
                     </template>
-                    <v-card-text >{{article.description}}</v-card-text>
+                    <v-card-text>
+                        <div v-html="article.description.replace(/(?:\r\n|\r|\n)/g, '<br>')"></div>
+                    </v-card-text>
                     <v-spacer></v-spacer>
                     <v-card-actions class="text-green bg-amber-lighten-5">
                         <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(article.price) }} MAD

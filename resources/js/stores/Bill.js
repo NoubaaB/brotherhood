@@ -1,6 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 import { useDashboard } from "@/stores/Dashboard";
+import { useAuth } from "@/stores/Auth";
 
 export const useBill = defineStore("Bill", {
     state: () => {
@@ -8,7 +9,9 @@ export const useBill = defineStore("Bill", {
             date_start: moment().subtract(6, "days").format("YYYY-MM-DD"),
             date_end: new Date().toISOString().substr(0, 10),
             is_fetch: false,
+            bill_checked: false,
             dashboard: useDashboard(),
+            auth: useAuth(),
         }
     },
     actions: {
@@ -87,8 +90,11 @@ export const useBill = defineStore("Bill", {
         total_bills: (state) => {
             return _.sumBy(state.dashboard.bills, "amount");
         },
+        total_bills_filtred: (state) => {
+            return _.sumBy(state.bills, "amount");
+        },
         bills: state => {
-            return _.orderBy(state.dashboard.bills, ["date", "id"], ["desc", "desc"]);
+            return _.orderBy(state.dashboard.bills.filter(bill => bill.invoices.find(invoice => invoice.user_id == state.auth.getAuth.id)?.checked == state.bill_checked), ["date", "id"], ["desc", "desc"]);
         }
     }
 });

@@ -1,6 +1,6 @@
 <template>
     <v-container
-    class="mt-auto ma-auto pt-12" style="position: relative"
+    class="mt-6 ma-auto pt-12" style="position: relative"
     fluid
     >
         <router-view/>
