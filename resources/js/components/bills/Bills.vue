@@ -3,7 +3,7 @@
     <v-card-text>
       <v-row align="center" justify="center" dense>
         <template v-if="!bill.is_fetch">
-          <template v-if="dashboard.bills.length>0">
+          <template v-if="bill.bills.length>0">
             <v-col cols="12" md="6" v-for="bill in bill.bills" :key="bill.id">
                 <Bill :bill="bill" />
             </v-col>

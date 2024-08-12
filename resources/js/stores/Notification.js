@@ -52,7 +52,7 @@ export const useNotification = defineStore("Notification", {
     actions: {
         init: async function () {
             if (this.next_page_url) {
-                return await axios.get(this.next_page_url).
+                return await axios.get(this.next_page_url.replace("http://", "https://")).
                     then(res => {
                         this.notifications.push(...res.data.notifications.data);
                         this.unread = res.data.count;
