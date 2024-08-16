@@ -60,7 +60,7 @@ class NotificationJob implements ShouldQueue
         $g_text = "$user_name has $notification_operation $notification_model $text" ;
         $url = $object['url'];
         $payload = json_encode([
-            'title' => "Brotherhood App",
+            'title' => env("APP_NAME"),
             'body' => $g_text,
             'url' => env('REVERB_SCHEME')."://".env('REVERB_HOST')."/$url",
         ]);

@@ -53,7 +53,7 @@
                 </v-col>
                 <v-col class="text-left my-auto">
                     <div class="d-inline pb-3">
-                        Brotherhood
+                        {{app_name}}
                     </div>
                 </v-col>
             </v-row>
@@ -99,11 +99,11 @@
 <script>
 import { useAuth } from "@/stores/Auth.js";
 import { useUser } from "@/stores/User.js";
-import Notifications from "@/schema/Notifications.vue"
+import Notifications from "@/schema/Notifications.vue";
 export default {
     data:function(){
         return {
-
+            app_name :import.meta.env.VITE_APP_NAME,
         }
     },
     components: {
