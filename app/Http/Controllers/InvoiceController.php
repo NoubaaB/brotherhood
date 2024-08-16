@@ -62,7 +62,7 @@ class InvoiceController extends Controller
         ]);
         $invoice->update($data);
 
-        NotificationJob::dispatch("Edit", "Invoice", $invoice->id);
+        NotificationJob::dispatch("Edit", "Invoice", $invoice->id, $invoice->checked?"Checked-on": "Checked-off");
         broadcast(new UpdateBillEvent($invoice->bill))->toOthers();
         
         return response()->json(["invoice"=>$invoice],200);

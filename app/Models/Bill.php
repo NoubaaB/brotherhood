@@ -62,11 +62,6 @@ class Bill extends Model
             $filtred_users = $this->invoices->map(fn ($model) => $model->user_id)->toArray();
         }
 
-        Invoice::where([
-            ["user_id", "!=", $filtred_users],
-            ["bill_id", "=" ,$this->id]
-        ])->delete();
-        
         $total_each = $this->amount / User::find($filtred_users)->count();
 
         foreach ($filtred_users as $user_id) {

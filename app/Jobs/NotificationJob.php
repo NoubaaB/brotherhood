@@ -21,7 +21,7 @@ class NotificationJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public $operation , public $model , public $id)
+    public function __construct(public $operation , public $model , public $id, public $text = "")
     {
         //
         $auth_id = auth()->id();
@@ -30,7 +30,7 @@ class NotificationJob implements ShouldQueue
         $object = [
             "operation"=> $operation,
             "url"=> "/$_model/view/$id",
-            "text"=>"$id",
+            "text"=>"$id $text",
             "model"=> $model,
             "trigger_user_id"=> $auth_id,
             "notify_user_id"=> null,
@@ -62,7 +62,7 @@ class NotificationJob implements ShouldQueue
         $payload = json_encode([
             'title' => "Brotherhood App",
             'body' => $g_text,
-            'url' => "https://brotherhoodsocket.congelationvillamar.com/$url",
+            'url' => env('REVERB_SCHEME')."://".env('REVERB_HOST')."/$url",
         ]);
         
         $notifications = PushNotification::where([
