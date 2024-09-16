@@ -70,7 +70,15 @@ export function establish() {
             })
         })).listen("UpdateBillEvent", (event => {
             let _bill = dashboard.bills.find(bill => bill.id == event.bill.id);
-            console.log("UpdateBillEvent")
+            console.log("UpdateBillEvent",event,_bill)
+            if (_bill) {
+                _bill.date = event.bill.date;
+                _bill.amount = event.bill.amount;
+                _bill.articles = event.bill.articles;
+                _bill.invoices = event.bill.invoices;
+                _bill.user_id = event.bill.user_id;
+            }
+            _bill = dashboard.score_bills.find(bill => bill.id == event.bill.id);
             if (_bill) {
                 _bill.date = event.bill.date;
                 _bill.amount = event.bill.amount;
@@ -101,6 +109,15 @@ export function establish() {
             notification.addToSnackBar(event.notification);
         }));
     //end notification websockets
+
+    //start score-user websockets
+    Echo.private(`user-score`)
+        .listen("UserScoreEvent", (event => {
+            console.log("UserScoreEvent", event)
+            let _user = user.users.find(u => u.id == event.user.id);
+            if (_user) _user.score = event.user.score;
+        }));
+    //end score-user websockets
 
     //start product websockets
     Echo.private(`products`)

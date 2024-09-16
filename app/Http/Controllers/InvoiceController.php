@@ -61,9 +61,11 @@ class InvoiceController extends Controller
             "checked"=>"required|boolean"
         ]);
         $invoice->update($data);
-
+        
         NotificationJob::dispatch("Edit", "Invoice", $invoice->id, $invoice->checked?"Checked-on": "Checked-off");
-        broadcast(new UpdateBillEvent($invoice->bill))->toOthers();
+        $invoice->bill->load("invoices");
+        $bill = $invoice->bill;
+        broadcast(new UpdateBillEvent($bill))->toOthers();
         
         return response()->json(["invoice"=>$invoice],200);
     }

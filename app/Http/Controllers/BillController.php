@@ -10,6 +10,8 @@ use App\Events\CreateBillEvent;
 use App\Events\DeleteBillEvent;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Invoice;
+use Illuminate\Support\Facades\Auth;
 
 class BillController extends Controller
 {
@@ -21,6 +23,17 @@ class BillController extends Controller
         //
         $date_start = request()->query("date_start");
         $date_end = request()->query("date_end");
+        $user_id = request()->query("user_id");
+        $bills = [];
+        if($user_id){
+
+            $bills = Bill::where([
+                ["checked",false]
+            ])->get();
+            return response()->json([
+                "bills" => $bills,
+            ], 200);
+        }
         $bills = Bill::whereBetween("date", [$date_start, $date_end])->get();
         return response()->json([
             "bills" => $bills,
@@ -47,7 +60,7 @@ class BillController extends Controller
         $articles = Article::find($articles["articles"]);
         $bill = Bill::create([
             "date"=> date_format(now(), "Y-m-d"),
-            "user_id" => auth()->id()
+            "user_id" => Auth::id()
         ]);
         $sum = 0.00;
         $articles_id = [];

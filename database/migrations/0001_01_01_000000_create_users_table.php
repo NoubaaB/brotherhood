@@ -8,6 +8,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * alter table users add column score double default 0.00
      */
     public function up(): void
     {

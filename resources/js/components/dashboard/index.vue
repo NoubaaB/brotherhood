@@ -17,6 +17,7 @@
         <AllCharges/>
         <BillsArticlesCharges/>
         <Grouping/>
+        <UserScore/>
     </v-row>
 </template>
 <script>
@@ -25,6 +26,7 @@ import YourCharges from "./YourCharges.vue";
 import AllCharges from "./AllCharges.vue";
 import BillsArticlesCharges from "./BillsArticlesCharges.vue";
 import Grouping from "./Grouping.vue";
+import UserScore from "./UserScore.vue";
 import { useDashboard } from "@/stores/Dashboard.js";
 
 export default {
@@ -33,7 +35,8 @@ export default {
         YourCharges,
         AllCharges,
         BillsArticlesCharges,
-        Grouping
+        Grouping,
+        UserScore
     },
     computed: {
         dashboard: function () {

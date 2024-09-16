@@ -4,12 +4,12 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Article;
+use App\Events\UserScoreEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use PhpParser\Node\Stmt\Return_;
 
 class Bill extends Model
 {
@@ -33,6 +33,8 @@ class Bill extends Model
         parent::boot();
         //manage resources
         static::deleting(fn ($model) => $model->delete_resources());
+
+        static::saved(fn($model)=> $model->scoring());
     }
 
     function articles() : HasMany {
@@ -77,7 +79,7 @@ class Bill extends Model
                     "price" => ($my_charge - $total_each),                    
                 ]);
             }else{
-                Invoice::create([
+                $invoice = Invoice::create([
                     "spent" => $my_charge,
                     "price" => ($my_charge - $total_each),
                     "user_id" => $user_id,
@@ -97,5 +99,16 @@ class Bill extends Model
     function delete_resources()  : void {
         $this->articles()->each(fn ($article) => $article->update(["bill_id" => null]));
         $this->invoices()->delete();
+        $this->scoring();
+    }
+
+    public function scoring(): void
+    {
+        // $deferacteur = -1;
+        // if($this->checked) $deferacteur = 1;
+        // foreach ($this->invoices as $invoice) {
+        //     $invoice->user()->update(["score"=> $invoice->user->score + ($invoice->price * $deferacteur)]);
+        //     broadcast(new UserScoreEvent($invoice->user));
+        // };
     }
 }

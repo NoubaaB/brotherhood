@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationJob implements ShouldQueue
 {
@@ -24,7 +25,7 @@ class NotificationJob implements ShouldQueue
     public function __construct(public $operation , public $model , public $id, public $text = "")
     {
         //
-        $auth_id = auth()->id();
+        $auth_id = Auth::id();
         $users = User::where("id","!=",$auth_id)->get();
         $_model = strtolower($model)."s";
         $object = [
@@ -53,7 +54,7 @@ class NotificationJob implements ShouldQueue
         $webPush = new WebPush($auth);
 
         // Construct the payload with the logo.
-        $user_name = auth()->user()->name;
+        $user_name = Auth::user()->name;
         $notification_operation = $object['operation'];
         $notification_model = $object['model'];
         $text = $object['model'] != "Delete" ? $object['text'] : "";

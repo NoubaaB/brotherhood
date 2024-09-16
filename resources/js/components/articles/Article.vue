@@ -40,6 +40,11 @@
                             </v-progress-circular>
                         </div>
                         <div>
+                            <v-btn icon size="small" variant="outlined" color="red">
+                                <v-icon @click="deleteModel" color="red" v-if="article.user_id == auth.getAuth.id">
+                                    mdi-close
+                                </v-icon>
+                            </v-btn>
                             <v-checkbox
                             :model-value="!!article.bill_id"
                             hide-details
@@ -103,6 +108,7 @@ export default {
     },
     mounted: function () {
         // Initialize Swiper
+        /*
         if (this.article.user_id == this.auth.getAuth.id) {
             this.$nextTick(() => {
                 const el = '#' + this.article.id;
@@ -129,6 +135,7 @@ export default {
                 })
             });  
         }
+        */
     },
     computed: {
         _article: function () {
@@ -142,6 +149,11 @@ export default {
         }
     },
     methods: {
+        deleteModel: function () {
+            this.dashboard.delete_dialog = !this.dashboard.delete_dialog;
+            this.dashboard.delete_model_name = "Article";
+            this.dashboard.deleteModel = this.deleteArticle;
+        },
         deleteArticle: async function () {
             return await this._article.deleteArticle(this.article.id).then(res => {
                 if (this.$route.params.id) {

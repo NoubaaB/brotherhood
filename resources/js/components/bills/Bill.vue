@@ -45,7 +45,12 @@
                                 </template>
                             </v-progress-circular>
                         </div>
-                        <div>
+                        <div class="text-center">
+                            <v-btn icon size="small" variant="outlined" color="red" v-if="bill.user_id == auth.getAuth.id">
+                                <v-icon @click="deleteModel" color="red">
+                                    mdi-close
+                                </v-icon>
+                            </v-btn>
                             <v-checkbox
                             :model-value="!!bill.selected"
                             hide-details
@@ -53,6 +58,7 @@
                             color="primary"
                             v-if="!$route.params.id && auth.getAuth.id == bill.user_id"
                             ></v-checkbox>
+                            <v-icon v-if="bill.checked" color="amber">mdi-seal-variant</v-icon>
                         </div>
                     </template>
                     <template v-slot:prepend>
@@ -189,6 +195,7 @@
 import { useAuth } from '@/stores/Auth';
 import { useBill } from '@/stores/Bill';
 import { useUser } from '@/stores/User';
+import { useDashboard  } from '@/stores/Dashboard';
 
 export default {
     props: {
@@ -210,6 +217,7 @@ export default {
     },
     mounted: function () {
         // Initialize Swiper
+        /*
         if (this.bill.user_id == this.auth.getAuth.id) {
             this.$nextTick(() => {
                 const el = '#' + this.bill.id;
@@ -236,6 +244,7 @@ export default {
                 })
             });  
         }
+        */
     },
     computed: {
         _bill: function () {
@@ -252,6 +261,11 @@ export default {
         }
     },
     methods: {
+        deleteModel: function () {
+            this.dashboard.delete_dialog = !this.dashboard.delete_dialog;
+            this.dashboard.delete_model_name = "Bill";
+            this.dashboard.deleteModel = this.deleteBill;
+        },
         deleteBill: async function () {
             return await this._bill.deleteBill(this.bill.id).then(res => {
                 if (this.$route.params.id) {

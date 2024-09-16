@@ -17,6 +17,7 @@ const routes = [
     },
     {
         path: "/",
+        meta: { keeplive: true },
         children: [
             {
                 path: "/",
@@ -90,7 +91,7 @@ const routes = [
                         ]
                     },
                     {
-                        path: "/capital",
+                        path: "/users",
                         redirect: { name: 'users.list' },
                         children: [
                             {
