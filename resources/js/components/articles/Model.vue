@@ -3,9 +3,6 @@
         <v-card rounded="lg" variant="tonal" class="my-2" color="blue">
             <v-card-item>
                 <v-row no-gutters>
-                    <v-col cols="12" sm="6" class="mb-4">
-                        <VueDatePicker v-model="model.date" :enable-time-picker="false" :clearable="false" :rules="dateRules" vertical :max-date="maxDate"/>
-                    </v-col>
                     <v-col cols="12" sm="6">
                         <v-row>
                             <v-col cols="8">
@@ -18,6 +15,9 @@
                                 <v-btn :disabled="article.models.length<=1" class="mt-3" size="x-small" color="red" variant="tonal" icon="mdi-close" @click="deleteModel(model.id)"></v-btn>
                             </v-col>
                         </v-row>
+                    </v-col>
+                    <v-col cols="12" sm="6" class="mb-4">
+                        <VueDatePicker v-model="model.date" :enable-time-picker="false" :clearable="false" :rules="dateRules" vertical :max-date="maxDate"/>
                     </v-col>
                     <v-col cols="12" sm="6">
                     <v-textarea v-model="model.description" autocomplete="off" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description" :rules="descriptionRules" counter ></v-textarea>
