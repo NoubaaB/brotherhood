@@ -25,7 +25,8 @@ class Invoice extends Model
     {
         parent::boot();
         //manage resources
-        static::updated(fn($model) => $model->scoring());
+        static::saved(fn($model) => $model->scoring());
+        static::deleting(fn($model) => $model->scoring(true));
         // static::deleting(fn($model) => $model->delete_score());
     }
 
@@ -37,14 +38,22 @@ class Invoice extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scoring(): void
+    public function scoring($delete=false): void
     {   
-        $operator = $this->checked? -1: 1;
-        $price = $this->user->score;
-        $price += ($operator * $this->price);
-        $this->user->score = $price;
-        $this->user->save();
-        $this->bill->update(["checked" => $this->bill->invoices()->where("checked", false)->count() == 0]);
+        if($delete){
+            $operator = $this->checked? 1: -1;
+            $price = $this->user->score;
+            $price += ($operator * $this->price);
+            $this->user->score = $price;
+            $this->user->save();
+        }else{
+            $operator = $this->checked? -1: 1;
+            $price = $this->user->score;
+            $price += ($operator * $this->price);
+            $this->user->score = $price;
+            $this->user->save();
+            $this->bill->update(["checked" => $this->bill->invoices()->where("checked", false)->count() == 0]);
+        }
         broadcast(new UserScoreEvent($this->user));
     }
 }

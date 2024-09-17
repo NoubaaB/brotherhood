@@ -33,8 +33,6 @@ class Bill extends Model
         parent::boot();
         //manage resources
         static::deleting(fn ($model) => $model->delete_resources());
-
-        static::saved(fn($model)=> $model->scoring());
     }
 
     function articles() : HasMany {
@@ -98,17 +96,6 @@ class Bill extends Model
 
     function delete_resources()  : void {
         $this->articles()->each(fn ($article) => $article->update(["bill_id" => null]));
-        $this->invoices()->delete();
-        $this->scoring();
-    }
-
-    public function scoring(): void
-    {
-        // $deferacteur = -1;
-        // if($this->checked) $deferacteur = 1;
-        // foreach ($this->invoices as $invoice) {
-        //     $invoice->user()->update(["score"=> $invoice->user->score + ($invoice->price * $deferacteur)]);
-        //     broadcast(new UserScoreEvent($invoice->user));
-        // };
+        $this->invoices()->each(fn($model)=> $model->delete());
     }
 }
