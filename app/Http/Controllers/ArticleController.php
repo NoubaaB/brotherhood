@@ -14,6 +14,7 @@ use App\Events\DeleteArticleEvent;
 use App\Events\UpdateArticleEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\NotificationJob;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -23,7 +24,7 @@ class ArticleController extends Controller
     public function index(): JsonResponse
     {
         //
-        $auth_id = auth()->id();
+        $auth_id = Auth::id();
         $date_start = request()->query("date_start");
         $date_end = request()->query("date_end");
         $articles = collect(Article::whereBetween("date", [$date_start, $date_end])->get())->filter(function ($article) use ($auth_id) {
@@ -66,7 +67,7 @@ class ArticleController extends Controller
         ]);
         $articles = [];
         foreach ($r_articles["articles"] as $article) {
-            $article["user_id"] = auth()->id();
+            $article["user_id"] = Auth::id();
             $article = Article::create($article);
             $articles[] = $article;
         }

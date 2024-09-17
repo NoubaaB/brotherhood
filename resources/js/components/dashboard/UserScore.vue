@@ -15,7 +15,7 @@
         </template>
         <template v-slot:append>
         </template>
-        <v-card-text class="pa-0">
+        <v-card-text class="px-0">
             <v-expansion-panels class="pa" variant="popout">
                 <v-expansion-panel
                 v-for="user in user.users"
@@ -76,7 +76,7 @@
                         label
                         small
                         >
-                        {{ user.score }}
+                        {{ user.score }} MAD
                         </v-chip>
                     </v-col>
                     </v-row>

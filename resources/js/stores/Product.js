@@ -8,9 +8,10 @@ export const useProduct = defineStore("Product", {
         }
     },
     actions: {
-        postProduct:async function (name) {
+        postProduct:async function (name,user_id) {
             return await axios.post('/api/products', {
-                name
+                name,
+                user_id
             }).then(res => {
                 this.collect.push(res.data.product)
                 return res

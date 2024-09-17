@@ -33,7 +33,8 @@ class ProductController extends Controller
     {
         //
         $data = $request->validate([
-            "name"=>"required|string|max:50"
+            "name"=>"required|string|max:50",
+            "user_id"=> "sometimes|nullable|exists:users,id"
         ]);
         
         $product = Product::create($data);

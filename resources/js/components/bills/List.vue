@@ -27,9 +27,6 @@
     </v-row>
     <v-row>
         <v-col class="text-center">
-            <v-switch  hide-details v-model="bill.bill_checked" inset :color="bill.bill_checked?'green':'yellow'" variant="solo-filled" true-icon="mdi-check" false-icon="mdi-close" rounded flat :label="bill.bill_checked ? 'Checked':'Not Checked'" ></v-switch>
-        </v-col>
-        <v-col class="text-center">
             <v-chip class="mt-3" color="blue" variant="tonal">
                 <v-icon class="mr-2">
                     mdi-cash-refund

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    // alter table products add column user_id int null
     /**
      * Run the migrations.
      */

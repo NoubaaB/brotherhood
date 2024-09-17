@@ -94,7 +94,7 @@ export const useBill = defineStore("Bill", {
             return _.sumBy(state.bills, "amount");
         },
         bills: state => {
-            return _.orderBy(state.dashboard.bills.filter(bill => bill.invoices.find(invoice => invoice.user_id == state.auth.getAuth.id)?.checked == state.bill_checked), ["date", "id"], ["desc", "desc"]);
+            return _.orderBy(state.dashboard.bills, ["date", "id"], ["desc", "desc"]);
         }
     }
 });

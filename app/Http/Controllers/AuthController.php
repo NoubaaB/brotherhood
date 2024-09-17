@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller implements HasMiddleware
 {
@@ -82,7 +83,7 @@ class AuthController extends Controller implements HasMiddleware
         //delete all tokens
 
         /** @var User $auth_user */
-        $auth_user = auth()->user();
+        $auth_user =  Auth::user();
         $auth_key = $request->all()["params"]["auth_key"];
         if($auth_key){
             $push_notification = PushNotification::whereJsonContains("subscriptions->keys->auth", $auth_key)->first();
@@ -96,7 +97,7 @@ class AuthController extends Controller implements HasMiddleware
 
     public function me(): JsonResponse
     {
-        $user = auth()->user();
+        $user =  Auth::user();
         // $this->authorize("view", $user);
 
         return response()->json([
@@ -110,7 +111,7 @@ class AuthController extends Controller implements HasMiddleware
         //get auth user
 
         /** @var User $auth_user */
-        $auth_user = auth()->user();
+        $auth_user = Auth::user();
 
         //validate data
         $data = $request->validate([
@@ -190,7 +191,7 @@ class AuthController extends Controller implements HasMiddleware
     function getData(): array
     {
         return [
-            "products" => Product::all(),
+            "products" => Product::where("user_id",Auth::id())->orWhere("user_id",null)->get(),
             "users" => User::all()
         ];
     }

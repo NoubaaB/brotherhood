@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    // alter table users add column score double default 0.00
     /**
      * Run the migrations.
-     * alter table users add column score double default 0.00
      */
     public function up(): void
     {
