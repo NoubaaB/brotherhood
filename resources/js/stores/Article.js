@@ -64,7 +64,9 @@ export const useArticle = defineStore("Article", {
             })
         },
         getArticle: async function (id) {
+            this.dashboard.fetching = true;
             return await axios.get(`/api/articles/${id}`).then(res => {
+                this.dashboard.fetching = false;
                 return res.data.article
             })
         },

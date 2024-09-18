@@ -5,10 +5,13 @@
     >
         <router-view/>
         <ConfirmSupprission/>
+        <Progress/>
     </v-container>
 </template>
 <script>
-import ConfirmSupprission from "@/components/global/ConfirmSupprission.vue"
+import ConfirmSupprission from "@/components/global/ConfirmSupprission.vue";
+import Progress from "@/components/global/Progress.vue";
+
 export default {
     data : function(){
         return {
@@ -16,7 +19,8 @@ export default {
         }
     },
     components: {
-        ConfirmSupprission
+        ConfirmSupprission,
+        Progress
     }
 }
 </script>

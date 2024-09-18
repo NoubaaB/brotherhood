@@ -18,6 +18,7 @@ export const useBill = defineStore("Bill", {
         getData: async function () {
             if (this.is_fetch == false) {
                 this.is_fetch = true;
+                this.dashboard.fetching = true;
                 await axios.get("/api/bills", {
                     params: {
                         date_start: this.date_start,
@@ -26,11 +27,14 @@ export const useBill = defineStore("Bill", {
                 }).then(response => {
                     this.dashboard.bills = _.sortBy(response.data.bills, "date");
                     this.is_fetch = false;
+                    this.dashboard.fetching = false;
                 });
             }
         },
         getBill: async function (id) {
+            this.dashboard.fetching = true;
             return await axios.get(`/api/bills/${id}`).then(res => {
+                this.dashboard.fetching = false;
                 return res.data.bill
             })
         },

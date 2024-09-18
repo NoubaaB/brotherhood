@@ -4,7 +4,7 @@ import { useProduct } from "@/stores/Product"
 import { useNotification } from "@/stores/Notification";
 import { useUser } from "@/stores/User";
 import { establish } from "@/plugins/handleSocket";
-import { watch } from 'vue'
+import { useDashboard } from "@/stores/Dashboard";
 
 
 export const useAuth = defineStore("Auth", {
@@ -21,6 +21,7 @@ export const useAuth = defineStore("Auth", {
             drawer: null,
             user: null,
             token: null,
+            dashboard: useDashboard(),
             product: useProduct(),
             _user: useUser(),
             notification: useNotification(),
@@ -29,6 +30,7 @@ export const useAuth = defineStore("Auth", {
     actions: {
         attemp: async function () {
             axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`;
+            this.dashboard.fetching = true;
             return await axios.get("/api/me").then(async response => {
                 this.user = response.data.user;
                 this._user.users = response.data.users;
@@ -38,6 +40,7 @@ export const useAuth = defineStore("Auth", {
                     establish();
                     this.subscribe();
                 }
+                this.dashboard.fetching = false;
                 return this.user;
             })
         },

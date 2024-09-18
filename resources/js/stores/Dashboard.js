@@ -12,6 +12,7 @@ export const useDashboard = defineStore("Dashboard", {
             score_bills:[],
             capital: {},
             is_fetch:false,
+            fetching:false,
             delete_dialog: false,
             delete_model_name:"",
             deleteModel:null,
@@ -22,6 +23,7 @@ export const useDashboard = defineStore("Dashboard", {
         getData: async function () {
             if (this.is_fetch==false) {
                 this.is_fetch = true;
+                this.fetching = true;
                 await axios.get("/api/articles", {
                     params: {
                         date_start: this.date_start,
@@ -32,6 +34,7 @@ export const useDashboard = defineStore("Dashboard", {
                     this.bills = _.sortBy(response.data.bills, "date");
                     this.capital = response.data.capital;
                     this.is_fetch = false;
+                    this.fetching = false;
                 });
             }
         },

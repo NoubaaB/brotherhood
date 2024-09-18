@@ -1,16 +1,21 @@
 import axios from "axios";
 import moment from "moment";
 import { defineStore } from "pinia";
+import { useDashboard } from "@/stores/Dashboard";
+
 export const useCapital = defineStore("Capital", {
     state: () => {
         return {
             capitals: [],
+            dashboard:useDashboard(),
             is_fetch: false
         }
     },
     actions: {
-        getData:async function () {
+        getData: async function () {
+            this.dashboard.fetching = true;
             await axios.get("/api/capitals").then(res =>{
+                this.dashboard.fetching = false;
                 this.capitals = res.data.capitals;
             })
         },
