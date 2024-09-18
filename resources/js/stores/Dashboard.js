@@ -49,6 +49,11 @@ export const useDashboard = defineStore("Dashboard", {
                 data.push(sum)
             });
             return data;
+        },
+        isLessThanTwoDays:function (date) {
+            const now = moment(); // Get the current date and time
+            const diffInDays = now.diff(moment(date), 'days'); // Calculate the difference in days
+            return diffInDays < 2
         }
     },
     getters: {

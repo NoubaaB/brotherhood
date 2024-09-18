@@ -46,7 +46,7 @@
                             </v-progress-circular>
                         </div>
                         <div class="text-center">
-                            <v-btn icon size="small" variant="outlined" color="red" v-if="bill.user_id == auth.getAuth.id">
+                            <v-btn icon size="small" variant="outlined" color="red" v-if="bill.user_id == auth.getAuth.id && dashboard.isLessThanTwoDays(bill.date)">
                                 <v-icon @click="deleteModel" color="red">
                                     mdi-close
                                 </v-icon>
@@ -174,7 +174,7 @@
 
                                     <template v-slot:append>
                                         <v-btn
-                                            v-if="bill.user_id == auth.getAuth.id"
+                                            v-if="bill.user_id == auth.getAuth.id && dashboard.isLessThanTwoDays(article.date)"
                                             color="red-lighten-1"
                                             icon="mdi-trash-can"
                                             variant="tonal"
