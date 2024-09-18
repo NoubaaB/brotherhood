@@ -57,18 +57,6 @@ export const useDashboard = defineStore("Dashboard", {
         }
     },
     getters: {
-        amounts_none_private: (state) => {
-            let data = [];
-            state.dates.forEach(date => {
-                let sum = _.sumBy(state.articles.filter(article => (
-                    state.auth.getAuth.id == article.user_id
-                    && article.date == date
-                    && article.is_private == false)
-                ), "price");
-                data.push(sum)
-            });
-            return data;
-        },
         amounts_private: (state) => {
             let data = [];
             state.dates.forEach(date => {
@@ -81,15 +69,15 @@ export const useDashboard = defineStore("Dashboard", {
             });
             return data;
         },
-        amounts_none_public_nette: (state) => {
+        amount_you_spent: (state) => {
             let data = [];
             state.dates.forEach(date => {
                 let bills = state.bills.filter(bill => bill.date == date);
-                let invoices = [];
-                bills.forEach(bill=>{
-                    invoices.push(...bill.invoices.filter(invoice => (invoice.user_id == state.auth.getAuth.id) && (invoice.checked)));
+                let _bills = [];
+                bills.forEach(bill => {
+                    _bills.push(bill.amount/bill.invoices.length);
                 })
-                let sum = _.sumBy(invoices,"price");
+                let sum = _.sum(_bills);
                 data.push(sum)
             });
             return data;
@@ -151,23 +139,17 @@ export const useDashboard = defineStore("Dashboard", {
         total_compare: (state) => {
             return state.total_articles-state.total_bills;
         },
-        total_none_private: (state) => {
-            return _.sum(state.amounts_none_private);
+        total_amount_you_spent: (state) => {
+            return _.sum(state.amount_you_spent);
         },
-        total_none_public_nette: (state) => {
-            return _.sum(state.amounts_none_public_nette);
-        },
-        total_private: (state) => {
+        total_amount_private: (state) => {
             return _.sum(state.amounts_private);
         },
         total_all: (state) => {
-            return (state.total_none_public_nette*-1) + state.total_private;
+            return state.total_amount_you_spent + state.total_amount_private;
         },
         total_brotherhood: (state) => {
             return _.sum(state.amounts_brotherhood);
-        },
-        total_global: (state) => {
-            return _.sum([state.total_brotherhood, state.total_none_private]);
         },
         get_grouping_labels: (state) => {
             return _.uniqBy(state.articles.filter(article => article.user_id == state.auth.getAuth.id).map(articel => {

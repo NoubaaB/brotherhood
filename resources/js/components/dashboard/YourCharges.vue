@@ -22,7 +22,7 @@
                         <v-icon class="mr-2">
                             mdi-cash-fast
                         </v-icon>
-                        {{ formatFloatNumber(dashboard.total_none_public_nette) }} MAD
+                        {{ formatFloatNumber(dashboard.total_amount_you_spent) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>
@@ -30,21 +30,15 @@
                         <v-icon class="mr-2">
                             mdi-cash-fast
                         </v-icon>
-                        {{ formatFloatNumber(dashboard.total_none_private) }} MAD
+                        {{ formatFloatNumber(dashboard.total_amount_private) }} MAD
                     </v-chip>
                 </v-col>
+            </v-row>
+            <v-row>
                 <v-col>
-                    <v-chip color="amber-darken-3" variant="tonal">
+                    <v-chip color="indigo" variant="tonal">
                         <v-icon class="mr-2">
-                            mdi-cash-refund
-                        </v-icon>
-                        {{ formatFloatNumber(dashboard.total_private) }} MAD
-                    </v-chip>
-                </v-col>
-                <v-col>
-                    <v-chip color="deep-purple-lighten-1" variant="tonal">
-                        <v-icon class="mr-2">
-                            mdi-cash-plus
+                            mdi-cash-fast
                         </v-icon>
                         {{ formatFloatNumber(dashboard.total_all) }} MAD
                     </v-chip>
@@ -69,6 +63,7 @@ export default {
                 chart: {
                     type: 'bar',
                     height: 350,
+                    stacked: true,
                     toolbar: {
                         show: true
                     },
@@ -86,6 +81,22 @@ export default {
                         }
                     }
                 }],
+                plotOptions: {
+                bar: {
+                    horizontal: false,
+                    borderRadiusApplication: 'end', // 'around', 'end'
+                    borderRadiusWhenStacked: 'last', // 'all', 'last'
+                    dataLabels: {
+                    total: {
+                        enabled: true,
+                        style: {
+                        fontSize: '13px',
+                        fontWeight: 600
+                        }
+                    }
+                    }
+                },
+                },
                 // theme: {
                 //     mode: this.main.mode, // Set theme mode to 'dark'
                 // },
@@ -141,12 +152,8 @@ export default {
         series: function () {
             return [
                 {
-                    name: "Amount you spent To Public (Nette)",
-                    data: this.dashboard.amounts_none_public_nette
-                },
-                {
-                    name: "Amount you spent To Public (Brute)",
-                    data: this.dashboard.amounts_none_private
+                    name: "Total Spent (MAD)",
+                    data: this.dashboard.amount_you_spent
                 },
                 {
                     name: "Amount You Spent In Private",
