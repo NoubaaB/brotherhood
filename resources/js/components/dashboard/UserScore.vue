@@ -18,7 +18,7 @@
         <v-card-text class="px-0">
             <v-expansion-panels class="pa" variant="popout">
                 <v-expansion-panel
-                v-for="user in user.users"
+                v-for="user in user.users_activated"
                 :key="user.id"
                 hide-actions
                 >

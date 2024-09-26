@@ -22,7 +22,7 @@
                         <v-icon class="mr-2">
                             mdi-cash-refund
                         </v-icon>
-                        {{ formatFloatNumber(dashboard.total_none_private) }} MAD
+                        {{ formatFloatNumber(dashboard.total_amount_you_spent) }} MAD
                     </v-chip>
                 </v-col>
                 <v-col>
@@ -107,6 +107,13 @@ export default {
                     type: 'datetime',
                     categories: this.dashboard.dates_format,
                 },
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            return value.toFixed(2); // Always show 2 decimal places
+                        }
+                    }
+                },
                 legend: {
                 position: 'right',
                     offsetY: 40
@@ -118,7 +125,7 @@ export default {
         },
         series: function () {
             let data = [];
-            this.user.users.forEach(user => {
+            this.user.users_activated.forEach(user => {
                 data.push(
                     {
                         name: `${user.name} Share`,

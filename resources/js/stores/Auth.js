@@ -33,7 +33,10 @@ export const useAuth = defineStore("Auth", {
             this.dashboard.fetching = true;
             return await axios.get("/api/me").then(async response => {
                 this.user = response.data.user;
-                this._user.users = response.data.users;
+                this._user.users = response.data.users.map(user => {
+                    user.activate = !!user.activate;
+                    return user;
+                });
                 this.product.collect = response.data.products;
                 if (this.user) {
                     this.notification.init();

@@ -105,6 +105,13 @@ export default {
                     type: 'datetime',
                     categories: this.dashboard.dates_format,
                 },
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            return value.toFixed(2); // Always show 2 decimal places
+                        }
+                    }
+                },
                 legend: {
                 position: 'right',
                     offsetY: 40

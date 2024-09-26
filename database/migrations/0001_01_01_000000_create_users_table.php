@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     // alter table users add column score double default 0.00
+    // alter table users add column activate tinyint(1) default 1
     /**
      * Run the migrations.
      */

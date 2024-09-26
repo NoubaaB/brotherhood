@@ -23,6 +23,7 @@ export const useUser = defineStore("User", {
                     user.name = res.data.user.name;
                     user.email = res.data.user.email;
                     user.avatar = res.data.user.avatar;
+                    user.activate = res.data.user.activate;
                     user.created_at = res.data.user.created_at;
                 }
                 this.is_fetch = false;
@@ -66,5 +67,8 @@ export const useUser = defineStore("User", {
         }
     },
     getters: {
+        users_activated: state => {
+            return state.users.filter(user => user.activate)
+        }
     }
 });

@@ -62,7 +62,7 @@
         <v-col class="text-center">
                 <v-select
                 v-model="article.users_id"
-                :items="user.users"
+                :items="user.users_activated"
                 item-value="id"
                 item-text="name"
                 color="blue-grey-lighten-2"

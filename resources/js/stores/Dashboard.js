@@ -46,7 +46,7 @@ export const useDashboard = defineStore("Dashboard", {
                     && article.user_id == user_id
                     && article.date == date)
                 ), "price");
-                data.push(sum)
+                data.push(+sum.toFixed(2))
             });
             return data;
         },
@@ -65,20 +65,36 @@ export const useDashboard = defineStore("Dashboard", {
                     && article.date == date
                     && article.is_private)
                 ), "price");
-                data.push(sum)
+                data.push(+sum.toFixed(2));
             });
             return data;
         },
         amount_you_spent: (state) => {
             let data = [];
             state.dates.forEach(date => {
-                let bills = state.bills.filter(bill => bill.date == date);
-                let _bills = [];
-                bills.forEach(bill => {
-                    _bills.push(bill.amount/bill.invoices.length);
-                })
-                let sum = _.sum(_bills);
-                data.push(sum)
+                let articles = state.articles.filter(article => article.date == date);
+                let _data = [];
+                articles.forEach(article => {
+                    let _bill = state.bills.find(bill => bill.id == article.bill_id);
+                    if (_bill) {
+                        _data.push(article.price / _bill.invoices.length);
+                    }
+                });
+                let sum = _.sum(_data);
+                data.push(+sum.toFixed(2));
+            });
+            return data;
+        },
+        amount_you_spent_raw: (state) => {
+            let data = [];
+            state.dates.forEach(date => {
+                let articles = state.articles.filter(article => 
+                    state.auth.getAuth.id == article.user_id
+                    && article.date == date
+                    && article.is_private == false
+                );
+                let sum = _.sumBy(articles,"price");
+                data.push(+sum.toFixed(2));
             });
             return data;
         },
@@ -90,7 +106,7 @@ export const useDashboard = defineStore("Dashboard", {
                     && !article.is_private
                     && article.date == date)
                 ), "price");
-                data.push(sum)
+                data.push(+sum.toFixed(2));
             });
             return data;
         },
@@ -102,7 +118,7 @@ export const useDashboard = defineStore("Dashboard", {
                     && article.date == date
                     && article.is_private==false)
                 ), "price");
-                data.push(sum)
+                data.push(+sum.toFixed(2));
             });
             return data;
         },
@@ -111,7 +127,7 @@ export const useDashboard = defineStore("Dashboard", {
             state.dates.forEach(date => {
                 let sum = _.sumBy(state.bills.filter(bill => (bill.date == date)
                 ), "amount");
-                data.push(sum)
+                data.push(+sum.toFixed(2));
             });
             return data;
         },
@@ -120,7 +136,7 @@ export const useDashboard = defineStore("Dashboard", {
             state.dates.forEach(date => {
                 let sum = _.sumBy(state.articles.filter(article => (article.date == date && !article.is_private)
                 ), "price");
-                data.push(sum)
+                data.push(+sum.toFixed(2));
             });
             return data;
         },
@@ -137,16 +153,19 @@ export const useDashboard = defineStore("Dashboard", {
             return _.sum(state.amount_articles);
         },
         total_compare: (state) => {
-            return state.total_articles-state.total_bills;
+            return (state.total_articles-state.total_bills);
+        },
+        total_global: (state) => {
+            return (state.total_amount_you_spent + state.total_brotherhood);
         },
         total_amount_you_spent: (state) => {
-            return _.sum(state.amount_you_spent);
+            return _.sum(state.amount_you_spent_raw);
         },
         total_amount_private: (state) => {
             return _.sum(state.amounts_private);
         },
         total_all: (state) => {
-            return state.total_amount_you_spent + state.total_amount_private;
+            return (state.amount_you_spent_raw + state.total_amount_private);
         },
         total_brotherhood: (state) => {
             return _.sum(state.amounts_brotherhood);
@@ -163,7 +182,7 @@ export const useDashboard = defineStore("Dashboard", {
             let data = [],
                 auth_articles = state.articles.filter(article => (article.user_id == state.auth.getAuth.id));
             state.get_grouping_labels.forEach(e => {
-                data.push(_.sumBy(auth_articles.filter(article => (article.product_id == e.product_id)),"price"))
+                data.push(_.sumBy(auth_articles.filter(article => (article.product_id == e.product_id)), "price"))
             })
             return data;
         }

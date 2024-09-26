@@ -151,6 +151,20 @@
                     "
                     ></v-text-field>
                 </v-col>
+    
+                <v-col
+                    cols="12"
+                    md="4"
+                    sm="6"
+                >
+                    <v-switch
+                        v-model="form.activate"
+                        :label="form.activate ? 'Activate':'Deactivate'"
+                        hide-details
+                        inset
+                        color="success"
+                    ></v-switch>
+                </v-col>
             </v-row>
             <small class="text-caption text-medium-emphasis">*indicates required field</small>
         </v-form>
@@ -194,6 +208,7 @@ export default {
             form: {
                 name:"",
                 email:"",
+                activate:true,
                 image:"/storage/users/alien_2.gif",
                 password:"",
                 confirm_password:"",
@@ -244,6 +259,7 @@ export default {
             if (this.$route.params.id == this.auth.getAuth.id) {
                 this.auth.user.name = request.name;
                 this.auth.user.email = request.email;
+                this.auth.user.activate = request.activate;
                 this.auth.user.image = request.image;
             }
             this.$emit("cancelDialog");

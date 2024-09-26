@@ -35,6 +35,7 @@ class UserController extends Controller
             "name"=>"required|string|max:25",
             "email"=>"required|string|email|max:35",
             "image" => "required|string|max:50",
+            "activate" => "required|boolean",
             "password" => "min:6|required_with:confirm_password|same:confirm_password|max:35"
         ]);
         $data['password'] = Hash::make($data['password']);
@@ -70,6 +71,7 @@ class UserController extends Controller
             "name" => "required|string|max:25",
             "email" => "required|string|email|max:35",
             "image" => "required|string|max:50",
+            "activate" => "required|boolean",
             "password" => "sometimes|min:6|required_with:confirm_password|same:confirm_password|max:35"
         ]);
         if(isset($data['password'])){
