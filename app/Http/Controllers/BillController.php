@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use App\Models\Article;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Jobs\NotificationJob;
 use App\Events\CreateBillEvent;
 use App\Events\DeleteBillEvent;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Models\Invoice;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class BillController extends Controller
 {
@@ -53,6 +54,10 @@ class BillController extends Controller
      */
     public function store(Request $request) :JsonResponse
     {
+        if ($request->user()->cannot('create', Bill::class)) {
+            abort(403);
+        }
+
         $articles = $request->validate([
             "articles.*" => "sometimes|exists:articles,id"
         ]);
@@ -114,6 +119,8 @@ class BillController extends Controller
     public function destroy(Bill $bill) : JsonResponse
     {
         //
+        Gate::authorize('delete', $bill);
+
         $bill->articles()->each(fn ($article) => $article->update(["bill_id"=>null]));
         NotificationJob::dispatch("Delete", "Bill", "$bill->date , $bill->amount");
         broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn($item)=>$item->id)))->toOthers();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -31,6 +32,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        if ($request->user()->cannot('create', User::class)) {
+            abort(403);
+        }
         $data = $request->validate([
             "name"=>"required|string|max:25",
             "email"=>"required|string|email|max:35",
@@ -67,6 +71,10 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        if ($request->user()->cannot('update', $user)) {
+            abort(403);
+        }
+
         $data = $request->validate([
             "name" => "required|string|max:25",
             "email" => "required|string|email|max:35",
@@ -89,6 +97,8 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+        Gate::authorize('delete', $user);
+
         $status = $user->delete();
         response()->json(["status"=>$status],200);
     }

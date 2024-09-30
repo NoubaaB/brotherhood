@@ -57,6 +57,10 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice) : JsonResponse
     {
         //
+        if ($request->user()->cannot('update', $invoice)) {
+            abort(403);
+        }
+
         $data = $request->validate([
             "checked"=>"required|boolean"
         ]);

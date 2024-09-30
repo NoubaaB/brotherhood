@@ -6,6 +6,8 @@ use App\Models\Capital;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CapitalController extends Controller
 {
@@ -15,7 +17,7 @@ class CapitalController extends Controller
     public function index() : JsonResponse
     {
         //
-        $capitals = Capital::where("user_id",auth()->id())->get();
+        $capitals = Capital::where("user_id",Auth::id())->get();
         return response()->json(["capitals"=>$capitals],200);
     }
 
@@ -33,13 +35,17 @@ class CapitalController extends Controller
     public function store(Request $request) : JsonResponse
     {
         //
+        if ($request->user()->cannot('create',Capital::class)) {
+            abort(403);
+        }
+
         $data = $request->validate([
             "amount" => "required|numeric",
             "date_start" => "required|date_format:Y-m-d",
             "date_end" => "sometimes|nullable|date_format:Y-m-d"
         ]);
             
-        $data["user_id"] = auth()->id();
+        $data["user_id"] = Auth::id();
 
         $capital = Capital::create($data);
 
@@ -68,6 +74,9 @@ class CapitalController extends Controller
     public function update(Request $request, Capital $capital) : JsonResponse
     {
         //
+        if ($request->user()->cannot('update', $capital)) {
+            abort(403);
+        }
         $data = $request->validate([
             "amount" => "required|numeric",
             "date_start" => "required|date_format:Y-m-d",
@@ -85,6 +94,8 @@ class CapitalController extends Controller
     public function destroy(Capital $capital) : JsonResponse
     {
         //
+        Gate::authorize('delete', $capital);
+
         $status = $capital->delete();
         return response()->json([
             "status"=>$status

@@ -32,6 +32,10 @@ class ProductController extends Controller
     public function store(Request $request) : JsonResponse
     {
         //
+        if ($request->user()->cannot('update', Product::class)) {
+            abort(403);
+        }
+
         $data = $request->validate([
             "name"=>"required|string|max:50",
             "user_id"=> "sometimes|nullable|exists:users,id"

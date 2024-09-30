@@ -28,6 +28,7 @@
                             :id="model.id+''"
                             :items="product.collect.filter(p=>model.is_private?p.user_id == auth.getAuth.id : p.user_id == null)" 
                             auto-select-first
+                            :disbaled="!auth.user.activate"
                             chips
                             @keydown.prevent.enter="addProduct"
                             autocomplete="off"
@@ -38,7 +39,7 @@
                             rounded flat label="Products List" 
                             :rules="productIdRules">
                             <template v-slot:prepend-inner>
-                                <v-btn color="green" :loading="loading_product" @click.prevent="addProduct" size="x-small" icon variant="tonal">
+                                <v-btn :disbaled="auth.user.activate" color="green" :loading="loading_product" @click.prevent="addProduct" size="x-small" icon variant="tonal">
                                     <v-icon>mdi-cart-arrow-down</v-icon>
                                 </v-btn>
                             </template>

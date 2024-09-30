@@ -24,6 +24,7 @@
                         color="orange"
                         variant="outlined"
                         block
+                        :disabled="!auth.user.activate"
                         @click="article.addArticle"
                         >
                         <v-icon>
@@ -41,7 +42,7 @@
                         @click="submit"
                         block
                         :variant="v$.$invalid ? 'tonal':'flat'"
-                        :disabled="v$.$invalid"
+                        :disabled="v$.$invalid || !auth.user.activate"
                         :loading="loading"
                     >
                         <v-icon class="mr-2">
@@ -74,6 +75,7 @@
 <script>
 import { useArticle } from '@/stores/Article';
 import { useProduct } from '@/stores/Product';
+import { useAuth } from '@/stores/Auth';
 import Model from '@/components/articles/Model.vue';
 import { required , numeric} from '@vuelidate/validators';
 import useValidate from "@vuelidate/core";
@@ -95,7 +97,10 @@ export default {
         },
         product: function () {
             return useProduct();  
-        }
+        },
+        auth:function(){
+            return useAuth();
+        },
     },
     methods: {
         submit: async function () {

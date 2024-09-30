@@ -30,12 +30,13 @@
       <v-divider class="mt-3"></v-divider>
 
       <v-list v-model:opened="open" >
-        <template v-for="([icon , text , url], i) in links" :key="i">
+        <template v-for="([icon , text , url , disable], i) in links" :key="i">
             <v-list-item 
                 class="my-2 mx-2"
                 :prepend-icon="icon" 
                 :title="text" 
                 :value="text" 
+                :disabled="disable" 
                 rounded="xl" 
                 color="blue-darken-1"
                 :exact="true"
@@ -93,15 +94,16 @@ export default {
       auth:function(){
           return useAuth();
       },
-      links:function(){
-          return [
-              ["mdi-human-male-board-poll", "Dashboard","index"],
-              ["mdi-cart-plus", "Create Articles","articles.create"],
-              ["mdi-cart", "Articles","articles.list"],
-              ["mdi-text-box-multiple", "Bills","bills.list"],
-              ["mdi-cash-marker", "Capitals","capital.list"],
-              ["mdi-account-group", "Users","users.list"],
-          ]
+    links: function () {
+        let disable = !this.auth.user.activate;
+        return [
+          ["mdi-human-male-board-poll", "Dashboard", "index", disable],
+          ["mdi-cart-plus", "Create Articles", "articles.create", disable],
+          ["mdi-cart", "Articles", "articles.list", disable],
+          ["mdi-text-box-multiple", "Bills", "bills.list", disable],
+          ["mdi-cash-marker", "Capitals", "capital.list", disable],
+          ["mdi-account-group", "Users", "users.list", disable],
+        ];
       }
   },
   methods: {
