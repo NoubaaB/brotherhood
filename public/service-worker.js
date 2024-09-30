@@ -1,4 +1,4 @@
-var staticCacheName = "0.0.2";
+var staticCacheName = "0.0.3";
 var filesToCache = [
     "/storage/icons/icon.png",
     "/storage/icons/icon-144x144.png",
@@ -45,17 +45,12 @@ var filesToCache = [
 // Cache on install
 self.addEventListener('install', function (event) {
     event.waitUntil(
-        caches.open(staticCacheName).then(function (cache) {
-            return Promise.all(filesToCache.map(async function (url) {
-                console.log("url", url)
-                return await cache.add(url).catch(function (err) {
-                    console.error('Failed to cache ' + url + ': ' + err);
-                });
-            }));
-        })
+        caches.open(staticCacheName)
+            .then(function (cache) {
+                return cache.addAll(filesToCache);
+            })
     );
 });
-
 
 // Clear cache on activate
 self.addEventListener('activate', event => {
