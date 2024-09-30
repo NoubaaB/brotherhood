@@ -1,4 +1,4 @@
-var staticCacheName = "0.0.3";
+var staticCacheName = "0.0.4";
 var filesToCache = [
     "/storage/icons/icon.png",
     "/storage/icons/icon-144x144.png",
@@ -20,7 +20,6 @@ var filesToCache = [
     "/storage/error-404.png",
     "/storage/invoice.gif",
     "/storage/loading.gif",
-    "/storage/login.png",
     "/storage/receipt.gif",
     "/storage/shield.gif",
     "/storage/trash.gif",
