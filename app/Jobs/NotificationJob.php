@@ -63,7 +63,7 @@ class NotificationJob implements ShouldQueue
         $payload = json_encode([
             'title' => env("APP_NAME"),
             'body' => $g_text,
-            'url' => env('REVERB_SCHEME')."://".env('REVERB_HOST')."/$url",
+            'url' => env('REVERB_SCHEME')."://".env('WEB_PUSH_PUBLIC_OBJETCT')."$url",
         ]);
         
         $notifications = PushNotification::where([
