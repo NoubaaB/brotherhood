@@ -136,7 +136,7 @@ class ArticleController extends Controller
                 NotificationJob::dispatch("Edit", "Bill", $bill_id);
             }
         }
-        if (!$article->is_private && !$request->has("update_bill")) {
+        if (!$article->is_private && $request->has("update_bill") && !$request->get("update_bill")) {
             NotificationJob::dispatch("Edit", "Article", $article->id);
             broadcast(new UpdateArticleEvent($article))->toOthers();
         }

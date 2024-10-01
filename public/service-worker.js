@@ -1,4 +1,4 @@
-var staticCacheName = "0.0.6";
+var staticCacheName = "0.0.7";
 var filesToCache = [
     "/storage/icons/icon.png",
     "/storage/icons/icon-144x144.png",
@@ -79,13 +79,31 @@ self.addEventListener("fetch", event => {
 // Serve push web notification
 self.addEventListener('push', function (event) {
     let data = event.data.json();
+    let avatars = [
+        {
+            model: "Article",
+            avatar: "/storage/article.gif"
+        },
+        {
+            model: "Bill",
+            avatar: "/storage/bill.gif"
+        },
+        {
+            model: "Capital",
+            avatar: "/storage/capital.gif"
+        },
+        {
+            model: "Invoice",
+            avatar: "/storage/invoice.gif"
+        },
+    ];
     event.waitUntil(
         self.registration.showNotification(data.title, {
             body: data.body,
             icon: "/storage/icons/icon.png",
-            image: "/storage/icons/icon.png",
-            badge: "/storage/icons/icon.png",
-            vibrate:true,
+            image: avatars.find(e => e.model == data.model).avatar,
+            badge: "/storage/icons/icon_badge.png",
+            vibrate: [200, 100, 200] ,
             data: {
                 url: data.url
             }

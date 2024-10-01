@@ -28,7 +28,7 @@ const routes = [
                 name: "dashbaord",
                 beforeEnter: function (to, from, next) {
                     if (useAuth().is_auth) {
-                        if (!useAuth().user.activate) {
+                        if (!useAuth().is_activate) {
                             console.log("in")
                             next({ name: "accountDeactivate" })
                         } else {

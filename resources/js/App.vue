@@ -1,15 +1,15 @@
 <template>
     <v-app>
 
-      <NavBar :drawer="drawer" v-if="auth.user.activate"/>
+      <NavBar :drawer="drawer" v-if="auth.is_activate"/>
 
-      <NavigationDrawer v-if="auth.is_auth && auth.user.activate" :drawer="drawer"/>
+      <NavigationDrawer v-if="auth.is_auth && auth.is_activate" :drawer="drawer"/>
 
       <Main class="mb-12" />
     
     </v-app>
     <v-btn
-      v-if="auth.user.activate"
+      v-if="auth.is_activate"
       v-show="showButton"
       color="blue-darken-1"
       class="floating-btn"
@@ -18,7 +18,7 @@
     >
     </v-btn>
     <v-btn
-      v-if="auth.user.activate"
+      v-if="auth.is_activate"
       color="amber-darken-1"
       class="floating-btn-previous text-white"
       @click="goPrevious"

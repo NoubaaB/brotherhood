@@ -113,6 +113,9 @@ export const useAuth = defineStore("Auth", {
         is_auth: (state) => {
             return state.user != null;
         },
+        is_activate: (state) => {
+            return state?.user?.activate;
+        },
         get_full_name: (state) => {
             return state.user.name;
         },
