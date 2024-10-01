@@ -1,4 +1,4 @@
-var staticCacheName = "0.0.5";
+var staticCacheName = "0.0.6";
 var filesToCache = [
     "/storage/icons/icon.png",
     "/storage/icons/icon-144x144.png",
@@ -83,6 +83,9 @@ self.addEventListener('push', function (event) {
         self.registration.showNotification(data.title, {
             body: data.body,
             icon: "/storage/icons/icon.png",
+            image: "/storage/icons/icon.png",
+            badge: "/storage/icons/icon.png",
+            vibrate:true,
             data: {
                 url: data.url
             }
