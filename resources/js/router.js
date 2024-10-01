@@ -7,7 +7,11 @@ const routes = [
         name: "error404",
         component: () => import("@/components/error/404.vue"),
     },
-    
+    {
+        path: "/account_deactivate",
+        name: "accountDeactivate",
+        component: () => import("@/components/error/accountDeactivate.vue"),
+    },
     {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
@@ -23,7 +27,14 @@ const routes = [
                 path: "/",
                 name: "dashbaord",
                 beforeEnter: function (to, from, next) {
-                    if (useAuth().is_auth) next();
+                    if (useAuth().is_auth) {
+                        if (!useAuth().user.activate) {
+                            console.log("in")
+                            next({ name: "accountDeactivate" })
+                        } else {
+                            next();
+                        }
+                    }
                     else next({ name: "login" });
                 },
                 children: [
