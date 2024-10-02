@@ -99,11 +99,17 @@ class AuthController extends Controller implements HasMiddleware
     {
         $user =  Auth::user();
         // $this->authorize("view", $user);
-
-        return response()->json([
-            "user" => $user,
-            ...$this->getData()
-        ], 200);
+        if($user->activate){
+            return response()->json([
+                "user" => $user,
+                ...$this->getData()
+            ], 200);
+            
+        }else{
+            return response()->json([
+                "user" => $user,
+            ], 200);
+        }
     }
 
     public function update(Request $request): JsonResponse

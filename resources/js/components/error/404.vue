@@ -4,7 +4,7 @@
     title="Resource is Not Found"
     :text="error.text"
     :image="`/storage/${error.image||'error-404.png'}`"
-    style="margin-top:30%"
+    style="margin-top:25%"
     >
         <template v-slot:actions>
             <v-btn

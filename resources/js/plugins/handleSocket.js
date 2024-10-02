@@ -12,6 +12,9 @@ export function establish() {
     let auth = useAuth();
     let user = useUser();
     let product = useProduct();
+    if (!auth.is_activate) {
+        return 0;
+    }
     initSocket();
 
     //start users private presence channel
