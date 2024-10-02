@@ -49,7 +49,7 @@
         <v-app-bar-title class="text-center px-auto">
             <v-row dense>
                 <v-col :cols="auth.is_auth?3:4" class="text-right">
-                    <img class="d-inline" height="50" :src="'/storage/atmo.gif'">                 
+                    <img class="d-inline" height="40" :src="'/storage/atmo.gif'">                 
                 </v-col>
                 <v-col class="text-left my-auto">
                     <div class="d-inline pb-3">
