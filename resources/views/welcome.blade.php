@@ -11,7 +11,7 @@
     <meta name="background_color" content="#fff" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brotherhood App</title>
+    <title>{{config('app.name')}} App</title>
     @vite(['resources/css/app.css'])
 
 </head>
