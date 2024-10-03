@@ -20,7 +20,7 @@
     </v-row>
     <v-row>
         <v-col class="text-center">
-            <VDatePicker :max-date="new Date()" v-model.range="date_picker" />
+            <VDatePicker expanded  :max-date="new Date()" v-model.range="date_picker" />
         </v-col>
     </v-row>
     <v-row>
