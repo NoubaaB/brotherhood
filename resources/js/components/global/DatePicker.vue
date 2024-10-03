@@ -1,23 +1,26 @@
 <template>
     <v-row>
-        <v-col cols="5">
-            <v-switch
-                v-model="free"
-                true-icon="mdi-calendar-week"
-                false-icon="mdi-calendar-month"
-                color="light-blue-darken-3"
-                base-color="blue"
-                inset
-                :label="`${free? 'Weekly' :'Free'}`"
-            ></v-switch>
+        <v-col class="text-right">
+            <v-chip color="primary">
+                <v-icon>mdi-calendar-arrow-left</v-icon>
+                {{ StateModel.date_start }}
+            </v-chip>
+        </v-col>
+        <v-col cols="3">
+            <v-chip color="indigo">
+                {{nbrDates}} {{ nbrDates == 1 ? "Day" : "Days"}}
+            </v-chip>
+        </v-col>
+        <v-col class="text-left">
+            <v-chip color="secondary">
+                {{ StateModel.date_end }}
+                <v-icon>mdi-calendar-arrow-right</v-icon>
+            </v-chip>
         </v-col>
     </v-row>
     <v-row>
-        <v-col v-if="free">
-            <VueDatePicker v-model="date_picker" :enable-time-picker="false" :clearable="false" week-picker :max-date="maxDate"/>
-        </v-col>
-        <v-col v-else>
-            <VueDatePicker v-model="date_picker" :enable-time-picker="false" :clearable="false" range :max-date="maxDate"/>
+        <v-col class="text-center">
+            <VDatePicker :max-date="new Date()" v-model.range="date_picker" />
         </v-col>
     </v-row>
     <v-row>
@@ -31,32 +34,27 @@ export default {
     },
     data() {
         return {
-            date_picker: new Date(),
-            free: true,
+            date_picker: {
+                start:moment().subtract(6, "days").format("YYYY-MM-DD"),
+                end:moment().format("YYYY-MM-DD"),
+            },
         }
-    },
-    mounted: function () {
-        this.date_picker = [moment().subtract(6, "days").format("YYYY-MM-DD"),moment().format("YYYY-MM-DD")];
     },
     computed: {
         maxDate: function () {
-            return moment().format("YYYY-MM-DD")
+            return moment().format("YYYY-MM-DD");
+        },
+        nbrDates: function () {
+            const date1 = moment(this.StateModel.date_start);
+            const date2 = moment(this.StateModel.date_end);
+            return date2.diff(date1, 'days');
         }
     },
     watch: {
         date_picker: function (val) {
-            this.StateModel.date_start = moment(val[0]).format("YYYY-MM-DD");
-            this.StateModel.date_end = moment(val[1]).format("YYYY-MM-DD");
+            this.StateModel.date_start = moment(val.start).format("YYYY-MM-DD");
+            this.StateModel.date_end = moment(val.end).format("YYYY-MM-DD");
             this.StateModel.getData();
-        },
-        free: function (val) {
-            if (val) {
-                this.date_picker = [moment().subtract(6, "days").format("YYYY-MM-DD"),moment().format("YYYY-MM-DD")];
-            } else {
-                this.date_picker = [
-                    this.StateModel.date_start, this.StateModel.date_end
-                ]
-            }
         }
     }
 }
