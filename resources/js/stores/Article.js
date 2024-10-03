@@ -98,6 +98,7 @@ export const useArticle = defineStore("Article", {
                 let article = this.dashboard.articles.find(e => e.id == _article.id);
                 if (article) {
                     article.bill_id = res.data.article.bill_id;
+                    article.users_id = [];
 
                 }
             })
@@ -110,7 +111,11 @@ export const useArticle = defineStore("Article", {
                 this.getBillQueue.forEach(_bill_article => {
                     let article = this.dashboard.articles.find(e => e.id == _bill_article.id);
                     article.bill_id = res.data.bill.id;
-                })
+                });
+                res.data.bill?.articles?.forEach(_article => {
+                    let article = this.dashboard.articles.find(e => e.id == _bill_article.id);
+                    article.user_id = _article.user_id;
+                });
                 return res.data.bill
             }).catch(error => {
                 return true

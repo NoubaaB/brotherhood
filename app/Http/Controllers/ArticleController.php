@@ -130,6 +130,7 @@ class ArticleController extends Controller
             broadcast(new UpdateBillEvent($bill))->toOthers();
             if (count($bill->articles) == 0) {
                 NotificationJob::dispatch("Delete", "Bill", "$bill->date , $bill->amount");
+                $article->proccess_users_invoices();
                 broadcast(new DeleteBillEvent($bill, [$article->id]))->toOthers();
                 $bill->delete();
             } else {

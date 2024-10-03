@@ -205,7 +205,7 @@ export default {
         },
     },
     mounted: function () {
-        this.article.users_id = this.user.users.map(user => user.id);
+        this.article.users_id = this.user.users_activated.map(user => user.id);
         this.dashboard.getData(); 
     },
     watch: {

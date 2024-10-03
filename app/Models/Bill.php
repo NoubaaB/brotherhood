@@ -33,6 +33,8 @@ class Bill extends Model
         parent::boot();
         //manage resources
         static::deleting(fn ($model) => $model->delete_resources());
+        static::saved(fn ($model) => $model->articles->each(fn($article)=>$article->proccess_users_invoices()));
+        static::deleted(fn ($model) => $model->articles->each(fn($article)=>$article->proccess_users_invoices()));
     }
 
     function articles() : HasMany {

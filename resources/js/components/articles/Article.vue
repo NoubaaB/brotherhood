@@ -70,6 +70,23 @@
                     <v-card-actions class="text-green bg-amber-lighten-5">
                         <v-icon color="green" class="mx-1">mdi-cash</v-icon>{{ formatFloatNumber(article.price) }} MAD
                         <v-spacer></v-spacer>
+                        <div v-for="user_id in article.users_id" :key="user_id" class="mr-3">
+                            <v-badge color="amber" location="bottom end">
+                                <template v-slot:badge>
+                                    <v-icon>mdi-hand-coin</v-icon>
+                                </template>
+                                <v-avatar
+                                size="20"
+                                >
+                                    <v-img
+                                    :src="user.getUserImage(user_id)"
+                                    >
+            
+                                    </v-img>
+                                </v-avatar>
+                            </v-badge>
+                        </div>
+                        <v-spacer></v-spacer>
                         <v-btn class="mr-2" color="blue-darken-1" size="x-small" variant="tonal" icon="mdi-invoice-text-fast-outline" @click="viewBill" v-if="article.bill_id >> 0 && article.bill_id !== true"></v-btn>
                         <v-btn class="mr-2" color="deep-purple-darken-1" size="x-small" variant="tonal" icon="mdi-text-box-remove" @click="cancelBill" v-if="(article.bill_id >> 0 && article.bill_id !== true)&&(article.user_id == auth.getAuth.id) && dashboard.isLessThanTwoDays(article.date)"></v-btn>
                         <v-btn class="mr-2" color="orange" size="x-small" variant="tonal" icon="mdi-pencil" @click="aditArticle" v-if="article.user_id == auth.getAuth.id && article.bill_id == null"></v-btn>
@@ -89,6 +106,7 @@
 <script>
 import { useArticle } from '@/stores/Article';
 import { useAuth } from '@/stores/Auth';
+import { useUser } from '@/stores/User';
 import { useDashboard } from '@/stores/Dashboard';
 export default {
     props: {
@@ -143,6 +161,9 @@ export default {
         },
         dashboard: function () {
             return useDashboard();
+        },
+        user: function () {
+            return useUser();
         },
         auth: function () {
             return useAuth();

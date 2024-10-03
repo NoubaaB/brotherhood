@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    //alter table articles add column users_id longtext not null default '[]'
     /**
      * Run the migrations.
      */

@@ -21,23 +21,21 @@ class Article extends Model
 
     protected $casts= [
         "is_private"=>"boolean",
+        "users_id"=>"array",
         "date"=> "date:Y-m-d"
     ];
 
     /**
-     * The "booting" method of the model.
-     *
-     * @return void
+     * Get the article's users_invoices_ids.
      */
-    protected static function boot()
+    public function proccess_users_invoices(): void
     {
-
-        parent::boot();
-
-        //manage resources
-        // static::saving(fn ($model) => $model?->bill?->calc());
+        $users_id = [];
+        if ($this->bill_id) {
+            $users_id = $this->bill->invoices->map(fn($invoice) => $invoice->user_id)->toArray();
+        }
+        $this->update(["users_id"=> $users_id]);
     }
-
 
     function product() : BelongsTo {
         return $this->belongsTo(Product::class);

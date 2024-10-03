@@ -5,6 +5,7 @@ import { useAuth } from "@/stores/Auth";
 import { useProduct } from "@/stores/Product";
 import { useUser } from "@/stores/User";
 import { initSocket } from "@/echo";
+import { forEach } from "lodash";
 
 export function establish() {
     let dashboard = useDashboard();
@@ -48,6 +49,7 @@ export function establish() {
                 article.price = event.article.price;
                 article.is_private = event.article.is_private;
                 article.star = event.article.star;
+                article.users_id = event.article.users_id;
                 article.user_id = event.article.user_id;
                 article.product_id = event.article.product_id;
                 article.bill_id = event.article.bill_id;
@@ -68,7 +70,7 @@ export function establish() {
             event.articles.forEach(article_id => {
                 let article = dashboard.articles.find(__article => __article.id == article_id);
                 if (article) {
-                    article.bill_id = event.bill.id
+                    article.bill_id = event.bill.id;
                 }
             })
         })).listen("UpdateBillEvent", (event => {
@@ -78,6 +80,20 @@ export function establish() {
                 _bill.date = event.bill.date;
                 _bill.amount = event.bill.amount;
                 _bill.articles = event.bill.articles;
+                _bill.articles.forEach(_article => {
+                    let article = dashboard.articles.find(article => article.id == _article.id);
+                    if (article) {
+                        article.date = _article.date;
+                        article.description = _article.description;
+                        article.price = _article.price;
+                        article.is_private = _article.is_private;
+                        article.star = _article.star;
+                        article.users_id = _article.users_id;
+                        article.user_id = _article.user_id;
+                        article.product_id = _article.product_id;
+                        article.bill_id = _article.bill_id;
+                    }
+                });
                 _bill.invoices = event.bill.invoices;
                 _bill.user_id = event.bill.user_id;
             }
@@ -96,7 +112,7 @@ export function establish() {
                 event.articles.forEach(article_id => {
                     let article = dashboard.articles.find(__article => __article.id == article_id);
                     if (article) {
-                        article.bill_id = event.bill.id
+                        article.bill_id = event.bill.id;
                     }
                 })
             }
