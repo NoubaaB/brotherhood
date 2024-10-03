@@ -47,7 +47,7 @@ export default {
         nbrDates: function () {
             const date1 = moment(this.StateModel.date_start);
             const date2 = moment(this.StateModel.date_end);
-            return date2.diff(date1, 'days');
+            return date2.diff(date1, 'days')+1;
         }
     },
     watch: {
