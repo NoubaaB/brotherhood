@@ -9,6 +9,7 @@ export const useDashboard = defineStore("Dashboard", {
             date_end: new Date().toISOString().substr(0, 10),
             articles : [],
             bills: [],
+            bills_dates: [],
             score_bills:[],
             capital: {},
             is_fetch:false,

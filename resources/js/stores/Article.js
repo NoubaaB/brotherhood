@@ -116,6 +116,7 @@ export const useArticle = defineStore("Article", {
                     let article = this.dashboard.articles.find(e => e.id == _bill_article.id);
                     article.user_id = _article.user_id;
                 });
+                this.dashboard.bills_dates.push(res.data.bill.date);
                 return res.data.bill
             }).catch(error => {
                 return true

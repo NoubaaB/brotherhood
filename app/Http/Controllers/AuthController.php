@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PushNotification;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller implements HasMiddleware
 {
@@ -98,10 +99,12 @@ class AuthController extends Controller implements HasMiddleware
     public function me(): JsonResponse
     {
         $user =  Auth::user();
+        $bills_dates = Bill::get("date");
         // $this->authorize("view", $user);
         if($user->activate){
             return response()->json([
                 "user" => $user,
+                "bills_dates" => $bills_dates,
                 ...$this->getData()
             ], 200);
             

@@ -20,7 +20,7 @@
     </v-row>
     <v-row>
         <v-col class="text-center">
-            <VDatePicker expanded  :max-date="new Date()" v-model.range="date_picker" />
+            <VDatePicker expanded :attributes="attributes" :max-date="new Date()" v-model.range="date_picker" />
         </v-col>
     </v-row>
     <v-row>
@@ -28,6 +28,8 @@
     </v-row>
 </template>
 <script>
+import { useDashboard } from '@/stores/Dashboard';
+
 export default {
     props: {
         StateModel:Object
@@ -44,10 +46,31 @@ export default {
         maxDate: function () {
             return moment().format("YYYY-MM-DD");
         },
+        dashboard: function () {
+            return useDashboard();
+        },
         nbrDates: function () {
             const date1 = moment(this.StateModel.date_start);
             const date2 = moment(this.StateModel.date_end);
             return date2.diff(date1, 'days')+1;
+        },
+        attributes: function () {
+            let attrs = this.dashboard.bills_dates.map(bill => {
+                return {
+                    highlight: {
+                        color: 'green',
+                        fillMode: 'light',
+                    },
+                    dates: bill.date,
+                };
+            });
+            this.dashboard.bills_dates.forEach(bill => {
+                attrs.push({
+                    dot: "green",
+                    dates: bill.date,
+                });
+            });
+            return attrs;
         }
     },
     watch: {
