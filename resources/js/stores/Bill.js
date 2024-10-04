@@ -36,6 +36,9 @@ export const useBill = defineStore("Bill", {
             return await axios.get(`/api/bills/${id}`).then(res => {
                 this.dashboard.fetching = false;
                 return res.data.bill
+            }).catch(error => {
+                this.dashboard.fetching = false;
+                return error;
             })
         },
         deleteBill: async function (bill_id) {
