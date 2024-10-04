@@ -31,7 +31,7 @@ class Article extends Model
     public function proccess_users_invoices(): void
     {
         $users_id = [];
-        if ($this->bill_id) {
+        if ($this->bill) {
             $users_id = $this->bill->invoices->map(fn($invoice) => $invoice->user_id)->toArray();
         }
         $this->update(["users_id"=> $users_id]);
