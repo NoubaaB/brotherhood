@@ -99,7 +99,7 @@ class AuthController extends Controller implements HasMiddleware
     public function me(): JsonResponse
     {
         $user =  Auth::user();
-        $bills_dates = Bill::get("date");
+        $bills_dates = Bill::get(["date","amount"]);
         // $this->authorize("view", $user);
         if($user->activate){
             return response()->json([

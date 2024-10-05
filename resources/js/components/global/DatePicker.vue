@@ -66,8 +66,14 @@ export default {
             });
             this.dashboard.bills_dates.forEach(bill => {
                 attrs.push({
-                    dot: "green",
                     dates: bill.date,
+                    dot: {
+                    color: "green",
+                    ...(true && { class: 'opacity-75' }),
+                    },
+                    popover: {
+                        label: `${this.formatFloatNumber(bill.amount)} MAD`,
+                    },
                 });
             });
             return attrs;
