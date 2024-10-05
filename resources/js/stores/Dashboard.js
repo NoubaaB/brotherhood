@@ -182,7 +182,13 @@ export const useDashboard = defineStore("Dashboard", {
         get_grouping_series: (state) => {
             let data = [];
             state.get_grouping_labels.forEach(e => {
-                data.push(_.sumBy(state.articles.filter(article => (article.product_id == e.product_id)), "price"));
+                let total = state.articles.filter(article => (article.product_id == e.product_id)).map(article => {
+                    if (article.is_private) {
+                        return article.price;
+                    }
+                    return article.price / (article.users_id.length > 0 ? article.users_id.length : 1);
+                });
+                data.push(_.sum(total));
             });
             return data;
         }
