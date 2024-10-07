@@ -110,11 +110,11 @@ export default {
                 this.$router.push(
                     {
                         name: "articles.list"
-                    })
-            })
+                    });
+            });
         },
         backToListArticle: function () {
-            this.$router.push({name:"articles.list"})
+            this.$router.push({ name: "articles.list" });
         }
     },
     validations: {

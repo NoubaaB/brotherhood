@@ -180,39 +180,39 @@ export default {
                 if (this.$route.params.id) {
                     this.$router.push({
                         name: "articles.list",
-                    })
+                    });
                 }
-            })
+            });
         },
         aditArticle: function () {
             this.$router.push({
                 name: "articles.update",
-                params:{id:this.article.id}
-            })
+                params: { id: this.article.id }
+            });
         },
         viewArticle: function () {
             this.$router.push({
                 name: "articles.view",
-                params:{id:this.article.id}
-            })
+                params: { id: this.article.id }
+            });
         },
         cancelBill: async function () {
             this.loading_bill = true;
             return await this._article.cancelBill(this.article).then(res => {
                 this.loading_bill = false;
                 return res;
-            })
+            });
         },
         viewBill: function () {
             this.$router.push({
                 name: "bills.view",
                 params: {
-                    id:this.article.bill_id
+                    id: this.article.bill_id
                 }
-            })
+            });
         },
         toggleBill: function () {
-          this._article.toggleBill(this.article.id)  
+            this._article.toggleBill(this.article.id);
         },
         rollback: function () {
             this.pause = true;

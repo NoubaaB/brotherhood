@@ -271,31 +271,31 @@ export default {
                 if (this.$route.params.id) {
                     this.$router.push({
                         name: "bills.list",
-                    })
+                    });
                 }
-            })
+            });
         },
         aditBill: function () {
             this.$router.push({
                 name: "bills.update",
-                params:{id:this.bill.id}
-            })
+                params: { id: this.bill.id }
+            });
         },
         viewBill: function () {
             this.$router.push({
                 name: "bills.view",
-                params:{id:this.bill.id}
-            })
+                params: { id: this.bill.id }
+            });
         },
         cancelBill: async function () {
             this.loading_bill = true;
             return await this._bill.cancelBill(this.bill).then(res => {
                 this.loading_bill = false;
                 return res;
-            })
+            });
         },
         toggleBill: function () {
-            this._bill.toggleBill(this.bill.id)
+            this._bill.toggleBill(this.bill.id);
         },
         unBillArticle: async function (article_id, bill_id) {
             this.loading_bill = true
@@ -305,7 +305,7 @@ export default {
                     this.bill.articles = this.bill.articles.filter(article => article.id != article_id)
                     this.bill.amount = _.sumBy(this.bill.articles, "price");
                 }
-            })
+            });
         },
         rollback: function () {
             this.pause = true;
@@ -323,7 +323,7 @@ export default {
             invoice.checked = !invoice.checked;
         },
         goTo: function (id) {
-            this.$router.push(`/articles/view/${id}`)
+            this.$router.push(`/articles/view/${id}`);
         }
     }
 }

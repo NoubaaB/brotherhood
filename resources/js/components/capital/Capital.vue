@@ -104,15 +104,15 @@ export default {
             return useCapital();
         },
         get_date: function(){
-            return moment(this.capital.created_at).format("YYYY/MM/DD")
+            return moment(this.capital.created_at).format("YYYY/MM/DD");
         }
     },
     methods: {
         editCapital: function () {
-            this.$emit("editCapital",true,this.capital.id)
+            this.$emit("editCapital", true, this.capital.id);
         },
         deleteCapital: async function () {
-            await this._capital.deleteCapital(this.capital.id)
+            await this._capital.deleteCapital(this.capital.id);
         },
         rollback: function () {
             this.pause = true;

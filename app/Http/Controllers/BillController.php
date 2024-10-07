@@ -82,7 +82,9 @@ class BillController extends Controller
             $bill->load(["user","articles","invoices"]);
         }
         NotificationJob::dispatch("Create", "Bill", $bill->id);
-        broadcast(new CreateBillEvent($bill, $articles_id))->toOthers();
+        if(count($bill->articles)<5){
+            broadcast(new CreateBillEvent($bill, $articles_id))->toOthers();
+        }
 
         return response()->json(["bill" => $bill], 200);
 
@@ -123,7 +125,9 @@ class BillController extends Controller
 
         $bill->articles()->each(fn ($article) => $article->update(["bill_id"=>null]));
         NotificationJob::dispatch("Delete", "Bill", "$bill->date , $bill->amount");
-        broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn($item)=>$item->id)))->toOthers();
+        if (count($bill->articles) < 5) {
+            broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn($item)=>$item->id)))->toOthers();
+        }
         $status =  $bill->delete();
         return response()->json(["status"=>$status],200);
     }
@@ -142,7 +146,9 @@ class BillController extends Controller
         foreach ($bills as $bill) {
             $bill->articles()->each(fn ($article) => $article->update(["bill_id"=>null]));
             NotificationJob::dispatch("Delete", "Bill", "$bill->date , $bill->amount");
-            broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn ($item) => $item->id)))->toOthers();
+            if (count($bill->articles) < 5) {
+                broadcast(new DeleteBillEvent($bill, $bill->articles->map(fn ($item) => $item->id)))->toOthers();
+            }
             $status = $bill->delete();
         }
         return response()->json(["status"=>$status],200);

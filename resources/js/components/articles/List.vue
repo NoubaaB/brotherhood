@@ -186,22 +186,22 @@ export default {
                 this.loading = false;
                 if (res === true) {
                     this.$router.push({
-                        name:"bills.list"
-                    })
+                        name: "bills.list"
+                    });
                 } else {
                     this.snackbar_bill = true;
-                    this.bill =  res
+                    this.bill = res;
                 }
             })
         },
         viewBill: function () {
             this.$router.push({
                 name: "bills.view",
-                params:{id:this.bill.id}
-            })
+                params: { id: this.bill.id }
+            });
         },
         toggleBills: function () {
-          this.article.toggleBills(this.toggle_bills)  
+            this.article.toggleBills(this.toggle_bills); 
         },
     },
     mounted: function () {

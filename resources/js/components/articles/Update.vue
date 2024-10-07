@@ -114,13 +114,13 @@ export default {
                 this.$router.push({
                     name: "articles.view",
                     params: {
-                        id:this.article.id
+                        id: this.article.id
                     }
-                })
-            })
+                });
+            });
         },
         backToListArticle: function () {
-            this.$router.push({name:"articles.list"})
+            this.$router.push({ name: "articles.list" });
         }
     },
     validations: {

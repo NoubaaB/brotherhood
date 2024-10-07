@@ -79,7 +79,7 @@ export default {
             deep: true,
             handler: function () {
                 if (this.bill.articles.length == 0) {
-                    this.$router.push({name:'bills.list'})
+                    this.$router.push({ name: 'bills.list' });
                 }
             }
         }

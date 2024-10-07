@@ -102,15 +102,15 @@ export default {
             return useUser();
         },
         get_date: function(){
-            return moment(this.user.created_at).format("YYYY/MM/DD")
+            return moment(this.user.created_at).format("YYYY/MM/DD");
         }
     },
     methods: {
         editUser: function () {
-            this.$emit("editUser",true,this.user.id)
+            this.$emit("editUser", true, this.user.id);
         },
         deleteUser: async function () {
-            await this._user.deleteUser(this.user.id)
+            await this._user.deleteUser(this.user.id);
         },
         rollback: function () {
             this.pause = true;

@@ -22,7 +22,7 @@
       color="amber-darken-1"
       class="floating-btn-previous text-white"
       @click="goPrevious"
-      icon="mdi-arrow-u-left-bottom-bold"
+      icon="mdi-cart-plus"
     >
     </v-btn>
 
@@ -54,7 +54,9 @@
         this.showButton = window.scrollY > 200;
       },
       goPrevious: function () {
-        this.$router.back();
+        this.$router.push({
+          name:"articles.create"
+        });
       }
     },
     computed: {

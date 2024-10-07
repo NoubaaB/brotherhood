@@ -113,7 +113,7 @@ export default {
     },
     methods: {
         goToCreateArticles: function () {
-            this.$router.push({name:"articles.create"})
+            this.$router.push({ name: "articles.create" });
         }
     }
 }

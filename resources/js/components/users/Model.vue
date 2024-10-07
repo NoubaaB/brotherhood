@@ -229,15 +229,15 @@ export default {
                 images.push({
                     name: `alien ${index}`,
                     url: `/storage/users/alien_${index}.png`
-                })
+                });
             }
             for (let index = 1; index <= 2; index++) {
                 images.push({
                     name: `alien Animation ${index}`,
                     url: `/storage/users/alien_${index}.gif`
-                })
+                });
             }
-            return images
+            return images;
         }
     },
     mounted:function(){

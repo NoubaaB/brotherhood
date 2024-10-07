@@ -98,7 +98,7 @@ export default {
         let disable = !this.auth.user.activate;
         return [
           ["mdi-human-male-board-poll", "Dashboard", "index", disable],
-          ["mdi-cart-plus", "Create Articles", "articles.create", disable],
+          // ["mdi-cart-plus", "Create Articles", "articles.create", disable],
           ["mdi-cart", "Articles", "articles.list", disable],
           ["mdi-text-box-multiple", "Bills", "bills.list", disable],
           ["mdi-cash-marker", "Capitals", "capital.list", disable],
