@@ -1,17 +1,17 @@
 <template>
     <v-row>
-        <v-col class="text-right">
+        <v-col cols="5" class="text-right">
             <v-chip color="primary">
                 <v-icon>mdi-calendar-arrow-left</v-icon>
                 {{ StateModel.date_start }}
             </v-chip>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="2" class="mx-0 px-0">
             <v-chip color="indigo">
                 {{nbrDates}} {{ nbrDates == 1 ? "Day" : "Days"}}
             </v-chip>
         </v-col>
-        <v-col class="text-left">
+        <v-col cols="5" class="text-left">
             <v-chip color="secondary">
                 {{ StateModel.date_end }}
                 <v-icon>mdi-calendar-arrow-right</v-icon>
