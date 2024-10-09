@@ -1,0 +1,1 @@
+.circle-ripple-record{z-index:50;background-color:#fdba0017;border-radius:50%;animation:ripple_record .7s linear infinite}@keyframes ripple_record{0%{box-shadow:0 0 #fdba002e,0 0 0 .5em #fdba002e,0 0 0 1em #fdba002e,0 0 0 2em #fdba002e}to{box-shadow:0 0 0 .5em #fdba002e,0 0 0 1em #fdba002e,0 0 0 2em #fdba002e,0 0 0 3em #fff0}}

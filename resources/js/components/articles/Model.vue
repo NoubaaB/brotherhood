@@ -20,7 +20,21 @@
                         <VueDatePicker v-model="model.date" :enable-time-picker="false" :clearable="false" :rules="dateRules" vertical :max-date="maxDate"/>
                     </v-col>
                     <v-col cols="12" sm="6">
-                    <v-textarea v-model="model.description" autocomplete="off" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description" :rules="descriptionRules" counter ></v-textarea>
+                    <v-textarea v-model="model.description" autocomplete="off" variant="solo-filled" prepend-inner-icon="mdi-script-text" rounded flat label="description" :rules="descriptionRules" counter >
+                        <template v-slot:append-inner>
+                            <v-btn :class="(is_recod ?'circle-ripple-record' : '')" 
+                            :disbaled="auth.user.activate" 
+                            :color="is_recod?'amber':'red'"
+                            :loading="loading_product" 
+                            @click.prevent="startRecord" 
+                            size="x-small" 
+                            icon 
+                            :variant="is_recod ? 'flat':'elevated'" >
+                                <v-icon color="white" v-if="is_recod">mdi-microphone-plus</v-icon>
+                                <v-icon color="white" v-else>mdi-microphone-off</v-icon>
+                            </v-btn>
+                        </template>
+                    </v-textarea>
                     </v-col>
                     <v-col cols="12" sm="6">
                         <v-autocomplete
@@ -59,6 +73,7 @@ import useValidate from "@vuelidate/core";
 import { useArticle } from '@/stores/Article';
 import { useProduct } from '@/stores/Product';
 import { useAuth } from '@/stores/Auth';
+import annyang from "annyang";
 
 export default {
     props: {
@@ -68,7 +83,8 @@ export default {
         return {
             v$: useValidate(),
             loading_product: false,
-            search:"e"
+            search: "e",
+            is_recod:false
         }
     },
     computed: {
@@ -105,8 +121,63 @@ export default {
             ];
         },  
     },
+    mounted: function () {
+        annyang.setLanguage("ar-MA");  
+    },
     methods: {
-      calendarFn:function(weeks) {
+        startRecord: function () {
+            this.is_recod = !this.is_recod;
+            if(this.is_recod){
+                this.start()
+            }else{
+                this.stopVoiceCommand();
+            }
+        },
+        start : function(){
+            console.log("annyang start",annyang);
+            annyang.start();
+        },
+        stopVoiceCommand : function(){
+            console.log("annyang end");
+            annyang.abort();
+            this.is_recod = false;
+        },
+        initAnnyang: function () {
+            var commands = {
+                'ajouter *val': this.addNewCommand,
+            };
+            annyang.addCommands(commands);
+            annyang.addCallback('resultNoMatch', (userSaid, commandText, phrases) => {
+                this.article.overlay_text = "Failed To add Description";
+                this.article.overlay_color = "red";
+                this.article.overlay_src = "/storage/microphone_mute.png";
+                this.article.overlay_record = true;
+                setTimeout(() => {
+                    this.article.overlay_record = false;
+                }, 2000);
+                console.log("resultNoMatch");
+                console.log(userSaid); // sample output: 'hello'
+                console.log(commandText); // sample output: 'hello (there)'
+                console.log(phrases); // sample output: ['hello', 'halo', 'yellow', 'polo', 'hello kitty']
+            });
+            annyang.addCallback('resultMatch', (userSaid, commandText, phrases) => {
+                this.article.overlay_text = "Description Added With Success";
+                this.article.overlay_color="success";
+                this.article.overlay_src = "/storage/microphone_sound.png";
+                this.article.overlay_record = true;
+                setTimeout(() => {
+                    this.article.overlay_record = false;
+                }, 2000);
+                console.log("resultMatch",this.article.overlay_record);
+                console.log(userSaid); // sample output: 'hello'
+                console.log(commandText); // sample output: 'hello (there)'
+                console.log(phrases); // sample output: ['hello', 'halo', 'yellow', 'polo', 'hello kitty']
+            });      
+        },
+        addNewCommand: function (val) {
+            this.model.description = val;
+        },
+        calendarFn:function(weeks) {
         return weeks
             .filter((week) => week.days.some((day) => day.text === 15))
             .map((week) => ({
@@ -172,3 +243,28 @@ export default {
     },
 }
 </script>
+
+<style>
+.circle-ripple-record {
+    z-index: 50;
+    background-color: #fdba0017;
+    border-radius: 50%;
+    animation: ripple_record 0.7s linear infinite;
+}
+
+@keyframes ripple_record {
+    0% {
+        box-shadow: 0 0 0 0 #fdba002e,
+            0 0 0 0.5em #fdba002e,
+            0 0 0 1em #fdba002e,
+            0 0 0 2em #fdba002e;
+    }
+
+    100% {
+        box-shadow: 0 0 0 0.5em #fdba002e,
+            0 0 0 1em #fdba002e,
+            0 0 0 2em #fdba002e,
+            0 0 0 3em #ffffff00;
+    }
+}
+</style>

@@ -1,76 +1,96 @@
 <template>
-  <v-row>
-    <v-avatar size="150" class="mx-auto mt-3" rounded="0">
-      <v-img
-        alt="create command"
-        src="/storage/cart.gif"
-      ></v-img>
-    </v-avatar>
-  </v-row>
-  <v-container class="px-1">
-    <v-card>
-      <v-card-title>Create Article</v-card-title>
-      <v-card-text>
-            <Model v-for="(model,index) in article.models" :key="index" :model="model"/>
-            <v-row>
-                <v-col cols="12" sm="6">
-                    <v-divider></v-divider>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <v-btn 
-                        rounded
-                        color="orange"
-                        variant="outlined"
-                        block
-                        :disabled="!auth.user.activate"
-                        @click="article.addArticle"
+    <v-row>
+        <v-avatar size="150" class="mx-auto mt-3" rounded="0">
+        <v-img
+            alt="create command"
+            src="/storage/cart.gif"
+        ></v-img>
+        </v-avatar>
+    </v-row>
+    <v-container class="px-1">
+        <v-card>
+        <v-card-title>Create Article</v-card-title>
+        <v-card-text>
+                <Model v-for="(model,index) in article.models" :key="index" :model="model"/>
+                <v-row>
+                    <v-col cols="12" sm="6">
+                        <v-divider></v-divider>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-btn 
+                            rounded
+                            color="orange"
+                            variant="outlined"
+                            block
+                            :disabled="!auth.user.activate"
+                            @click="article.addArticle"
+                            >
+                            <v-icon>
+                                mdi-plus
+                            </v-icon>
+                            Add New Article
+                        </v-btn>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-btn 
+                            rounded
+                            color="blue"
+                            @click="submit"
+                            block
+                            :variant="v$.$invalid ? 'tonal':'flat'"
+                            :disabled="v$.$invalid || !auth.user.activate"
+                            :loading="loading"
                         >
-                        <v-icon>
-                            mdi-plus
-                        </v-icon>
-                        Add New Article
-                    </v-btn>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <v-btn 
-                        rounded
-                        color="blue"
-                        @click="submit"
-                        block
-                        :variant="v$.$invalid ? 'tonal':'flat'"
-                        :disabled="v$.$invalid || !auth.user.activate"
-                        :loading="loading"
-                    >
-                        <v-icon class="mr-2">
-                            mdi-send
-                        </v-icon>
-                        Submit
-                    </v-btn>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col>
-                    <v-btn 
-                        rounded
-                        color="amber"
-                        @click="backToListArticle"
-                        block
-                        variant="tonal"
-                    >
-                        <v-icon class="mr-2">
-                            mdi-arrow-u-left-bottom-bold
-                        </v-icon>
-                        Back To List Articles
-                    </v-btn>
-                </v-col>
-            </v-row>
-      </v-card-text>
-    </v-card>
-  </v-container>
+                            <v-icon class="mr-2">
+                                mdi-send
+                            </v-icon>
+                            Submit
+                        </v-btn>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-btn 
+                            rounded
+                            color="amber"
+                            @click="backToListArticle"
+                            block
+                            variant="tonal"
+                        >
+                            <v-icon class="mr-2">
+                                mdi-arrow-u-left-bottom-bold
+                            </v-icon>
+                            Back To List Articles
+                        </v-btn>
+                    </v-col>
+                </v-row>
+        </v-card-text>
+        </v-card>
+    </v-container>
+    <v-overlay
+        v-model="article.overlay_record"
+        class="align-center justify-center"
+        :close-delay="100"
+    >
+        <v-img
+        :width="150"
+        aspect-ratio="16/9"
+        cover
+        :src="article.overlay_src"
+        class="ma-5 mx-auto"
+        ></v-img>
+        <v-btn
+        :color="article.overlay_color"
+        @click="article.overlay_record = false"
+        rounded
+        >
+        {{overlay_text}}
+        </v-btn>
+    </v-overlay>
 </template>
 <script>
 import { useArticle } from '@/stores/Article';

@@ -8,6 +8,10 @@ import moment from "moment";
 export const useArticle = defineStore("Article", {
     state: () => {
         return {
+            overlay_text:"",
+            overlay_color:"",
+            overlay_src:"",
+            overlay_record:false,
             users_id: [],
             model: {
                 id: uuidv4,

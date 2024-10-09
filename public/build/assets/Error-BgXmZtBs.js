@@ -1,1 +1,0 @@
-import{s as e,i as t}from"./app-DoqKbSja.js";const r=e("Error",{state:()=>({text:"",image:"",text_deactivated:`Dear ${t().user.name}, Your Account Has been Deactivated 😥`,image_deactivated:"/deactivated.gif"})});export{r as u};
