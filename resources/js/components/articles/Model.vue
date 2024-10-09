@@ -177,7 +177,7 @@ export default {
             });      
         },
         addNewCommand: function (val) {
-            this.model.description += "\n"+val;
+            this.model.description += val+"\n";
         },
         deleteAll: function (val) {
             this.model.description = "";
