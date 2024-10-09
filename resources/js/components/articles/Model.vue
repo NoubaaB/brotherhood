@@ -123,6 +123,7 @@ export default {
     },
     mounted: function () {
         annyang.setLanguage("ar-MA");  
+        this.initAnnyang();
     },
     methods: {
         startRecord: function () {
@@ -144,7 +145,8 @@ export default {
         },
         initAnnyang: function () {
             var commands = {
-                'ajouter *val': this.addNewCommand,
+                'مسح': this.deleteAll,
+                '*val': this.addNewCommand,
             };
             annyang.addCommands(commands);
             annyang.addCallback('resultNoMatch', (userSaid, commandText, phrases) => {
@@ -175,7 +177,10 @@ export default {
             });      
         },
         addNewCommand: function (val) {
-            this.model.description = val;
+            this.model.description += val;
+        },
+        deleteAll: function (val) {
+            this.model.description = "";
         },
         calendarFn:function(weeks) {
         return weeks
@@ -206,7 +211,7 @@ export default {
     watch:{
         "model.description": function (value) {
             // Regular expression to match arithmetic expressions or numbers followed by "dh"
-            const regex = /\(([^)]+)\)\s*dh|(\d+(\.\d+)?)\s*dh/g;
+            const regex = /\(([^)]+)\)\s*(?:dh|درهم|دراهم)|(\d+(\.\d+)?)\s*(?:dh|درهم|دراهم)/g;
             let sum = 0;
             let match;
             let numbers = [];
