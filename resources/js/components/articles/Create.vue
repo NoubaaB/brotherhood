@@ -88,7 +88,7 @@
         @click="article.overlay_record = false"
         rounded
         >
-        {{overlay_text}}
+        {{article.overlay_text}}
         </v-btn>
     </v-overlay>
 </template>
