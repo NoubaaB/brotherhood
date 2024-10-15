@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Bill;
+use App\Models\Invoice;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Support\Str;
@@ -100,11 +102,22 @@ class AuthController extends Controller implements HasMiddleware
     {
         $user =  Auth::user();
         $bills_dates = Bill::get(["date","amount"]);
+        $count_non_bill_articles = Article::where([
+            ["user_id", $user->id],
+            ["bill_id", null],
+            ["is_private", false]
+        ])->count();
+        $count_invoices_not_checked = Invoice::where([
+            ["user_id", $user->id],
+            ["checked", false],
+        ])->count();
         // $this->authorize("view", $user);
         if($user->activate){
             return response()->json([
                 "user" => $user,
                 "bills_dates" => $bills_dates,
+                "count_non_bill_articles" => $count_non_bill_articles,
+                "count_invoices_not_checked" => $count_invoices_not_checked,
                 ...$this->getData()
             ], 200);
             

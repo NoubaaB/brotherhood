@@ -2,27 +2,26 @@
     <v-navigation-drawer 
     temporary 
     v-model="auth.drawer">
-      <v-row class="bg-grey-lighten-4" style="align-items: baseline;">
-        <v-col class="text-center mt-3">
+      <v-row class="bg-blue-lighten-5" style="align-items: baseline;">
+        <v-col cols="4" class="text-center mt-3">
           <v-sheet
             class="pl-3"
-            color="grey-lighten-4"
+            color="blue-lighten-5"
           >
             <v-avatar
               size="64"
             >
               <v-img
-              :src="auth.getAuth.image"
+              src="/storage/atmo.gif"
               >
 
               </v-img>
             </v-avatar>
           </v-sheet>
         </v-col>
-        <v-col class="mb-2 text-center">
+        <v-col cols="8" class="mb-2 text-center">
           <v-chip class="font-weight-medium mx-3">
-            <v-icon>mdi-email</v-icon>
-            {{auth.getAuth.email}}
+            {{app_name}} App
           </v-chip>
         </v-col>
       </v-row>  
@@ -30,18 +29,27 @@
       <v-divider class="mt-3"></v-divider>
 
       <v-list v-model:opened="open" >
-        <template v-for="([icon , text , url , disable], i) in links" :key="i">
-            <v-list-item 
-                class="my-2 mx-2"
-                :prepend-icon="icon" 
-                :title="text" 
-                :value="text" 
-                :disabled="disable" 
-                rounded="xl" 
-                color="blue-darken-1"
-                :exact="true"
-                :to="{'name':url}"
-            ></v-list-item>
+        <template v-for="([icon , text , url , disable , alert_length], i) in links" :key="i">
+          <v-list-item 
+              class="my-2 mx-2"
+              :prepend-icon="icon" 
+              :title="text" 
+              :value="text" 
+              :disabled="disable" 
+              rounded="xl" 
+              color="blue-darken-1"
+              :exact="true"
+              :to="{'name':url}"
+          >
+            <template v-slot:append>
+              <v-badge
+                v-if="alert_length"
+                color="info"
+                :content="alert_length"
+                inline
+              ></v-badge>
+            </template>
+          </v-list-item>
         </template>
       </v-list>
       <template v-slot:append>
@@ -77,6 +85,12 @@
             class="ma-auto">
             </v-btn>
           </div>
+          <v-chip class="text-subtitle-2">
+            <v-icon color="white">mdi-email</v-icon>
+            <small class="ml-1">
+              {{auth.getAuth.email}}
+            </small>
+          </v-chip>
           </v-sheet>
         </v-list>
       </template>
@@ -84,23 +98,28 @@
 </template>
 <script>
 import {useAuth} from "@/stores/Auth.js";
+import {useDashboard} from "@/stores/Dashboard.js";
 export default {
   data:function(){
       return {
-          open : null
+          open : null,
+          app_name :import.meta.env.VITE_APP_NAME,
       }
   },
   computed:{
-      auth:function(){
-          return useAuth();
-      },
+    auth:function(){
+        return useAuth();
+    },
+    dashboard:function(){
+      return useDashboard();
+    },
     links: function () {
         let disable = !this.auth.user.activate;
         return [
           ["mdi-human-male-board-poll", "Dashboard", "index", disable],
           // ["mdi-cart-plus", "Create Articles", "articles.create", disable],
-          ["mdi-cart", "Articles", "articles.list", disable],
-          ["mdi-text-box-multiple", "Bills", "bills.list", disable],
+          ["mdi-cart", "Articles", "articles.list", disable , this.dashboard.count_non_bill_articles],
+          ["mdi-text-box-multiple", "Bills", "bills.list", disable, this.dashboard.count_invoices_not_checked],
           ["mdi-cash-marker", "Capitals", "capital.list", disable],
           ["mdi-account-group", "Users", "users.list", disable],
         ];

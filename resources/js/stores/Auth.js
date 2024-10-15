@@ -34,6 +34,8 @@ export const useAuth = defineStore("Auth", {
             return await axios.get("/api/me").then(async response => {
                 this.user = response.data.user;
                 this.dashboard.bills_dates = response.data.bills_dates;
+                this.dashboard.count_non_bill_articles = response.data.count_non_bill_articles;
+                this.dashboard.count_invoices_not_checked = response.data.count_invoices_not_checked;
                 if (!this.user.activate) {
                     this.dashboard.fetching = false;
                     return 0;
