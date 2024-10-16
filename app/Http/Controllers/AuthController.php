@@ -102,6 +102,7 @@ class AuthController extends Controller implements HasMiddleware
     {
         $user =  Auth::user();
         $bills_dates = Bill::get(["date","amount"]);
+        $article_marks = Article::where("user_id",$user->id)->get(["date","price","is_private"]);
         $count_non_bill_articles = Article::where([
             ["user_id", $user->id],
             ["bill_id", null],
@@ -116,6 +117,7 @@ class AuthController extends Controller implements HasMiddleware
             return response()->json([
                 "user" => $user,
                 "bills_dates" => $bills_dates,
+                "article_marks" => $article_marks,
                 "count_non_bill_articles" => $count_non_bill_articles,
                 "count_invoices_not_checked" => $count_invoices_not_checked,
                 ...$this->getData()

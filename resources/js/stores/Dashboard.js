@@ -10,6 +10,7 @@ export const useDashboard = defineStore("Dashboard", {
             articles : [],
             bills: [],
             bills_dates: [],
+            article_marks: [],
             count_non_bill_articles:0,
             count_invoices_not_checked:0,
             score_bills:[],

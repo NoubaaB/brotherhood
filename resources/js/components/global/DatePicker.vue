@@ -76,6 +76,18 @@ export default {
                     },
                 });
             });
+            this.dashboard.article_marks.forEach(bill => {
+                attrs.push({
+                    dates: bill.date,
+                    dot: {
+                    color: bill.is_private?"blue":"orange",
+                    ...(true && { class: 'opacity-75' }),
+                    },
+                    popover: {
+                        label: `${this.formatFloatNumber(bill.price)} MAD`,
+                    },
+                });
+            });
             return attrs;
         }
     },
