@@ -58,6 +58,14 @@
                 </v-col>
             </v-row>
         </v-app-bar-title>
+        <v-btn
+        color="primary"
+        varian="tonel"
+        icon
+        @click="search.search_dialog = !search.search_dialog"
+        >
+            <v-icon>mdi-magnify</v-icon>
+        </v-btn>
         <template v-slot:append>
             <div v-if="auth.is_auth">
                 <Notifications/>
@@ -99,6 +107,7 @@
 <script>
 import { useAuth } from "@/stores/Auth.js";
 import { useUser } from "@/stores/User.js";
+import { useSearch } from "@/stores/Search.js";
 import Notifications from "@/schema/Notifications.vue";
 export default {
     data:function(){
@@ -115,6 +124,9 @@ export default {
         },
         user:function(){
             return useUser();
+        },
+        search:function(){
+            return useSearch();
         },
     },
     methods: {

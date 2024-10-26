@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Jobs\ReadNotificationJob;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
@@ -16,7 +17,7 @@ class NotificationController extends Controller
     public function index() : JsonResponse
     {
         //
-        $user_id = auth()->id();
+        $user_id = Auth::id();
         $notifications = Notification::where("notify_user_id", $user_id)
         ->latest()->with("notify_user")
         ->simplePaginate(10);
@@ -43,7 +44,7 @@ class NotificationController extends Controller
     public function store(Request $request) : void
     {
         //
-        $user_id = auth()->id();
+        $user_id = Auth::id();
         $page = $request->get("page");
         $notifications = Notification::where("notify_user_id", $user_id)
         ->latest()

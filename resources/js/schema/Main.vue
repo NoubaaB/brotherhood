@@ -5,12 +5,14 @@
     >
         <router-view/>
         <ConfirmSupprission/>
+        <SearchDialog/>
         <Progress/>
     </v-container>
 </template>
 <script>
 import ConfirmSupprission from "@/components/global/ConfirmSupprission.vue";
 import Progress from "@/components/global/Progress.vue";
+import SearchDialog from "./SearchDialog.vue";
 
 export default {
     data : function(){
@@ -20,6 +22,7 @@ export default {
     },
     components: {
         ConfirmSupprission,
+        SearchDialog,
         Progress
     }
 }

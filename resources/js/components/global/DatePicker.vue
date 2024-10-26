@@ -20,7 +20,7 @@
     </v-row>
     <v-row>
         <v-col class="text-center">
-            <VDatePicker expanded :attributes="attributes" :max-date="new Date()" v-model.range="date_picker" />
+            <DatePicker expanded :attributes="attributes" :max-date="new Date()" v-model.range="date_picker" />
         </v-col>
     </v-row>
     <v-row>
@@ -29,10 +29,14 @@
 </template>
 <script>
 import { useDashboard } from '@/stores/Dashboard';
-
+import { DatePicker } from 'v-calendar';
+import 'v-calendar/style.css';
 export default {
     props: {
         StateModel:Object
+    },
+    components: {
+        DatePicker,
     },
     data() {
         return {

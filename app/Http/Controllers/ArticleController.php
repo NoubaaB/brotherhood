@@ -26,6 +26,14 @@ class ArticleController extends Controller
     {
         //
         $auth_id = Auth::id();
+        $text = request()->query("text");
+        if($text){
+            $articles = Article::where([
+                ["description", 'LIKE', "%$text%"],
+                ["is_private",false]
+            ])->get();
+            return response()->json(["articles"=>$articles],200);
+        }
         $date_start = request()->query("date_start");
         $date_end = request()->query("date_end");
         $articles = collect(Article::whereBetween("date", [$date_start, $date_end])->get())->filter(function ($article) use ($auth_id) {
