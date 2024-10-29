@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col class="d-block text-center py-0 my-0">
-            No Bills Available to Show 
+            No {{ name }} Available to Show 
         </v-col>
     </v-row>
     <v-row>
@@ -15,3 +15,11 @@
         </v-col>
     </v-row>
 </template>
+
+<script>
+export default {
+    props: {
+        name:String
+    }
+}
+</script>

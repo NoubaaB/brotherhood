@@ -19,7 +19,7 @@
             <v-card-text>
               <v-text-field hide-details v-model="search.text" autocomplete="off" variant="solo-filled" prepend-inner-icon="mdi-magnify" rounded flat label="Search" ></v-text-field>
             </v-card-text>
-            <v-card-text>
+            <v-card-text v-if="search.articles.length>0">
               <div v-for="article in search.articles" :key="article.id">
                 <v-card
                   class="my-2"
@@ -87,6 +87,9 @@
                 <v-divider></v-divider>
               </div>
             </v-card-text>
+            <v-card-text v-else>
+              <NoItemInList name="Articles"/>
+            </v-card-text>
           </v-card>
           <v-card-actions>
             <v-btn
@@ -116,11 +119,16 @@
 <script>
   import { useSearch } from '@/stores/Search';
   import { useUser } from '@/stores/User';
+  import NoItemInList from "@/components/global/NoItemInList.vue";
+  
   export default {
       data: function () {
         return {
             
         }    
+      },
+      components:{
+        NoItemInList
       },
       computed: {
         search: function () {

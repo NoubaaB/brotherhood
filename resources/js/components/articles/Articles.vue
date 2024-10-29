@@ -9,7 +9,7 @@
             </v-col>
           </template>
           <v-col v-else cols="12" md="6" class="text-center">
-              <NoItemInList/>
+              <NoItemInList name="Articles"/>
           </v-col>
         </template>
         <div v-else>
