@@ -3,6 +3,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { useDashboard } from "./Dashboard";
 import { useAuth } from "./Auth";
+import { useUser } from "./User";
 import moment from "moment";
 
 export const useArticle = defineStore("Article", {
@@ -12,7 +13,8 @@ export const useArticle = defineStore("Article", {
             overlay_color:"",
             overlay_src:"",
             overlay_record:false,
-            users_id: [],
+            users_id: useUser().users.map(e => e.id),
+            filter_users_id: useUser().users.map(e=>e.id),
             model: {
                 id: uuidv4,
                 date: new Date().toISOString().substr(0, 10),
@@ -155,27 +157,16 @@ export const useArticle = defineStore("Article", {
     },
     getters: {
         articles: (state) => {
-            let data = [];
-            if (state.article_filter.find(e => e == "0")) {
-                data.push(...state.regular_articles.filter(article => (
-                    state.auth.getAuth.id == article.user_id)));
-            }
-            if (state.article_filter.find(e => e == "1")) {
-                data.push(...state.regular_articles.filter(article => (!article.is_private &&
-                    (article.user_id != state.auth.getAuth.id))));
-            }
-            if (state.article_filter.find(e => e == "2")) {
-                data = data.filter(article => article.bill_id);
-            }
+            let data = state.regular_articles;
+            
             if (state.article_filter.find(e => e == "3")) {
                 data = data.filter(article => !article.is_private);
             } else {
                 data = data.filter(article => article.is_private);
             }
+            data = data.filter(article => state.filter_users_id.includes(article.user_id));
 
-            // data = data.filter(article => state.users_id.includes(article.user_id))
-
-            return _.orderBy(data, ["star", "date"], ["asc","desc"]);
+            return _.orderBy(data, ["star", "date"], ["asc", "desc"]);
         },
         total_articles: (state) => {
             return _.sumBy(state.articles, "price");

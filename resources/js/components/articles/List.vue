@@ -11,11 +11,50 @@
         <v-col>
             <DatePicker :StateModel="dashboard">
                 <template v-slot:add>
+                    <v-col class="text-center" cols="9">
+                            <v-select
+                            v-model="article.filter_users_id"
+                            :items="user.users_activated"
+                            item-value="id"
+                            item-text="name"
+                            color="blue-grey-lighten-2"
+                            variant="solo-filled" 
+                            rounded flat
+                            hide-spin-buttons
+                            multiple
+                            hide-details
+                            menu-icon=""
+                            >
+                                <template v-slot:chip="{ props, item , index}">
+                                    <v-chip 
+                                    :prepend-avatar="item.raw.image"
+                                    :text="formatStringLength(item.raw.name,2)"
+                                    color="blue"
+                                    v-bind="props"
+                                    v-if="index < 3 && item.raw.name != undefined">
+                                    </v-chip>
+                                    <span
+                                        v-bind="props"
+                                        v-if="index === 3"
+                                        class="text-grey text-caption align-self-center"
+                                    >
+                                        (+{{ article.users_id.length - 3 }})
+                                    </span>
+                                </template>
+
+                                <template v-slot:item="{ props, item }">
+                                    <v-list-item
+                                    v-if="item.raw.name != undefined"
+                                    v-bind="props"
+                                    :prepend-avatar="item.raw.image"
+                                    :subtitle="item.raw.email"
+                                    :title="item.raw.name"
+                                    ></v-list-item>
+                                </template>
+                            </v-select>
+                    </v-col>
                     <v-col>
                         <v-chip-group center-active v-model="article.article_filter" filter multiple @update:modelValue="article.resetBillPlanning">
-                            <v-chip value="0" color="red">My Article</v-chip>
-                            <v-chip value="1" color="green">Other Articles</v-chip>
-                            <v-chip value="2" color="blue">Bills</v-chip>
                             <v-chip value="3" color="purple-lighten-2"><v-icon>{{article.article_filter.find(f=>f=='3')? "mdi-eye":"mdi-eye-off"}}</v-icon></v-chip>
                         </v-chip-group>
                     </v-col>
@@ -79,7 +118,7 @@
                         :text="formatStringLength(item.raw.name,2)"
                         color="blue"
                         v-bind="props"
-                        v-if="index < 2">
+                        v-if="index < 2 && item.raw.name != undefined">
                         </v-chip>
                         <span
                             v-bind="props"
@@ -92,6 +131,7 @@
 
                     <template v-slot:item="{ props, item }">
                         <v-list-item
+                        v-if="item.raw.name != undefined"
                         v-bind="props"
                         :prepend-avatar="item.raw.image"
                         :subtitle="item.raw.email"
